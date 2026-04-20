@@ -332,6 +332,26 @@
     background:#0f1a24; color:var(--bp-text);
     font-family:'Space Mono','Roboto Mono',monospace;
   }
+  /* Rendering-quality toggle — Schematic / Realistic */
+  .rq-row { gap:4px; }
+  .rq-btn {
+    flex:1; min-width:0;
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:9px; letter-spacing:1.4px;
+    text-transform:uppercase; font-weight:600;
+    padding:5px 6px;
+    background:rgba(56,189,248,.04); color:var(--bp-text);
+    border:1px solid var(--bp-line); border-radius:2px;
+    cursor:pointer;
+    transition:background-color .18s, border-color .18s, color .18s;
+  }
+  .rq-btn:hover { border-color:var(--bp-accent); background-color:rgba(56,189,248,.10); }
+  .rq-btn.rq-btn-active {
+    background:rgba(56,189,248,.22);
+    border-color:var(--bp-accent);
+    color:#fff;
+    box-shadow:inset 0 0 0 1px var(--bp-accent);
+  }
   .bar-btn-wide:hover {
     background:rgba(251,191,36,.25) !important;
     border-color:var(--bp-accent-hot) !important;
@@ -987,6 +1007,697 @@
     color:#e3f2fd; border-color:var(--bp-accent);
     background:rgba(56,189,248,.12);
   }
+
+  /* ═════════════════════════════════════════════════════════════════
+     UI V2 — Mockup integration (HUD · legend · picker · timeline · BOM)
+     ═════════════════════════════════════════════════════════════════ */
+
+  /* ── Top pill toolbar ────────────────────────────────────────────── */
+  .toolbar-top {
+    position:absolute; top:14px; right:14px;
+    display:flex; gap:4px; z-index:25;
+    padding:4px;
+    background:var(--bp-panel);
+    border:1px solid var(--bp-line);
+    border-radius:4px;
+    backdrop-filter:blur(18px) saturate(130%);
+    -webkit-backdrop-filter:blur(18px) saturate(130%);
+    box-shadow:0 6px 22px rgba(0,0,0,.45);
+    pointer-events:auto;
+  }
+  .tool-pill {
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:8.5px; letter-spacing:1.4px; text-transform:uppercase;
+    padding:5px 10px;
+    color:var(--bp-text-dim);
+    background:transparent;
+    border:none; border-radius:2px; cursor:pointer;
+    transition:background .16s, color .16s;
+  }
+  .tool-pill:hover { color:#e0f2fe; background:rgba(56,189,248,.08); }
+  .tool-pill.tool-active { color:#fff; background:rgba(56,189,248,.22); }
+  .tool-pill.tool-hot.tool-active { background:rgba(251,191,36,.22); color:#fff; }
+
+  /* ── Bottom-left HUD (scale + coords) ────────────────────────────── */
+  .hud-bottom-left {
+    position:absolute; bottom:14px; left:14px; z-index:19;
+    display:flex; flex-direction:column; gap:6px;
+    pointer-events:none;
+  }
+  .hud-scale, .hud-coords {
+    padding:6px 10px;
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-variant-numeric:tabular-nums;
+    pointer-events:auto;
+  }
+  .hud-scale {
+    display:flex; align-items:center; gap:10px;
+    font-size:8.5px; letter-spacing:1px; color:var(--bp-text);
+    text-transform:uppercase;
+  }
+  .hud-scale-bar {
+    width:56px; height:3px; position:relative;
+    background:linear-gradient(90deg,
+      var(--bp-accent) 0 25%,
+      var(--bp-text)   25% 50%,
+      var(--bp-accent) 50% 75%,
+      var(--bp-text)   75% 100%);
+  }
+  .hud-coords {
+    font-size:8px; letter-spacing:1px; color:var(--bp-text-dim);
+    display:flex; align-items:center; gap:10px;
+  }
+  .hud-coords b { color:var(--bp-accent); font-weight:400; margin-left:3px; }
+  body.blueprint .hud-bottom-left, body.blueprint .hud-bottom-right {
+    opacity:.28; filter:grayscale(.25);
+  }
+
+  /* ── Bottom-right orientation gizmo ──────────────────────────────── */
+  .hud-bottom-right {
+    position:absolute; bottom:14px; right:14px; z-index:19;
+    display:flex; gap:6px;
+    pointer-events:none;
+  }
+  .hud-gizmo {
+    width:70px; height:70px;
+    padding:7px;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:auto;
+  }
+  .hud-gizmo svg { width:100%; height:100%; }
+
+  /* ── Info panel tabs + action footer (Mockup 05) ─────────────────── */
+  .info-tabs {
+    display:flex; gap:2px; margin:6px 0 10px;
+    border-bottom:1px solid var(--bp-line);
+    padding-bottom:0;
+  }
+  .info-tab {
+    flex:1;
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:8.5px; letter-spacing:1.3px; text-transform:uppercase;
+    padding:7px 4px;
+    background:transparent; border:none;
+    color:var(--bp-text-dim); cursor:pointer;
+    border-bottom:2px solid transparent;
+    margin-bottom:-1px;
+    font-weight:600;
+    transition:color .16s, border-color .16s;
+  }
+  .info-tab:hover { color:#e0f2fe; }
+  .info-tab.info-tab-active {
+    color:var(--bp-accent);
+    border-bottom-color:var(--bp-accent);
+  }
+  .info-tab-panel { display:none; }
+  .info-tab-panel.active { display:block; }
+  .info-foot {
+    display:flex; gap:5px; margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid var(--bp-line);
+  }
+  .info-foot-btn {
+    flex:1;
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:8.5px; letter-spacing:1.2px; text-transform:uppercase;
+    padding:6px 4px;
+    background:rgba(56,189,248,.08);
+    border:1px solid var(--bp-line);
+    color:var(--bp-text); border-radius:2px;
+    cursor:pointer; min-width:0;
+    transition:background .16s, border-color .16s, color .16s;
+  }
+  .info-foot-btn:hover {
+    background:rgba(56,189,248,.22);
+    border-color:var(--bp-accent);
+    color:#fff;
+  }
+  .info-foot-btn.info-foot-btn-hot {
+    background:rgba(251,191,36,.15);
+    border-color:rgba(251,191,36,.45);
+    color:var(--bp-accent-hot);
+  }
+  .info-foot-btn.info-foot-btn-hot:hover {
+    background:rgba(251,191,36,.3); color:#fff;
+    border-color:var(--bp-accent-hot);
+  }
+  .info-specs {
+    display:grid; grid-template-columns:1fr auto;
+    gap:4px 10px;
+    font-family:'Roboto Mono',monospace;
+    font-size:9.5px; line-height:1.5;
+    padding:4px 0;
+  }
+  .info-specs dt { color:var(--bp-text-dim); letter-spacing:.3px; }
+  .info-specs dd { color:var(--bp-text); font-weight:500; text-align:right; }
+
+  /* ── Categorized legend (Mockup 09) ──────────────────────────────── */
+  #legend-search-wrap {
+    position:relative; margin:2px 0 6px;
+  }
+  #legend-search {
+    width:100%;
+    background:rgba(56,189,248,.04);
+    border:1px solid var(--bp-line);
+    border-radius:2px;
+    padding:5px 8px 5px 22px;
+    font-family:'Roboto Mono',monospace;
+    font-size:9px; color:var(--bp-text);
+    letter-spacing:.3px; outline:none;
+    transition:border-color .16s, background .16s;
+  }
+  #legend-search:focus {
+    border-color:var(--bp-accent);
+    background:rgba(56,189,248,.1);
+  }
+  #legend-search::placeholder { color:var(--bp-text-dim); }
+  #legend-search-wrap::before {
+    content:"⌕"; position:absolute; left:6px; top:5px;
+    color:var(--bp-accent);
+    font-size:11px; pointer-events:none;
+  }
+  .legend-chips {
+    display:flex; flex-wrap:wrap; gap:3px;
+    margin:0 0 6px; padding:0 2px;
+  }
+  .legend-chip {
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:8px; letter-spacing:1px; text-transform:uppercase;
+    padding:3px 7px;
+    background:rgba(56,189,248,.04);
+    border:1px solid var(--bp-line);
+    color:var(--bp-text-dim);
+    border-radius:2px; cursor:pointer;
+    transition:color .16s, border-color .16s, background .16s;
+  }
+  .legend-chip:hover { color:var(--bp-text); border-color:var(--bp-accent); }
+  .legend-chip.legend-chip-on {
+    background:rgba(56,189,248,.18);
+    border-color:var(--bp-accent);
+    color:#fff;
+  }
+  .legend-cat {
+    border-top:1px solid var(--bp-line);
+    padding-top:5px; margin-top:2px;
+  }
+  .legend-cat:first-of-type { border-top:none; padding-top:0; margin-top:0; }
+  .legend-cat-head {
+    display:flex; align-items:center; gap:6px;
+    padding:3px 4px 5px;
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:8.5px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bp-accent); font-weight:700;
+    cursor:pointer;
+    border-bottom:1px dashed var(--bp-line);
+    margin-bottom:3px;
+  }
+  .legend-cat-head:hover { color:#fff; }
+  .legend-cat-caret {
+    font-size:9px; color:var(--bp-text-dim);
+    transition:transform .18s;
+    display:inline-block;
+  }
+  .legend-cat.collapsed .legend-cat-caret { transform:rotate(-90deg); }
+  .legend-cat-count {
+    margin-left:auto; font-size:8px; color:var(--bp-text-dim);
+    font-weight:400; letter-spacing:.5px;
+  }
+  .legend-cat-toggle {
+    font-size:9px; color:var(--bp-text-dim);
+    background:transparent; border:none; cursor:pointer;
+    padding:0 3px;
+    font-family:inherit;
+    letter-spacing:1px;
+  }
+  .legend-cat-toggle:hover { color:var(--bp-accent-hot); }
+  .legend-cat-body { display:block; }
+  .legend-cat.collapsed .legend-cat-body { display:none; }
+  .legend-row-match { background:rgba(251,191,36,.08); }
+  .legend-row-dim { opacity:.4; }
+
+  /* ── Configuration picker overlay (Mockup 06) ────────────────────── */
+  /* Config picker — centered modal inside the viewport (not a full-screen takeover) */
+  #cfg-picker {
+    position:fixed; inset:0;
+    background:rgba(5,14,26,.72);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:1200;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none;
+    transition:opacity .22s;
+  }
+  #cfg-picker.open { opacity:1; pointer-events:auto; }
+  #cfg-picker-panel {
+    width:min(92vw, 1080px);
+    max-height:min(88vh, 780px);
+    background:var(--bp-bg, #0a1929);
+    border:1px solid var(--bp-line);
+    border-radius:6px;
+    box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(56,189,248,.08);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+  }
+  .cfg-picker-head {
+    padding:16px 24px 12px;
+    display:flex; align-items:center; gap:16px;
+    border-bottom:1px solid var(--bp-line);
+    background:linear-gradient(180deg, rgba(56,189,248,.06) 0%, transparent 100%);
+  }
+  .cfg-picker-eyebrow {
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:9px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--bp-accent);
+  }
+  .cfg-picker-title {
+    font-family:'Space Mono','Roboto Mono',monospace;
+    font-size:17px; letter-spacing:2px; text-transform:uppercase;
+    color:#fff; font-weight:700;
+  }
+  .cfg-picker-title::before { content:"▸ "; color:var(--bp-accent); font-weight:400; }
+  .cfg-picker-sub {
+    font-family:'Roboto Mono',monospace;
+    font-size:10px; letter-spacing:.6px; color:var(--bp-text-dim);
+    margin-top:2px;
+  }
+  .cfg-picker-close {
+    margin-left:auto;
+    width:32px; height:32px; border-radius:50%;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.14);
+    color:#90a4ae; font-size:18px; line-height:1;
+    cursor:pointer; padding:0 0 2px 0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:inherit; font-weight:300;
+    transition:transform .18s, background .16s, color .16s, border-color .16s;
+  }
+  .cfg-picker-close:hover {
+    background:rgba(239,83,80,.15); color:#ffcdd2;
+    border-color:rgba(239,83,80,.4); transform:rotate(90deg);
+  }
+  .cfg-picker-grid {
+    flex:1; overflow:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+    gap:14px;
+    padding:18px 24px 24px;
+  }
+  .cfg-card {
+    background:rgba(16,32,58,.5);
+    border:1px solid var(--bp-line);
+    border-radius:4px;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    cursor:pointer;
+    transition:border-color .16s, transform .16s, box-shadow .18s;
+    min-height:270px;
+  }
+  .cfg-card:hover {
+    border-color:var(--bp-accent);
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(56,189,248,.1);
+  }
+  .cfg-card.cfg-card-on {
+    border-color:var(--bp-accent-hot);
+    box-shadow:0 0 0 1px var(--bp-accent-hot) inset, 0 10px 40px rgba(251,191,36,.15);
+  }
+  .cfg-card-thumb {
+    aspect-ratio:5/3;
+    background:linear-gradient(180deg, #0f2a4a 0%, #15345a 100%);
+    border-bottom:1px solid var(--bp-line);
+    display:flex; align-items:center; justify-content:center;
+    padding:14px; position:relative;
+    overflow:hidden;
+  }
+  .cfg-card-thumb svg { width:100%; height:100%; }
+  .cfg-card-badge {
+    position:absolute; top:8px; right:8px;
+    font-family:'Space Mono',monospace;
+    font-size:8px; letter-spacing:1.4px; text-transform:uppercase;
+    padding:3px 7px;
+    background:rgba(251,191,36,.2);
+    border:1px solid rgba(251,191,36,.55);
+    color:var(--bp-accent-hot);
+    border-radius:2px;
+    display:none;
+  }
+  .cfg-card.cfg-card-on .cfg-card-badge { display:inline-block; }
+  .cfg-card-body { padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; }
+  .cfg-card-num {
+    font-family:'Space Mono',monospace;
+    font-size:9px; letter-spacing:2px;
+    color:var(--bp-accent);
+    text-transform:uppercase;
+  }
+  .cfg-card-name {
+    font-family:'Space Mono',monospace;
+    font-size:14px; letter-spacing:1.5px; text-transform:uppercase;
+    color:#fff; font-weight:700;
+  }
+  .cfg-card-desc {
+    font-family:'Roboto Mono',monospace;
+    font-size:9.5px; color:var(--bp-text-dim);
+    line-height:1.45; letter-spacing:.3px;
+  }
+  .cfg-card-specs {
+    display:grid; grid-template-columns:1fr 1fr; gap:6px 10px;
+    margin-top:4px;
+    font-family:'Space Mono',monospace;
+    font-size:9px; letter-spacing:.5px;
+  }
+  .cfg-card-specs span { color:var(--bp-text-dim); }
+  .cfg-card-specs b { color:var(--bp-text); font-weight:400; }
+  .cfg-card-price {
+    margin-top:auto; padding-top:10px;
+    border-top:1px dashed var(--bp-line);
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:'Space Mono',monospace;
+  }
+  .cfg-card-price-lbl { font-size:8px; letter-spacing:1.5px; color:var(--bp-text-dim); text-transform:uppercase; }
+  .cfg-card-price-val { font-size:13px; color:var(--bp-accent-hot); font-weight:700; }
+
+  /* ── Assembly timeline (Mockup 08) ───────────────────────────────── */
+  #assembly-timeline {
+    position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+    z-index:22;
+    display:flex; align-items:center; gap:14px;
+    padding:10px 14px 12px;
+    min-width:560px; max-width:720px;
+    opacity:0; pointer-events:none;
+    transition:opacity .22s;
+  }
+  #assembly-timeline.visible { opacity:1; pointer-events:auto; }
+  body.blueprint #assembly-timeline { opacity:0 !important; pointer-events:none !important; }
+  .tl-play {
+    width:28px; height:28px;
+    border-radius:50%;
+    background:rgba(56,189,248,.18);
+    border:1px solid var(--bp-accent);
+    color:#fff; cursor:pointer;
+    font-family:inherit; font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+    padding:0 0 1px 0;
+    transition:background .16s, transform .16s;
+  }
+  .tl-play:hover { background:rgba(56,189,248,.35); transform:scale(1.05); }
+  .tl-step-readout {
+    font-family:'Space Mono',monospace;
+    font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+    min-width:140px;
+    color:var(--bp-text);
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .tl-step-num {
+    color:var(--bp-accent);
+    font-size:8px; letter-spacing:2px;
+  }
+  .tl-scrubber {
+    flex:1;
+    display:flex; align-items:center; gap:4px;
+    padding:4px 2px;
+  }
+  .tl-dot {
+    flex:1; min-width:0;
+    height:8px;
+    background:rgba(56,189,248,.18);
+    border:1px solid var(--bp-line);
+    border-radius:1px; cursor:pointer;
+    transition:background .16s, border-color .16s, transform .12s;
+    position:relative;
+  }
+  .tl-dot:hover { background:rgba(56,189,248,.35); transform:translateY(-1px); }
+  .tl-dot.tl-dot-done { background:var(--bp-accent); border-color:var(--bp-accent); }
+  .tl-dot.tl-dot-current {
+    background:var(--bp-accent-hot);
+    border-color:var(--bp-accent-hot);
+    box-shadow:0 0 10px rgba(251,191,36,.55);
+    transform:scaleY(1.45);
+  }
+
+  /* ── Spec sheet / BOM slide-in panel (Mockup 10) ─────────────────── */
+  #spec-panel {
+    position:absolute; top:14px; right:14px; bottom:14px;
+    width:420px; max-width:calc(100vw - 28px);
+    z-index:35;
+    display:flex; flex-direction:column;
+    transform:translateX(110%);
+    transition:transform .28s cubic-bezier(.2,.7,.2,1);
+    overflow:hidden;
+    padding:0;
+  }
+  #spec-panel.open { transform:translateX(0); }
+  .sp-head {
+    padding:16px 18px 12px;
+    border-bottom:1px solid var(--bp-line);
+    background:linear-gradient(180deg, rgba(56,189,248,.06) 0%, transparent 100%);
+    display:flex; align-items:center; gap:12px;
+  }
+  .sp-head-text { flex:1; }
+  .sp-eyebrow {
+    font-family:'Space Mono',monospace;
+    font-size:8.5px; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--bp-accent); font-weight:600;
+  }
+  .sp-title {
+    font-family:'Space Mono',monospace;
+    font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+    color:#fff; font-weight:700;
+    margin-top:2px;
+  }
+  .sp-close {
+    width:26px; height:26px; border-radius:50%;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.12);
+    color:#90a4ae; font-size:16px; line-height:1;
+    cursor:pointer; padding:0 0 2px 0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:inherit;
+    transition:transform .18s, background .16s, color .16s;
+  }
+  .sp-close:hover {
+    background:rgba(239,83,80,.16); color:#ffcdd2;
+    transform:rotate(90deg);
+  }
+  .sp-body {
+    flex:1; overflow:auto;
+    padding:14px 18px 18px;
+  }
+  .sp-body::-webkit-scrollbar { width:6px; }
+  .sp-body::-webkit-scrollbar-thumb { background:rgba(100,181,246,.3); border-radius:3px; }
+  .sp-kpis {
+    display:grid; grid-template-columns:repeat(5, 1fr);
+    gap:1px;
+    background:var(--bp-line);
+    border:1px solid var(--bp-line);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:14px;
+  }
+  .sp-kpi {
+    background:rgba(10,25,41,.95);
+    padding:10px 6px 8px;
+    text-align:center;
+  }
+  .sp-kpi-v {
+    font-family:'Space Mono',monospace;
+    font-size:15px; color:var(--bp-accent-hot); font-weight:700;
+    letter-spacing:.5px;
+    font-variant-numeric:tabular-nums;
+  }
+  .sp-kpi-l {
+    font-family:'Space Mono',monospace;
+    font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--bp-text-dim);
+    margin-top:3px;
+  }
+  .sp-section { margin-bottom:16px; }
+  .sp-section-hd {
+    font-family:'Space Mono',monospace;
+    font-size:9px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bp-accent); font-weight:700;
+    padding-bottom:4px;
+    border-bottom:1px dashed var(--bp-line);
+    margin-bottom:8px;
+  }
+  .sp-table {
+    width:100%;
+    font-family:'Roboto Mono',monospace;
+    font-size:9px; letter-spacing:.2px;
+    border-collapse:collapse;
+    font-variant-numeric:tabular-nums;
+  }
+  .sp-table th, .sp-table td {
+    text-align:left;
+    padding:4px 6px;
+    border-bottom:1px dashed rgba(125,211,252,.12);
+  }
+  .sp-table th {
+    font-size:7.5px; letter-spacing:1.6px; text-transform:uppercase;
+    color:var(--bp-text-dim); font-weight:600;
+    border-bottom:1px solid var(--bp-line);
+  }
+  .sp-table td.sp-num { text-align:right; color:var(--bp-text); }
+  .sp-table tr:hover td { background:rgba(56,189,248,.05); }
+  .sp-cost-bar {
+    display:flex; height:6px;
+    border:1px solid var(--bp-line);
+    border-radius:2px;
+    overflow:hidden;
+    margin-bottom:8px;
+  }
+  .sp-cost-bar span { height:100%; }
+  .sp-cost-row {
+    display:flex; justify-content:space-between;
+    font-family:'Roboto Mono',monospace;
+    font-size:9.5px; padding:3px 0;
+    border-bottom:1px dashed rgba(125,211,252,.12);
+  }
+  .sp-cost-row:last-child { border-bottom:none; font-weight:700; color:var(--bp-accent-hot); }
+  .sp-cost-sw { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:middle; }
+  .sp-actions {
+    display:flex; gap:6px;
+    margin-top:12px; padding-top:12px;
+    border-top:1px solid var(--bp-line);
+  }
+  .sp-act {
+    flex:1;
+    font-family:'Space Mono',monospace;
+    font-size:8.5px; letter-spacing:1.4px; text-transform:uppercase;
+    padding:7px 6px;
+    background:rgba(56,189,248,.1);
+    border:1px solid var(--bp-line);
+    color:var(--bp-text);
+    border-radius:2px; cursor:pointer;
+    transition:background .16s, border-color .16s;
+  }
+  .sp-act:hover { background:rgba(56,189,248,.25); border-color:var(--bp-accent); color:#fff; }
+  .sp-act-hot {
+    background:rgba(251,191,36,.14);
+    border-color:rgba(251,191,36,.4);
+    color:var(--bp-accent-hot);
+  }
+  .sp-act-hot:hover { background:rgba(251,191,36,.28); color:#fff; border-color:var(--bp-accent-hot); }
+
+  /* ── Blueprint mode 2D sheet frame (Mockup 02) ───────────────────── */
+  body.blueprint #annotations {
+    /* Give annotations a cream-sheet background via the canvas frame */
+  }
+  .bp-title-block {
+    position:absolute;
+    right:36px; bottom:36px;
+    width:280px;
+    background:#fbf8ee;
+    border:1.2px solid #1a1e24;
+    box-shadow:0 3px 10px rgba(0,0,0,.25);
+    display:grid;
+    grid-template-columns:60% 40%;
+    z-index:24;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    color:#1a1e24;
+    opacity:0; pointer-events:none;
+    transition:opacity .24s;
+  }
+  body.blueprint .bp-title-block { opacity:1; pointer-events:auto; }
+  .bp-tb-cell {
+    padding:6px 9px;
+    border-right:0.5px solid #1a1e24;
+    border-bottom:0.5px solid #1a1e24;
+    font-size:7.5px;
+    display:flex; flex-direction:column; justify-content:center;
+    line-height:1.28;
+  }
+  .bp-tb-cell:nth-child(2n) { border-right:none; }
+  .bp-tb-cell:last-child, .bp-tb-cell:nth-last-child(2) { border-bottom:none; }
+  .bp-tb-lbl {
+    font-size:6px; letter-spacing:.7px;
+    text-transform:uppercase; color:#5d6770;
+    margin-bottom:2px;
+  }
+  .bp-tb-big {
+    grid-row:span 2;
+    padding:10px 9px;
+  }
+  .bp-tb-big b { font-size:11.5px; font-weight:800; letter-spacing:.5px; display:block; }
+  .bp-tb-big .bp-tb-sub { font-size:8px; color:#3a454f; margin-top:3px; }
+  .bp-tb-cell b { font-weight:700; font-size:9px; }
+  .bp-tb-stamp {
+    font-size:8.5px; font-weight:800; color:#c01818;
+    letter-spacing:.3px;
+  }
+
+  /* ── Blueprints gallery enhancements (Mockup 03) ─────────────────── */
+  /* Reuse existing #shopdrawings-modal scaffolding; add gallery-grid styling */
+  .sd-gallery-bar {
+    display:flex; align-items:center; gap:10px;
+    padding:10px 20px;
+    background:rgba(14,24,38,.9);
+    border-bottom:1px solid var(--bp-line);
+  }
+  .sd-gallery-search {
+    flex:1; min-width:200px;
+    position:relative;
+  }
+  .sd-gallery-search input {
+    width:100%;
+    background:rgba(56,189,248,.04);
+    border:1px solid var(--bp-line);
+    border-radius:2px;
+    padding:7px 10px 7px 28px;
+    font-family:'Roboto Mono',monospace;
+    font-size:10px; color:var(--bp-text);
+    letter-spacing:.3px;
+    outline:none;
+    transition:border-color .16s, background .16s;
+  }
+  .sd-gallery-search input:focus {
+    border-color:var(--bp-accent);
+    background:rgba(56,189,248,.1);
+  }
+  .sd-gallery-search::before {
+    content:"⌕"; position:absolute; left:9px; top:6px;
+    color:var(--bp-accent);
+    font-size:13px; pointer-events:none;
+  }
+  .sd-gallery-chip {
+    font-family:'Space Mono',monospace;
+    font-size:8.5px; letter-spacing:1.2px; text-transform:uppercase;
+    padding:6px 11px;
+    background:rgba(56,189,248,.04);
+    border:1px solid var(--bp-line);
+    color:var(--bp-text-dim);
+    border-radius:2px; cursor:pointer;
+    transition:color .16s, border-color .16s, background .16s;
+  }
+  .sd-gallery-chip:hover { color:#e0f2fe; border-color:var(--bp-accent); }
+  .sd-gallery-chip.on {
+    background:rgba(56,189,248,.2);
+    border-color:var(--bp-accent);
+    color:#fff;
+  }
+
+  /* ── Drawing modal metadata sidebar (Mockup 04) ──────────────────── */
+  .dwg-side {
+    width:240px;
+    padding:16px 18px;
+    border-right:1px solid var(--bp-line);
+    background:rgba(10,25,41,.5);
+    overflow-y:auto;
+    font-family:'Roboto Mono',monospace;
+  }
+  .dwg-side-block { padding-bottom:12px; border-bottom:1px dashed var(--bp-line); margin-bottom:12px; }
+  .dwg-side-block:last-child { border-bottom:none; }
+  .dwg-side-hd {
+    font-family:'Space Mono',monospace;
+    font-size:8px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--bp-accent); font-weight:700;
+    margin-bottom:6px;
+  }
+  .dwg-side-row {
+    display:flex; justify-content:space-between; gap:8px;
+    font-size:9px; padding:2px 0; line-height:1.45;
+    color:var(--bp-text);
+  }
+  .dwg-side-row span { color:var(--bp-text-dim); }
 </style>
 </head>
 <body>
@@ -1004,11 +1715,79 @@
 <button type="button" id="assembly-skip" style="display:none;" onclick="assemblyFinish()" title="Skip the construction-sequence intro">Skip ▶</button>
 
 <div id="titlebar">
-  <h1>Axis Modular SIP Series — Grid-Connected Edition</h1>
-  <p>42′ × 12′ · 525 SF · 1 Bedroom · SIP Panels · Helical Piers · Hydro / Well / Septic</p>
+  <h1 id="titlebar-h1">Axis Modular SIP Series — Grid-Connected Edition</h1>
+  <p id="titlebar-p">42′ × 12′ · 525 SF · 1 Bedroom · SIP Panels · Helical Piers · Hydro / Well / Septic</p>
+</div>
+
+<!-- Top pill toolbar -->
+<div class="toolbar-top" id="toolbar-top">
+  <button type="button" class="tool-pill tool-active" data-tool="model" onclick="setTopTool('model')" title="3D model view">◆ 3-D Model</button>
+  <button type="button" class="tool-pill"             data-tool="blueprint" onclick="setTopTool('blueprint')" title="Blueprint 2D top-down mode">▦ Blueprint</button>
+  <button type="button" class="tool-pill tool-hot"    data-tool="config" onclick="openConfigPicker()" title="Switch configuration">◈ Configs</button>
+  <button type="button" class="tool-pill"             data-tool="gallery" onclick="openBlueprintsViewer()" title="Shop drawings gallery">📐 Drawings</button>
+  <button type="button" class="tool-pill"             data-tool="spec" onclick="toggleSpecPanel()" title="Spec sheet + BOM">Σ Spec</button>
+</div>
+
+<!-- Bottom-left HUD: scale + coords -->
+<div class="hud-bottom-left">
+  <div class="hud-scale glass">
+    <span>Scale</span>
+    <span class="hud-scale-bar" aria-hidden="true"></span>
+    <span id="hud-scale-txt">0 — 4′</span>
+  </div>
+  <div class="hud-coords glass">
+    <span>X <b id="hud-x">0.00</b></span>
+    <span>Y <b id="hud-y">0.00</b></span>
+    <span>Z <b id="hud-z">0.00</b></span>
+  </div>
+</div>
+
+<!-- Bottom-right HUD: orientation gizmo -->
+<div class="hud-bottom-right">
+  <div class="hud-gizmo glass" id="hud-gizmo" title="Camera orientation"></div>
+</div>
+
+<!-- Assembly timeline scrubber -->
+<div id="assembly-timeline" class="glass">
+  <button type="button" class="tl-play" id="tl-play" onclick="toggleTimelinePlay()" aria-label="Play/pause">▶</button>
+  <div class="tl-step-readout">
+    <span class="tl-step-num" id="tl-step-num">STEP 00 / 00</span>
+    <span id="tl-step-label">Ready</span>
+  </div>
+  <div class="tl-scrubber" id="tl-scrubber" role="slider" aria-label="Assembly step"></div>
+</div>
+
+<!-- Configuration picker (centered modal) -->
+<div id="cfg-picker" role="dialog" aria-modal="true" aria-labelledby="cfg-picker-title" onclick="if(event.target===this) closeConfigPicker()">
+  <div id="cfg-picker-panel">
+    <div class="cfg-picker-head">
+      <div>
+        <div class="cfg-picker-eyebrow">Axis Modular SIP Series</div>
+        <div class="cfg-picker-title" id="cfg-picker-title">Choose a configuration</div>
+        <div class="cfg-picker-sub">5 standard layouts · 504–2,016 SF · modular chassis · helical piers</div>
+      </div>
+      <button type="button" class="cfg-picker-close" onclick="closeConfigPicker()" aria-label="Close">×</button>
+    </div>
+    <div class="cfg-picker-grid" id="cfg-picker-grid"></div>
+  </div>
+</div>
+
+<!-- Spec sheet + BOM slide-in panel -->
+<div id="spec-panel" class="glass" role="complementary" aria-label="Specification sheet and bill of materials">
+  <div class="sp-head">
+    <div class="sp-head-text">
+      <div class="sp-eyebrow" id="sp-eyebrow">Specification</div>
+      <div class="sp-title" id="sp-title">Spec Sheet · BOM</div>
+    </div>
+    <button type="button" class="sp-close" onclick="toggleSpecPanel(false)" aria-label="Close spec panel">×</button>
+  </div>
+  <div class="sp-body" id="sp-body"></div>
 </div>
 
 <button id="sidebar-reopen" class="glass" onclick="toggleSidebar()" aria-label="Show sidebar" title="Show components">☰</button>
+
+<!-- Blueprint mode title block (shown only when blueprintMode is active) -->
+<div class="bp-title-block" id="bp-title-block" aria-hidden="true"></div>
 
 <div id="info" class="glass hidden">
   <button class="info-close" onclick="closeInfo()" aria-label="Close" title="Close">×</button>
@@ -1046,7 +1825,10 @@
         <button class="dwg-btn" onclick="closeDwgModal()">CLOSE ✕</button>
       </div>
     </div>
-    <div id="dwg-modal-sheet"></div>
+    <div id="dwg-modal-body" style="flex:1;display:flex;min-height:0;overflow:hidden;">
+      <div id="dwg-modal-sheet" style="flex:1;"></div>
+      <div id="dwg-modal-side" class="dwg-side" style="display:none;border-right:none;border-left:1px solid var(--bp-line,#23314a);"></div>
+    </div>
   </div>
 </div>
 
@@ -1059,14 +1841,16 @@
         <option value="stacked">Stacked — 2 Bed · 1,000 SF</option>
         <option value="bungalow">Bungalow — 2 Bed · 1,008 SF</option>
         <option value="duplex">Duplex — 4 Bed · 2,016 SF</option>
+        <option value="ushape">U-Shape — 2 Bed · Courtyard · 1,512 SF</option>
       </select>
+    </div>
+    <div class="sa-row rq-row" title="Toggle between flat blueprint-style rendering and realistic PBR textures">
+      <button type="button" id="rq-schematic" class="rq-btn rq-btn-active" onclick="setRenderQuality('schematic')">◐ Schematic</button>
+      <button type="button" id="rq-realistic" class="rq-btn"              onclick="setRenderQuality('realistic')">☀ Realistic</button>
     </div>
     <div class="sa-row">
       <button type="button" class="bar-btn" onclick="setAll(true)">Show all</button>
       <button type="button" class="bar-btn" onclick="setAll(false)">Hide all</button>
-    </div>
-    <div class="sa-row">
-      <button type="button" class="bar-btn bar-btn-wide" onclick="openBlueprintsViewer()" title="Open the blueprints viewer — all IFC sheets, zoom, download, share">📐 Blueprints</button>
     </div>
   </div>
   <div id="legend-list"></div>
@@ -3407,14 +4191,253 @@ scene.traverse(obj => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
+//  20. U-SHAPE — WING CLONES (extend east from primary, creating a courtyard)
+//      Two single-story 42×12 wings, rotated 90° around Y so their length axis
+//      runs along +X. Primary (BL=42 along Z, BW=12 along X) stays as the
+//      "back" of the U; shared kitchen/living remains in primary, wings become
+//      bedroom suites. No redundant MEP — plumbing/HVAC supplied from primary.
+//        Wing N: centre (27, 0, -15), footprint X∈[+6, +48], Z∈[-21, -9]
+//        Wing S: centre (27, 0, +15), footprint X∈[+6, +48], Z∈[+9, +21]
+//        Courtyard: X∈[+6, +48], Z∈[-9, +9] ≈ 42 × 18 ≈ 756 SF open-air
+//      Total enclosed: 504 + 504 + 504 = 1,512 SF
+// ═══════════════════════════════════════════════════════════════════════════════
+const USHAPE_CLONE_KEYS = new Set(['pier','steel','joists','floor','sip','window','door','roof','parapet','skirt','rim']);
+
+function cloneWing(tag, TX, TZ) {
+  // Collect primary meshes (ground-level envelope only) to clone into this wing.
+  const toClone = [];
+  scene.traverse(obj => {
+    if (!obj.isMesh) return;
+    const k = obj.userData && obj.userData.key;
+    const s = obj.userData && obj.userData.story;
+    const u = obj.userData && obj.userData.unit;
+    if (!k) return;
+    if (!USHAPE_CLONE_KEYS.has(k)) return;
+    if (s === 'upper' || s === 'stair') return;   // single-story wings only
+    if (u && u !== 'primary') return;              // skip already-cloned units
+    toClone.push(obj);
+  });
+  toClone.forEach(orig => {
+    const clone = orig.clone(true);
+    const ox = orig.position.x, oy = orig.position.y, oz = orig.position.z;
+    // Rotate 90° CCW around Y axis so primary's length (Z) maps to wing's length (X);
+    // then translate to wing centre. Position map: (ox, oy, oz) → (TX + oz, oy, TZ - ox).
+    clone.rotation.y += Math.PI / 2;
+    clone.position.set(TX + oz, oy, TZ - ox);
+    clone.userData.unit = tag;
+    clone.traverse(c => { if (c !== clone) c.userData.unit = tag; });
+    scene.add(clone);
+    selectables.push(clone);
+  });
+}
+cloneWing('wingN',  27, -15);
+cloneWing('wingS',  27, +15);
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  21. U-SHAPE INTERIOR PROGRAM — 2 Bed Courtyard Bungalow
+//      Primary (back of U, 504 SF, open-plan): Foyer · Kitchen · Living · Dining ·
+//        Powder + Utility. Courtyard-side east wall: 8-ft sliding patio door to
+//        living + 6-ft patio door to dining, plus floor-to-ceiling picture windows.
+//      Wing N (master suite, 504 SF): Ensuite · Walk-in Closet · Master Bedroom +
+//        Sitting Area. Full-width sliding glass opens south to courtyard.
+//      Wing S (guest wing, 504 SF): Full Bath · Utility · Bedroom 2 · Office/Den.
+//        Patio doors from Bedroom 2 and Office open north to courtyard.
+//      Unit tags: 'ushape' (primary U-only elements), 'wingN', 'wingS'.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Tag helper — position, add to scene, stamp unit on mesh + children
+function placeU(mesh, unit, x, y, z) {
+  mesh.position.set(x, y, z);
+  mesh.userData.unit = unit;
+  mesh.traverse(c => { if (c !== mesh) c.userData.unit = unit; });
+  scene.add(mesh);
+  return mesh;
+}
+
+// Shorthands
+const Uhex = { D:COMP.door.hex, W:COMP.window.hex, I:COMP.interior.hex, F:COMP.furnishings.hex };
+const PDH = 7;   // patio-door height (ft)
+
+// ───────────────────────────────────────────────────────────────────────────────
+//  21.1  PRIMARY — Open-Plan Kitchen + Living + Dining (tag 'ushape')
+//        Layout S→N: entry/mud (Z -21..-15) · kitchen (-15..-9) · living (-9..+3) ·
+//                    dining (+3..+13) · utility+powder (+13..+21)
+// ───────────────────────────────────────────────────────────────────────────────
+
+// Courtyard-facing east wall (X=+5.92) — glazing wall
+// Living room sliding patio door (8′ × 7′) centred Z=-3
+placeU(mkBox(0.15, PDH, 8,   Uhex.D, 'door'),   'ushape', 5.92, FL + PDH/2, -3);
+// Flanking floor-to-ceiling picture windows
+placeU(mkBox(0.10, PDH, 4,   Uhex.W, 'window'), 'ushape', 5.92, FL + PDH/2, -8);
+placeU(mkBox(0.10, PDH, 4,   Uhex.W, 'window'), 'ushape', 5.92, FL + PDH/2,  2);
+// Dining sliding patio door (6′ × 7′) at Z=+8
+placeU(mkBox(0.15, PDH, 6,   Uhex.D, 'door'),   'ushape', 5.92, FL + PDH/2,  8);
+// Kitchen east-wall window (4′ × 4′, sill 3′)
+placeU(mkBox(0.10, 4, 4,     Uhex.W, 'window'), 'ushape', 5.92, FL + 3 + 2, -12);
+// Powder room window (3′ × 3′ frosted) at Z=+16
+placeU(mkBox(0.10, 3, 3,     Uhex.W, 'window'), 'ushape', 5.92, FL + 3 + 1.5, 16);
+
+// Primary interior partitions
+// Mudroom/kitchen divider at Z=-15 (door opening 3.5′ centred at X=0)
+placeU(mkBox(4, WH, IWT, Uhex.I, 'interior'), 'ushape', -3.75, IWY,  -15);
+placeU(mkBox(4, WH, IWT, Uhex.I, 'interior'), 'ushape',  3.75, IWY,  -15);
+placeU(mkBox(3.5, IDHH, IWT, Uhex.I, 'interior'), 'ushape', 0, IDHY, -15);
+// Kitchen/living peninsula half-wall at Z=-9 (open above counter)
+placeU(mkBox(4.5, 3.5, IWT, Uhex.I, 'interior'), 'ushape', -3.5, FL + 1.75, -9);
+// Dining/utility divider at Z=+13 (two doorways)
+placeU(mkBox(3.5, WH, IWT, Uhex.I, 'interior'), 'ushape', -4.0, IWY, 13);
+placeU(mkBox(1.5, WH, IWT, Uhex.I, 'interior'), 'ushape',  0.0, IWY, 13);
+placeU(mkBox(1.5, WH, IWT, Uhex.I, 'interior'), 'ushape',  5.0, IWY, 13);
+placeU(mkBox(3.0, IDHH, IWT, Uhex.I, 'interior'), 'ushape', -2.0, IDHY, 13);
+placeU(mkBox(3.5, IDHH, IWT, Uhex.I, 'interior'), 'ushape',  3.0, IDHY, 13);
+// Utility/powder divider at X=+1 (perpendicular, splits the south end)
+placeU(mkBox(IWT, WH, 8, Uhex.I, 'interior'), 'ushape', 1, IWY, 17);
+
+// Primary furnishings — OPEN PLAN
+// Entry foyer coat closet (west wall, between Z=-20 and Z=-17)
+placeU(mkBox(2, WH - 0.5, 3, Uhex.F, 'furnishings'), 'ushape', -4.5, FL + (WH-0.5)/2, -18);
+// Kitchen — L-shape counter along west wall
+placeU(mkBox(2, 3, 6,   Uhex.F, 'furnishings'), 'ushape', -4.5, FL + 1.5, -12);
+// Kitchen — peninsula counter on top of half-wall
+placeU(mkBox(4.5, 0.3, 2, Uhex.F, 'furnishings'), 'ushape', -3.5, FL + 3.3, -9);
+// Kitchen — island (6′ × 3′ × 3′)
+placeU(mkBox(3, 3, 6,   Uhex.F, 'furnishings'), 'ushape',  0,   FL + 1.5, -12);
+// Kitchen — fridge (tall)
+placeU(mkBox(2.5, 6, 2.5, Uhex.F, 'furnishings'), 'ushape', -4.2, FL + 3, -15.5);
+// Living — L-shape sofa (long segment facing courtyard + return on west)
+placeU(mkBox(8, 2.5, 3, Uhex.F, 'furnishings'), 'ushape', -1, FL + 1.25, -6.5);
+placeU(mkBox(3, 2.5, 4, Uhex.F, 'furnishings'), 'ushape', -3.5, FL + 1.25, -3.5);
+// Living — coffee table
+placeU(mkBox(4, 1.5, 2, Uhex.F, 'furnishings'), 'ushape', 1, FL + 0.75, -4);
+// Living — media/TV console against west wall
+placeU(mkBox(1, 2.5, 6, Uhex.F, 'furnishings'), 'ushape', -5.25, FL + 1.25, -1);
+// Living — armchair (east side, facing TV/courtyard)
+placeU(mkBox(3, 3, 3, Uhex.F, 'furnishings'), 'ushape', 3, FL + 1.5, 1);
+// Dining — table for 6 (6′ × 3′)
+placeU(mkBox(3, 2.5, 6, Uhex.F, 'furnishings'), 'ushape', 0, FL + 1.25, 8);
+// Dining — sideboard on west wall
+placeU(mkBox(1.5, 3, 5, Uhex.F, 'furnishings'), 'ushape', -4.75, FL + 1.5, 8);
+// Powder room — vanity (north side, along the Z=+13 wall)
+placeU(mkBox(3, 3, 1.5, Uhex.F, 'furnishings'), 'ushape',  3.5, FL + 1.5, 13.9);
+// Powder room — WC
+placeU(mkBox(2, 2.5, 2, Uhex.F, 'furnishings'), 'ushape',  4.75, FL + 1.25, 17);
+// Utility — stacked W/D (west side)
+placeU(mkBox(3, 5, 3, Uhex.F, 'furnishings'), 'ushape', -3.5, FL + 2.5, 15);
+// Utility — mechanical/linen storage (west wall)
+placeU(mkBox(1.5, WH - 0.5, 6, Uhex.F, 'furnishings'), 'ushape', -4.75, FL + (WH-0.5)/2, 18);
+
+// ───────────────────────────────────────────────────────────────────────────────
+//  21.2  WING N — MASTER SUITE (tag 'wingN')
+//        Layout W→E: ensuite (X 6..14) · walk-in closet (14..22) · master bed +
+//                    sitting (22..48). Courtyard glazing on south wall (Z=-9).
+// ───────────────────────────────────────────────────────────────────────────────
+
+// Courtyard-facing glazing (Z=-9.08, just inside wing's south wall)
+// Master bedroom sliding patio door (8′ × 7′) at X=34
+placeU(mkBox(8, PDH, 0.15, Uhex.D, 'door'),   'wingN', 34, FL + PDH/2, -9.08);
+// Floor-to-ceiling picture windows flanking the patio door
+placeU(mkBox(6, PDH, 0.10, Uhex.W, 'window'), 'wingN', 44, FL + PDH/2, -9.08);
+placeU(mkBox(5, PDH, 0.10, Uhex.W, 'window'), 'wingN', 26, FL + PDH/2, -9.08);
+// Ensuite frosted window (3′ × 3′, high sill for privacy)
+placeU(mkBox(3, 3, 0.10,   Uhex.W, 'window'), 'wingN', 10, FL + 5, -9.08);
+
+// Wing N interior partitions
+placeU(mkBox(IWT, WH, 12, Uhex.I, 'interior'), 'wingN', 14, IWY, -15);      // ensuite / closet wall
+placeU(mkBox(IWT, WH, 12, Uhex.I, 'interior'), 'wingN', 22, IWY, -15);      // closet / bedroom wall
+placeU(mkBox(4, WH, IWT, Uhex.I, 'interior'), 'wingN', 10, IWY, -13);       // ensuite internal (WC/shower)
+
+// Wing N furnishings
+// Ensuite — double vanity (north wall)
+placeU(mkBox(5, 3, 2, Uhex.F, 'furnishings'), 'wingN', 10, FL + 1.5, -19.75);
+// Ensuite — WC in west alcove
+placeU(mkBox(2, 2.5, 2, Uhex.F, 'furnishings'), 'wingN', 7.5, FL + 1.25, -11.5);
+// Ensuite — walk-in shower (east side of ensuite)
+placeU(mkBox(3, 7, 3, Uhex.F, 'furnishings'), 'wingN', 12.5, FL + 3.5, -11);
+// Walk-in closet — perimeter wardrobes
+placeU(mkBox(7, WH - 1, 1.5, Uhex.F, 'furnishings'), 'wingN', 18, IWY - 0.5, -19.75);
+placeU(mkBox(7, WH - 1, 1.5, Uhex.F, 'furnishings'), 'wingN', 18, IWY - 0.5, -10.25);
+// Walk-in closet — island dresser
+placeU(mkBox(5, 3, 2, Uhex.F, 'furnishings'), 'wingN', 18, FL + 1.5, -15);
+// Master bedroom — king bed (headboard on north wall, bed 6.5′ × 7′)
+placeU(mkBox(6.5, 2, 7, Uhex.F, 'furnishings'), 'wingN', 30, FL + 1, -17);
+placeU(mkBox(6.5, 4, 0.3, Uhex.F, 'furnishings'), 'wingN', 30, FL + 3, -20.5);  // upholstered headboard
+// Bedside tables flanking headboard
+placeU(mkBox(2, 2, 2, Uhex.F, 'furnishings'), 'wingN', 25.5, FL + 1, -20);
+placeU(mkBox(2, 2, 2, Uhex.F, 'furnishings'), 'wingN', 34.5, FL + 1, -20);
+// Bench at foot of bed
+placeU(mkBox(5, 1.5, 1.5, Uhex.F, 'furnishings'), 'wingN', 30, FL + 0.75, -13.5);
+// Dresser on east wall
+placeU(mkBox(1.5, 3, 6, Uhex.F, 'furnishings'), 'wingN', 46.75, FL + 1.5, -17);
+// Sitting area (east end, facing courtyard)
+placeU(mkBox(3, 3, 3, Uhex.F, 'furnishings'), 'wingN', 42, FL + 1.5, -11.5);   // armchair 1
+placeU(mkBox(3, 3, 3, Uhex.F, 'furnishings'), 'wingN', 45, FL + 1.5, -11.5);   // armchair 2
+placeU(mkBox(2, 1.5, 2, Uhex.F, 'furnishings'), 'wingN', 43.5, FL + 0.75, -14); // side table
+// Rug — anchors bedroom zone
+placeU(mkBox(12, 0.1, 5, Uhex.F, 'furnishings'), 'wingN', 32, FL + 0.05, -15);
+
+// ───────────────────────────────────────────────────────────────────────────────
+//  21.3  WING S — GUEST BED + OFFICE (tag 'wingS')
+//        Layout W→E: full bath (X 6..14) · utility (14..22) · bedroom 2 (22..34) ·
+//                    office/den (34..48). Courtyard glazing on north wall (Z=+9).
+// ───────────────────────────────────────────────────────────────────────────────
+
+// Courtyard-facing glazing (Z=+9.08)
+// Bedroom 2 patio door (6′ × 7′) at X=28
+placeU(mkBox(6, PDH, 0.15, Uhex.D, 'door'),   'wingS', 28, FL + PDH/2,  9.08);
+// Office sliding patio door (8′ × 7′) at X=42
+placeU(mkBox(8, PDH, 0.15, Uhex.D, 'door'),   'wingS', 42, FL + PDH/2,  9.08);
+// Picture window between bedroom 2 and utility (5′ × 7′)
+placeU(mkBox(5, PDH, 0.10, Uhex.W, 'window'), 'wingS', 20.5, FL + PDH/2, 9.08);
+// Bath frosted window (3′ × 3′)
+placeU(mkBox(3, 3, 0.10,   Uhex.W, 'window'), 'wingS', 10, FL + 5, 9.08);
+
+// Wing S interior partitions
+placeU(mkBox(IWT, WH, 12, Uhex.I, 'interior'), 'wingS', 14, IWY, 15);       // bath / utility wall
+placeU(mkBox(IWT, WH, 12, Uhex.I, 'interior'), 'wingS', 22, IWY, 15);       // utility / bedroom wall
+placeU(mkBox(IWT, WH, 12, Uhex.I, 'interior'), 'wingS', 34, IWY, 15);       // bedroom / office wall
+
+// Wing S furnishings
+// Bath — tub/shower combo (west wall)
+placeU(mkBox(3, 2, 5, Uhex.F, 'furnishings'), 'wingS', 7.5, FL + 1, 12.5);
+// Bath — vanity (south wall)
+placeU(mkBox(4, 3, 2, Uhex.F, 'furnishings'), 'wingS', 11, FL + 1.5, 19.75);
+// Bath — WC
+placeU(mkBox(2, 2.5, 2, Uhex.F, 'furnishings'), 'wingS', 8, FL + 1.25, 19.75);
+// Utility — stacked W/D
+placeU(mkBox(3, 5, 3, Uhex.F, 'furnishings'), 'wingS', 16, FL + 2.5, 19);
+// Utility — built-in storage (south wall)
+placeU(mkBox(6.5, WH - 1, 1.5, Uhex.F, 'furnishings'), 'wingS', 18.5, IWY - 0.5, 20.25);
+// Bedroom 2 — queen bed (headboard against south wall, bed 5′ × 6.5′)
+placeU(mkBox(5, 2, 6.5, Uhex.F, 'furnishings'), 'wingS', 28, FL + 1, 17.25);
+placeU(mkBox(5, 3.5, 0.3, Uhex.F, 'furnishings'), 'wingS', 28, FL + 2.75, 20.35);  // headboard
+// Bedside tables flanking headboard
+placeU(mkBox(1.5, 2, 1.5, Uhex.F, 'furnishings'), 'wingS', 24.75, FL + 1, 19.75);
+placeU(mkBox(1.5, 2, 1.5, Uhex.F, 'furnishings'), 'wingS', 31.25, FL + 1, 19.75);
+// Bedroom 2 — dresser on east wall
+placeU(mkBox(1.5, 3, 5, Uhex.F, 'furnishings'), 'wingS', 33.25, FL + 1.5, 17);
+// Bedroom 2 — rug
+placeU(mkBox(8, 0.1, 6, Uhex.F, 'furnishings'), 'wingS', 28, FL + 0.05, 15);
+// Office — desk facing courtyard
+placeU(mkBox(5, 2.5, 2, Uhex.F, 'furnishings'), 'wingS', 42, FL + 1.25, 11);
+// Office — desk chair
+placeU(mkBox(2, 3, 2, Uhex.F, 'furnishings'), 'wingS', 42, FL + 1.5, 13);
+// Office — lounge chair (east end)
+placeU(mkBox(3, 3, 3, Uhex.F, 'furnishings'), 'wingS', 45.5, FL + 1.5, 18);
+// Office — built-in shelving (south wall)
+placeU(mkBox(8, WH - 1, 1.5, Uhex.F, 'furnishings'), 'wingS', 40, IWY - 0.5, 20.25);
+// Office — rug
+placeU(mkBox(6, 0.1, 6, Uhex.F, 'furnishings'), 'wingS', 42, FL + 0.05, 15);
+
+// ═══════════════════════════════════════════════════════════════════════════════
 //  VISIBILITY / LAYER SYSTEM
 // ═══════════════════════════════════════════════════════════════════════════════
 const visibility = {};
 Object.keys(COMP).forEach(k => visibility[k] = true);
 
-// Configuration: stacked (vertical) × duplex (horizontal side-by-side)
+// Configuration: stacked (vertical) × duplex (horizontal side-by-side) × u-shape (courtyard)
 let isStacked = false;
 let isDuplex  = false;
+let isUShape  = false;
 
 function meshStoryMatches(obj) {
   const s = obj.userData && obj.userData.story;
@@ -3425,10 +4448,17 @@ function meshStoryMatches(obj) {
 function meshUnitMatches(obj) {
   const u    = obj.userData && obj.userData.unit;
   const seam = obj.userData && obj.userData.seam;
+  const key  = obj.userData && obj.userData.key;
   // Seam walls between the two modules hide in duplex (open combined plan)
   if (seam && isDuplex) return false;
+  // In U-shape the primary becomes open-plan kitchen+living (bedrooms move to wings),
+  // so its interior partitions and furnishings are hidden.
+  if (isUShape && (!u || u === 'primary') && (key === 'interior' || key === 'furnishings')) {
+    return false;
+  }
   if (!u || u === 'primary') return true;                // primary unit always visible
   if (u === 'secondary') return isDuplex;                // secondary only in duplex
+  if (u === 'wingN' || u === 'wingS' || u === 'ushape') return isUShape;   // wings + u-shape-primary only in u-shape
   return true;
 }
 
@@ -3446,6 +4476,10 @@ function setVisibility(key, visible) {
 function updateTitlebar() {
   const tbSub = document.querySelector('#titlebar p');
   if (!tbSub) return;
+  if (isUShape) {
+    tbSub.textContent = `54′ × 42′ · U-Shape Courtyard · ≈1,512 SF · 2 Beds · 1 Kitchen · 1 Living · Courtyard ≈756 SF`;
+    return;
+  }
   const width = isDuplex ? "24′" : "12′";
   const baseSF = isStacked ? 1000 : 504;
   const sf = isDuplex ? baseSF * 2 : baseSF;
@@ -3457,24 +4491,34 @@ function updateTitlebar() {
   tbSub.textContent = `42′ × ${width} · ${cfg} · ≈${sf.toLocaleString()} SF · ${program}`;
 }
 
-// Unified configuration — 4 combinations (single / stacked / bungalow / duplex)
-function setConfiguration(stacked, duplex) {
+// Unified configuration — 5 combinations (single / stacked / bungalow / duplex / u-shape)
+function setConfiguration(stacked, duplex, ushape) {
+  if (ushape === undefined) ushape = false;
+  // U-shape is exclusive of stacked/duplex (it's a single-story courtyard bungalow)
+  if (ushape) { stacked = false; duplex = false; }
   isStacked = stacked;
   isDuplex  = duplex;
+  isUShape  = ushape;
   Object.keys(visibility).forEach(k => setVisibility(k, visibility[k]));
   document.body.classList.toggle('stacked', stacked);
   document.body.classList.toggle('duplex', duplex);
+  document.body.classList.toggle('ushape', ushape);
   // Re-centre cameras on the combined footprint
-  orbit.target.set(duplex ? BW/2 : 0, 5, 0);
-  orthoCam.position.x = duplex ? BW/2 : 0;
-  orthoCam.lookAt(duplex ? BW/2 : 0, 0, 0);
+  let cx;
+  if (ushape)      cx = 21;            // whole U-shape centres at X≈21 (primary + wings)
+  else if (duplex) cx = BW/2;
+  else             cx = 0;
+  orbit.target.set(cx, 5, 0);
+  orthoCam.position.x = cx;
+  orthoCam.lookAt(cx, 0, 0);
   // Configuration dropdown — sync selected option to the active config
   const cfgSel = document.getElementById('cfg-select');
   if (cfgSel) {
-    cfgSel.value = (!stacked && !duplex) ? 'single'
-                 : ( stacked && !duplex) ? 'stacked'
-                 : (!stacked &&  duplex) ? 'bungalow'
-                 :                         'duplex';
+    cfgSel.value = ushape                   ? 'ushape'
+                 : (!stacked && !duplex)    ? 'single'
+                 : ( stacked && !duplex)    ? 'stacked'
+                 : (!stacked &&  duplex)    ? 'bungalow'
+                 :                            'duplex';
   }
   updateTitlebar();
   // If blueprint is active, rebuild the per-story sheet list
@@ -3485,15 +4529,16 @@ function setConfiguration(stacked, duplex) {
   }
 }
 // Back-compat shims (older callsites, titlebar-only toggles)
-function setStackedMode(s) { setConfiguration(s, isDuplex); }
-function setDuplexMode(d)  { setConfiguration(isStacked, d); }
-function toggleStacked()   { setConfiguration(!isStacked, isDuplex); }
-function toggleDuplex()    { setConfiguration(isStacked, !isDuplex); }
-// Config dropdown handler — maps option value → (stacked, duplex) flags
+function setStackedMode(s) { setConfiguration(s, isDuplex, false); }
+function setDuplexMode(d)  { setConfiguration(isStacked, d, false); }
+function toggleStacked()   { setConfiguration(!isStacked, isDuplex, false); }
+function toggleDuplex()    { setConfiguration(isStacked, !isDuplex, false); }
+// Config dropdown handler — maps option value → (stacked, duplex, ushape) flags
 function cfgSelectChange(v) {
+  if (v === 'ushape') { setConfiguration(false, false, true); return; }
   const stacked = (v === 'stacked' || v === 'duplex');
   const duplex  = (v === 'bungalow' || v === 'duplex');
-  setConfiguration(stacked, duplex);
+  setConfiguration(stacked, duplex, false);
 }
 
 function setAll(visible) {
@@ -3565,15 +4610,27 @@ function buildBlueprintsViewer() {
   // Group rail items by discipline
   const byDisc = {};
   BP_SHEETS.forEach((s, i) => { (byDisc[s.disc] = byDisc[s.disc] || []).push({ ...s, idx:i }); });
-  const railHTML = Object.keys(byDisc).map(d => {
+  const discOrder = Object.keys(byDisc);
+  const railHTML = discOrder.map(d => {
     const items = byDisc[d].map(s =>
-      `<div class="bpv-item" data-bpv-idx="${s.idx}" onclick="bpvSelect(${s.idx})" title="${s.n} — ${s.title}">` +
+      `<div class="bpv-item" data-bpv-idx="${s.idx}" data-bpv-disc="${d}" data-bpv-search="${(s.n + ' ' + s.title + ' ' + d).toLowerCase()}" onclick="bpvSelect(${s.idx})" title="${s.n} — ${s.title}">` +
         `<span class="bpv-item-num">${s.n}</span>` +
         `<span class="bpv-item-title">${s.title}</span>` +
       `</div>`
     ).join('');
-    return `<div class="bpv-cat">${d}</div>${items}`;
+    return `<div class="bpv-cat" data-bpv-cat="${d}">${d}</div>${items}`;
   }).join('');
+
+  // UI V2 — Discipline filter chips + search (Mockup 03)
+  const chipsHTML = '<button class="sd-gallery-chip on" data-bpv-chip="_all" onclick="bpvFilterChip(\'_all\')">All</button>' +
+    discOrder.map(d => `<button class="sd-gallery-chip" data-bpv-chip="${d}" onclick="bpvFilterChip('${d}')">${d}</button>`).join('');
+  const filterBarHTML =
+    '<div class="sd-gallery-bar" style="padding:8px 12px;border-bottom:1px solid rgba(100,181,246,.18);flex-wrap:wrap;">' +
+      '<div class="sd-gallery-search" style="flex:1;min-width:140px;">' +
+        '<input id="bpv-search" type="text" placeholder="Search sheets…" oninput="bpvFilterRail()" />' +
+      '</div>' +
+      chipsHTML +
+    '</div>';
 
   root.innerHTML =
     '<div class="bpv-header">' +
@@ -3596,13 +4653,15 @@ function buildBlueprintsViewer() {
       '<button class="bpv-tbtn" onclick="bpvReset()" title="Reset to 100% (1)">100%</button>' +
       '<span class="bpv-div"></span>' +
       '<button class="bpv-tbtn bpv-tbtn-primary" onclick="bpvDownload()" title="Download this sheet (D)">⭳  Download</button>' +
-      '<button class="bpv-tbtn" onclick="bpvCopyLink()" title="Copy link to this sheet (C)">🔗  Copy link</button>' +
-      '<button class="bpv-tbtn" onclick="bpvOpenWindow()" title="Open this sheet in a new window">↗  New window</button>' +
+      '<button class="bpv-tbtn" onclick="bpvCopyLink()" title="Copy link to this sheet (C)">🔗  Share</button>' +
       '<span class="bpv-spacer"></span>' +
       '<span class="bpv-current-sheet">Sheet <b id="bpv-current-num">—</b>  ·  <span id="bpv-current-title">—</span></span>' +
     '</div>' +
     '<div class="bpv-body">' +
-      '<div class="bpv-rail" id="bpv-rail">' + railHTML + '</div>' +
+      '<div class="bpv-rail" id="bpv-rail" style="display:flex;flex-direction:column;padding-top:0;">' +
+        filterBarHTML +
+        '<div id="bpv-rail-list" style="flex:1;overflow-y:auto;padding:8px 0 20px 0;">' + railHTML + '</div>' +
+      '</div>' +
       '<div class="bpv-stage" id="bpv-stage">' +
         '<div class="bpv-sheet-wrap" id="bpv-sheet-wrap">' +
           '<iframe id="bpv-frame" title="Blueprint sheet"></iframe>' +
@@ -3687,6 +4746,37 @@ function bpvSelect(idx) {
 function bpvPrev() { bpvSelect((bpvIdx - 1 + BP_SHEETS.length) % BP_SHEETS.length); }
 function bpvNext() { bpvSelect((bpvIdx + 1) % BP_SHEETS.length); }
 
+// UI V2 — Blueprints gallery search + discipline filter (Mockup 03)
+let bpvActiveDisc = '_all';
+function bpvFilterChip(disc) {
+  bpvActiveDisc = disc;
+  document.querySelectorAll('.sd-gallery-chip[data-bpv-chip]').forEach(c => {
+    c.classList.toggle('on', c.getAttribute('data-bpv-chip') === disc);
+  });
+  bpvFilterRail();
+}
+function bpvFilterRail() {
+  const rail  = document.getElementById('bpv-rail-list');
+  if (!rail) return;
+  const qEl   = document.getElementById('bpv-search');
+  const q     = (qEl && qEl.value || '').trim().toLowerCase();
+  const disc  = bpvActiveDisc || '_all';
+  const discCount = {};
+  rail.querySelectorAll('.bpv-item').forEach(el => {
+    const d = el.getAttribute('data-bpv-disc');
+    const s = el.getAttribute('data-bpv-search') || '';
+    const passD = (disc === '_all') || (d === disc);
+    const passQ = !q || s.indexOf(q) !== -1;
+    const show  = passD && passQ;
+    el.style.display = show ? '' : 'none';
+    if (show) discCount[d] = (discCount[d] || 0) + 1;
+  });
+  rail.querySelectorAll('.bpv-cat').forEach(h => {
+    const d = h.getAttribute('data-bpv-cat');
+    h.style.display = discCount[d] ? '' : 'none';
+  });
+}
+
 function bpvApplyZoom() {
   const wrap = document.getElementById('bpv-sheet-wrap');
   if (!wrap) return;
@@ -3762,7 +4852,7 @@ function bpvCopyLink() {
     return Promise.resolve();
   };
   copy(abs).then(
-    () => bpvToast('Link copied — ' + s.n),
+    () => bpvToast('Share link copied — ' + s.n),
     () => bpvToast('Copy failed — ' + abs)
   );
 }
@@ -4110,15 +5200,24 @@ function toggleBlueprint() {
       }
       if (obj.isLineSegments) {
         if (!obj.userData._bpEdgeStash) {
-          obj.userData._bpEdgeStash = { hex: obj.material.color.getHex(), op: obj.material.opacity };
+          obj.userData._bpEdgeStash = {
+            hex: obj.material.color.getHex(),
+            op:  obj.material.opacity,
+            vis: obj.visible
+          };
         }
         obj.material.color.setHex(BP_EDGE);
         obj.material.opacity = 0.95;
+        // Blueprint needs edges visible for the wireframe drawing look,
+        // even if realistic mode had hidden them.
+        obj.visible = true;
       }
     });
     // Save current visibility, start at page 0
     savedVisibility = { ...visibility };
     applyBlueprintPage(0);
+    // Grey out the schematic/realistic toggle while blueprint owns the materials
+    if (typeof rqSyncButtons === 'function') rqSyncButtons();
   } else {
     activeCam = camera;
     orbit.enabled = true;
@@ -4152,6 +5251,12 @@ function toggleBlueprint() {
       savedVisibility = null;
     }
     renderAnnotations();  // clears overlay
+    // Reconcile with the rendering-quality toggle: if user flipped quality
+    // while blueprint was active we deferred the swap; apply it now.
+    // Also re-applies the correct clearColor / fog / env for realistic mode
+    // (blueprint exit restored the schematic clearColor + fog regardless).
+    if (typeof rqApplyQuality === 'function') rqApplyQuality(renderQuality);
+    if (typeof rqSyncButtons === 'function') rqSyncButtons();
   }
 }
 
@@ -4239,6 +5344,11 @@ function pick(key) {
   // Toggle the "OPEN FULL SHEET ↗" button based on whether an IFC sheet exists
   if (typeof refreshBlueprintButtons === 'function') refreshBlueprintButtons();
   document.getElementById('info').classList.remove('hidden');
+  // UI V2 hook — refresh inspector tabs (Specs, Cost) alongside Overview
+  try {
+    if (typeof renderInspectorSpecs === 'function') renderInspectorSpecs(key);
+    if (typeof renderInspectorCost  === 'function') renderInspectorCost(key);
+  } catch (ex) { /* noop */ }
 }
 
 // ── Drawing carousel inside the info panel ─────────────────────────────────
@@ -4288,9 +5398,61 @@ function openDrawingZoom(ev){
   titleE.textContent = d.title;
   sheet.innerHTML = d.svg;
   modal.classList.add('show');
+  // UI V2 — populate the drawing metadata sidebar (Mockup 04)
+  try { renderDwgSidebar(d); } catch (ex) { /* noop */ }
   // Show "OPEN FULL SHEET ↗" button in the modal header if a sheet exists
   if (typeof refreshBlueprintButtons === 'function') refreshBlueprintButtons();
   document.addEventListener('keydown', dwgModalEsc);
+}
+
+// UI V2 — Drawing modal metadata sidebar (Mockup 04)
+function renderDwgSidebar(d) {
+  const side = document.getElementById('dwg-modal-side');
+  if (!side) return;
+  const key = (typeof activeKey !== 'undefined') ? activeKey : null;
+  const c   = (key && typeof COMP !== 'undefined' && COMP[key]) ? COMP[key] : null;
+  const kn  = (key && typeof LEGEND_KEYNOTES !== 'undefined' && LEGEND_KEYNOTES[key]) ? LEGEND_KEYNOTES[key] : '—';
+  let cat = '—', catCss = '#64b5f6';
+  if (key && typeof LEGEND_CATS !== 'undefined') {
+    const lc = LEGEND_CATS.find(x => x.keys.indexOf(key) !== -1);
+    if (lc) { cat = lc.label; }
+  }
+  const bp  = (key && typeof COMPONENT_BLUEPRINTS !== 'undefined' && COMPONENT_BLUEPRINTS[key]) ? COMPONENT_BLUEPRINTS[key] : null;
+  const bpSheet = bp ? (bp.sheet || '—') : '—';
+  const bpTitle = bp ? (bp.title || '—') : '—';
+  const now = new Date();
+  const dateStr = now.toISOString().slice(0,10);
+  const compName = c && c.name ? c.name : (key || '—');
+  const compQty  = c && c.qty ? c.qty : '—';
+  const compMat  = c && c.material ? c.material : '—';
+  side.style.display = 'block';
+  side.innerHTML =
+    '<div class="dwg-side-block">' +
+      '<div class="dwg-side-hd">Sheet</div>' +
+      '<div class="dwg-side-row"><span>Number</span><b>' + bpSheet + '</b></div>' +
+      '<div class="dwg-side-row"><span>Title</span><b style="text-align:right;max-width:140px;">' + bpTitle + '</b></div>' +
+      '<div class="dwg-side-row"><span>Category</span><b>' + cat + '</b></div>' +
+      '<div class="dwg-side-row"><span>Keynote</span><b style="color:var(--bp-accent-hot);">#' + kn + '</b></div>' +
+    '</div>' +
+    '<div class="dwg-side-block">' +
+      '<div class="dwg-side-hd">Component</div>' +
+      '<div class="dwg-side-row"><span>Name</span><b style="text-align:right;max-width:140px;">' + compName + '</b></div>' +
+      '<div class="dwg-side-row"><span>Quantity</span><b>' + compQty + '</b></div>' +
+      '<div class="dwg-side-row"><span>Material</span><b style="text-align:right;max-width:140px;">' + compMat + '</b></div>' +
+    '</div>' +
+    '<div class="dwg-side-block">' +
+      '<div class="dwg-side-hd">Revision</div>' +
+      '<div class="dwg-side-row"><span>Rev</span><b>B — IFC</b></div>' +
+      '<div class="dwg-side-row"><span>Date</span><b>' + dateStr + '</b></div>' +
+      '<div class="dwg-side-row"><span>By</span><b>YVP</b></div>' +
+      '<div class="dwg-side-row"><span>Chk</span><b>—</b></div>' +
+    '</div>' +
+    '<div class="dwg-side-block">' +
+      '<div class="dwg-side-hd">Project</div>' +
+      '<div class="dwg-side-row"><span>Project</span><b>Axis Modular</b></div>' +
+      '<div class="dwg-side-row"><span>Series</span><b>SIP — IFC</b></div>' +
+      '<div class="dwg-side-row"><span>Client</span><b>Blueprint Builds</b></div>' +
+    '</div>';
 }
 function closeDwgModal(){
   const modal = document.getElementById('dwg-modal');
@@ -4385,6 +5547,500 @@ window.addEventListener('resize', () => {
   if (blueprintMode) renderAnnotations();
 });
 
+// ═══════════════════════════════════════════════════════════════════════════════
+//  RENDERING-QUALITY TOGGLE — Schematic (flat blueprint) ↔ Realistic (PBR)
+//  Swaps every tagged mesh's material between its original diagram material
+//  (MeshStandardMaterial, flat colour, high roughness) and a PBR material built
+//  from procedural canvas textures + Sobel-derived normal maps + PMREM IBL from
+//  a procedural HDR-style sky.  Also swaps the ambient/directional lighting
+//  and tone mapping so the scene reads correctly in both modes.
+// ═══════════════════════════════════════════════════════════════════════════════
+let renderQuality = 'schematic';
+let rqPBRPool     = null;            // { [key]: PBR material }
+let rqEnvMap      = null;            // PMREM cube
+let rqLightingSnap = null;           // saved schematic lighting state
+
+// ---- Procedural textures (canvas 512) -------------------------------------
+function rqTexCanvas(w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.anisotropy = 8;
+  t.needsUpdate = true;
+  return t;
+}
+function rqWood(hueShift) {
+  return rqTexCanvas(512, 512, (ctx, w, h) => {
+    // Warm wood base
+    const base = ctx.createLinearGradient(0, 0, 0, h);
+    base.addColorStop(0, `hsl(${28+hueShift},38%,42%)`);
+    base.addColorStop(0.5, `hsl(${26+hueShift},44%,36%)`);
+    base.addColorStop(1, `hsl(${24+hueShift},36%,31%)`);
+    ctx.fillStyle = base; ctx.fillRect(0, 0, w, h);
+    // Grain streaks
+    for (let i = 0; i < 240; i++) {
+      const y = Math.random() * h, len = 60 + Math.random() * 360;
+      ctx.strokeStyle = `hsla(${20+Math.random()*20},${30+Math.random()*25}%,${16+Math.random()*22}%,${0.18+Math.random()*0.38})`;
+      ctx.lineWidth = 0.5 + Math.random() * 1.4;
+      ctx.beginPath();
+      const x0 = Math.random() * w;
+      ctx.moveTo(x0, y);
+      ctx.bezierCurveTo(x0 + len*0.3, y + (Math.random()-0.5)*4, x0 + len*0.6, y + (Math.random()-0.5)*4, x0 + len, y + (Math.random()-0.5)*3);
+      ctx.stroke();
+    }
+    // Knots
+    for (let i = 0; i < 5; i++) {
+      const x = Math.random() * w, y = Math.random() * h, r = 4 + Math.random() * 10;
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, 'rgba(30,15,6,0.85)'); g.addColorStop(1, 'rgba(30,15,6,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+    }
+  });
+}
+function rqPlankFloor() {
+  return rqTexCanvas(1024, 512, (ctx, w, h) => {
+    ctx.fillStyle = '#6b4a2c'; ctx.fillRect(0, 0, w, h);
+    const plankH = h / 4;
+    for (let row = 0; row < 4; row++) {
+      const offset = (row % 2) ? w * 0.37 : 0;
+      for (let col = -1; col < 3; col++) {
+        const x = col * w/2 + offset, y = row * plankH;
+        const grad = ctx.createLinearGradient(x, y, x, y + plankH);
+        const l = 28 + Math.random() * 16;
+        grad.addColorStop(0, `hsl(28,38%,${l+6}%)`);
+        grad.addColorStop(0.5, `hsl(26,42%,${l}%)`);
+        grad.addColorStop(1, `hsl(24,36%,${l-5}%)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, w/2, plankH);
+        // grain
+        for (let i = 0; i < 40; i++) {
+          const gy = y + Math.random() * plankH;
+          ctx.strokeStyle = `hsla(22,40%,${18+Math.random()*12}%,${0.22+Math.random()*0.28})`;
+          ctx.lineWidth = 0.4 + Math.random();
+          ctx.beginPath(); ctx.moveTo(x, gy);
+          ctx.bezierCurveTo(x + w*0.2, gy + (Math.random()-0.5)*2, x + w*0.35, gy, x + w*0.5, gy + (Math.random()-0.5)*2);
+          ctx.stroke();
+        }
+        // butt joints (dark gaps)
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.fillRect(x, y, 2, plankH);
+        ctx.fillRect(x, y + plankH - 1.5, w/2, 1.5);
+      }
+    }
+  });
+}
+function rqStucco(color) {
+  return rqTexCanvas(512, 512, (ctx, w, h) => {
+    ctx.fillStyle = color; ctx.fillRect(0, 0, w, h);
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const n = (Math.random() - 0.5) * 22;
+      d[i]   = Math.max(0, Math.min(255, d[i]   + n));
+      d[i+1] = Math.max(0, Math.min(255, d[i+1] + n));
+      d[i+2] = Math.max(0, Math.min(255, d[i+2] + n));
+    }
+    ctx.putImageData(img, 0, 0);
+    // Trowel stipple
+    for (let i = 0; i < 1800; i++) {
+      ctx.fillStyle = `rgba(0,0,0,${Math.random()*0.08})`;
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h, 0.5 + Math.random()*1.8, 0, Math.PI*2); ctx.fill();
+    }
+    for (let i = 0; i < 900; i++) {
+      ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.06})`;
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h, 0.5 + Math.random()*1.5, 0, Math.PI*2); ctx.fill();
+    }
+  });
+}
+function rqConcrete() {
+  return rqTexCanvas(512, 512, (ctx, w, h) => {
+    ctx.fillStyle = '#8d8d88'; ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 2400; i++) {
+      ctx.fillStyle = `rgba(${60+Math.random()*110},${60+Math.random()*110},${60+Math.random()*110},${Math.random()*0.38})`;
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h, Math.random()*1.6, 0, Math.PI*2); ctx.fill();
+    }
+    // Aggregate
+    for (let i = 0; i < 180; i++) {
+      ctx.fillStyle = `rgba(${50+Math.random()*60},${50+Math.random()*60},${50+Math.random()*60},0.55)`;
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h, 1 + Math.random()*3, 0, Math.PI*2); ctx.fill();
+    }
+  });
+}
+function rqBrushedSteel() {
+  return rqTexCanvas(512, 512, (ctx, w, h) => {
+    const g = ctx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#bdc3ca'); g.addColorStop(0.5, '#9aa1a8'); g.addColorStop(1, '#7d848b');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < 1600; i++) {
+      ctx.strokeStyle = `rgba(0,0,0,${Math.random()*0.16})`;
+      ctx.lineWidth = 0.3 + Math.random() * 0.8;
+      ctx.beginPath();
+      const y = Math.random() * h;
+      ctx.moveTo(0, y); ctx.lineTo(w, y + (Math.random()-0.5)*1.5); ctx.stroke();
+    }
+    for (let i = 0; i < 220; i++) {
+      ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.12})`;
+      ctx.fillRect(0, Math.random()*h, w, 0.4 + Math.random()*0.8);
+    }
+  });
+}
+function rqGalvanized() {
+  return rqTexCanvas(512, 512, (ctx, w, h) => {
+    ctx.fillStyle = '#a8aeb4'; ctx.fillRect(0, 0, w, h);
+    // Spangle pattern
+    for (let i = 0; i < 120; i++) {
+      const x = Math.random()*w, y = Math.random()*h, r = 20 + Math.random()*55;
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      const sh = 60 + Math.random()*70;
+      g.addColorStop(0, `rgba(${sh+40},${sh+40},${sh+44},0.55)`);
+      g.addColorStop(1, `rgba(${sh+40},${sh+40},${sh+44},0)`);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+    }
+    for (let i = 0; i < 3000; i++) {
+      ctx.fillStyle = `rgba(${Math.random()*255|0},${Math.random()*255|0},${Math.random()*255|0},${Math.random()*0.1})`;
+      ctx.fillRect(Math.random()*w, Math.random()*h, 1, 1);
+    }
+  });
+}
+function rqDrywall() {
+  return rqTexCanvas(256, 256, (ctx, w, h) => {
+    ctx.fillStyle = '#f2ece1'; ctx.fillRect(0, 0, w, h);
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const n = (Math.random() - 0.5) * 9;
+      d[i] = Math.max(0, Math.min(255, d[i] + n));
+      d[i+1] = Math.max(0, Math.min(255, d[i+1] + n));
+      d[i+2] = Math.max(0, Math.min(255, d[i+2] + n));
+    }
+    ctx.putImageData(img, 0, 0);
+    for (let i = 0; i < 300; i++) {
+      ctx.fillStyle = `rgba(0,0,0,${Math.random()*0.05})`;
+      ctx.beginPath(); ctx.arc(Math.random()*w, Math.random()*h, 0.4 + Math.random()*1.3, 0, Math.PI*2); ctx.fill();
+    }
+  });
+}
+function rqFabric() {
+  return rqTexCanvas(256, 256, (ctx, w, h) => {
+    ctx.fillStyle = '#8a7a6b'; ctx.fillRect(0, 0, w, h);
+    // Basket weave
+    const s = 4;
+    for (let y = 0; y < h; y += s) {
+      for (let x = 0; x < w; x += s) {
+        const warp = ((x/s + y/s) % 2) === 0;
+        const shade = warp ? 0.15 : -0.12;
+        ctx.fillStyle = `rgba(${warp?220:40},${warp?200:30},${warp?180:20},${Math.abs(shade)})`;
+        ctx.fillRect(x, y, s, s);
+      }
+    }
+    for (let i = 0; i < 1200; i++) {
+      ctx.fillStyle = `rgba(0,0,0,${Math.random()*0.14})`;
+      ctx.fillRect(Math.random()*w, Math.random()*h, 0.8, 0.8);
+    }
+  });
+}
+function rqRoofing() {
+  return rqTexCanvas(256, 512, (ctx, w, h) => {
+    // Dark standing-seam metal
+    const g = ctx.createLinearGradient(0, 0, w, 0);
+    g.addColorStop(0, '#353a40'); g.addColorStop(0.5, '#3e444b'); g.addColorStop(1, '#2c3136');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    // Vertical seam every w/4
+    for (let x = 0; x <= w; x += w/4) {
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.fillRect(x - 1, 0, 2, h);
+      ctx.fillStyle = 'rgba(255,255,255,0.10)';
+      ctx.fillRect(x, 0, 1, h);
+    }
+    // Subtle horizontal scratches
+    for (let i = 0; i < 400; i++) {
+      ctx.strokeStyle = `rgba(255,255,255,${Math.random()*0.06})`;
+      ctx.lineWidth = 0.3;
+      ctx.beginPath();
+      const y = Math.random()*h;
+      ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+  });
+}
+
+// ---- Normal map via Sobel on albedo ---------------------------------------
+function rqToNormal(src, strength) {
+  const w = src.image.width, h = src.image.height;
+  const tmp = document.createElement('canvas'); tmp.width = w; tmp.height = h;
+  const tctx = tmp.getContext('2d'); tctx.drawImage(src.image, 0, 0);
+  const data = tctx.getImageData(0, 0, w, h).data;
+  const lum = new Float32Array(w * h);
+  for (let i = 0; i < w * h; i++) lum[i] = (data[i*4] + data[i*4+1] + data[i*4+2]) / (3 * 255);
+  const out = document.createElement('canvas'); out.width = w; out.height = h;
+  const octx = out.getContext('2d'); const oimg = octx.createImageData(w, h);
+  const s = strength || 1.5;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const xm = (x - 1 + w) % w, xp = (x + 1) % w;
+      const ym = (y - 1 + h) % h, yp = (y + 1) % h;
+      const dx = (lum[y*w + xp] - lum[y*w + xm]) * s;
+      const dy = (lum[yp*w + x] - lum[ym*w + x]) * s;
+      const nx = -dx, ny = -dy, nz = 1.0;
+      const len = Math.hypot(nx, ny, nz);
+      const idx = (y * w + x) * 4;
+      oimg.data[idx  ] = Math.round((nx/len * 0.5 + 0.5) * 255);
+      oimg.data[idx+1] = Math.round((ny/len * 0.5 + 0.5) * 255);
+      oimg.data[idx+2] = Math.round((nz/len * 0.5 + 0.5) * 255);
+      oimg.data[idx+3] = 255;
+    }
+  }
+  octx.putImageData(oimg, 0, 0);
+  const t = new THREE.CanvasTexture(out);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+  return t;
+}
+
+// ---- Procedural HDR-ish equirectangular sky for PMREM ---------------------
+function rqSky() {
+  return rqTexCanvas(2048, 1024, (ctx, w, h) => {
+    const g = ctx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0.00, '#4579b0');
+    g.addColorStop(0.45, '#8fb4d6');
+    g.addColorStop(0.60, '#cdd8dc');
+    g.addColorStop(0.85, '#b89370');
+    g.addColorStop(1.00, '#3a2f28');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    // Sun disc + halo
+    const sx = w * 0.72, sy = h * 0.36;
+    const halo = ctx.createRadialGradient(sx, sy, 0, sx, sy, 220);
+    halo.addColorStop(0, 'rgba(255,240,200,0.95)');
+    halo.addColorStop(0.3, 'rgba(255,220,160,0.25)');
+    halo.addColorStop(1, 'rgba(255,220,160,0)');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(sx, sy, 220, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff7d8'; ctx.beginPath(); ctx.arc(sx, sy, 34, 0, Math.PI*2); ctx.fill();
+    // Cloud puffs
+    for (let i = 0; i < 20; i++) {
+      const cx = Math.random() * w, cy = h * (0.12 + Math.random() * 0.35);
+      const r = 60 + Math.random() * 180;
+      const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      cg.addColorStop(0, `rgba(255,255,255,${0.35 + Math.random()*0.3})`);
+      cg.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+    }
+  });
+}
+
+// ---- PBR material factory -------------------------------------------------
+function rqPBR(albedo, repeat, roughness, metalness, normalStrength, extra) {
+  const alb = albedo.clone(); alb.needsUpdate = true;
+  alb.wrapS = alb.wrapT = THREE.RepeatWrapping;
+  alb.repeat.set(repeat[0], repeat[1]);
+  const nrm = rqToNormal(albedo, normalStrength || 1.4);
+  nrm.repeat.set(repeat[0], repeat[1]);
+  const opts = Object.assign({
+    map: alb, normalMap: nrm,
+    normalScale: new THREE.Vector2(0.9, 0.9),
+    roughness: roughness, metalness: metalness,
+    envMap: rqEnvMap, envMapIntensity: 1.0
+  }, extra || {});
+  return new THREE.MeshStandardMaterial(opts);
+}
+
+function rqBuildPBRPool() {
+  if (rqPBRPool) return rqPBRPool;
+  // Build PMREM env map once
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  pmrem.compileEquirectangularShader();
+  const sky = rqSky(); sky.mapping = THREE.EquirectangularReflectionMapping;
+  rqEnvMap = pmrem.fromEquirectangular(sky).texture;
+  pmrem.dispose();
+  // Procedural textures
+  const woodJoist = rqWood(0);
+  const woodDoor  = rqWood(-8);
+  const woodStair = rqWood(-2);
+  const plank     = rqPlankFloor();
+  const stuccoExt = rqStucco('#e8e1d2');      // warm off-white SIP stucco
+  const stuccoWhite = rqStucco('#efefe9');
+  const drywall   = rqDrywall();
+  const conc      = rqConcrete();
+  const steel     = rqBrushedSteel();
+  const galv      = rqGalvanized();
+  const roof      = rqRoofing();
+  const fabric    = rqFabric();
+
+  rqPBRPool = {
+    pier:        rqPBR(galv,      [1, 2],   0.32, 0.85, 1.1),
+    steel:       rqPBR(steel,     [1, 0.3], 0.42, 0.88, 0.9),
+    joists:      rqPBR(woodJoist, [0.7, 0.2], 0.78, 0.0,  1.6),
+    floor:       rqPBR(plank,     [1.6, 0.8], 0.45, 0.05, 1.2),
+    rim:         rqPBR(woodStair, [2, 0.4], 0.72, 0.0,  1.4),
+    sip:         rqPBR(stuccoExt, [0.8, 0.6], 0.82, 0.0,  1.8),
+    parapet:     rqPBR(stuccoWhite,[1.2, 0.4], 0.72, 0.05, 1.4),
+    skirt:       rqPBR(steel,     [2, 0.5], 0.55, 0.6,  0.7),
+    roof:        rqPBR(roof,      [1, 0.7], 0.38, 0.75, 1.1),
+    interior:    rqPBR(drywall,   [0.9, 0.6], 0.88, 0.0, 0.7),
+    door:        rqPBR(woodDoor,  [0.5, 0.8], 0.38, 0.08, 1.3),
+    furnishings: rqPBR(fabric,    [1.2, 1.2], 0.78, 0.02, 1.1),
+    stair:       rqPBR(woodStair, [0.8, 0.5], 0.55, 0.02, 1.3),
+    compressor:  rqPBR(steel,     [1, 1],   0.48, 0.7,  0.8),
+    panel:       rqPBR(steel,     [1, 1],   0.45, 0.78, 0.9),
+    hrv:         rqPBR(galv,      [1, 1],   0.42, 0.8,  0.8),
+    ducts:       rqPBR(galv,      [0.6, 1], 0.42, 0.82, 0.7),
+    wiring:      rqPBR(steel,     [1, 1],   0.55, 0.5,  0.5),
+    supply:      rqPBR(steel,     [1, 1],   0.42, 0.5,  0.5),
+    waste:       rqPBR(steel,     [1, 1],   0.55, 0.2,  0.4),
+    well:        rqPBR(galv,      [1, 1],   0.48, 0.62, 0.8),
+    septic:      rqPBR(conc,      [0.8, 0.8], 0.92, 0.02, 1.4),
+  };
+  // Window gets special physical glass
+  rqPBRPool.window = new THREE.MeshPhysicalMaterial({
+    color: 0xbad7e6, metalness: 0.05, roughness: 0.04,
+    transmission: 0.92, thickness: 0.25, ior: 1.5,
+    transparent: true, opacity: 0.38,
+    envMap: rqEnvMap, envMapIntensity: 1.2,
+    clearcoat: 1.0, clearcoatRoughness: 0.02
+  });
+  // Attach castShadow/receiveShadow via material - no, that's per mesh
+  // Preserve shadow-friendly settings
+  Object.keys(rqPBRPool).forEach(k => {
+    const m = rqPBRPool[k];
+    m.side = THREE.FrontSide;
+    m.needsUpdate = true;
+  });
+  return rqPBRPool;
+}
+
+// ---- Lighting swap --------------------------------------------------------
+// rqLightingSnap is captured once at init time (the "true schematic" values)
+// so we can restore reliably even if blueprint mode has mucked with fog /
+// clearColor in the meantime. Idempotent: can be called any number of times.
+function rqSnapSchematic() {
+  if (rqLightingSnap) return;
+  rqLightingSnap = {
+    hemiColor:   hemi.color.getHex(),
+    hemiGround:  hemi.groundColor.getHex(),
+    hemiInt:     hemi.intensity,
+    sunColor:    sun.color.getHex(),
+    sunInt:      sun.intensity,
+    fillColor:   fill.color.getHex(),
+    fillInt:     fill.intensity,
+    toneMapping: renderer.toneMapping,
+    exposure:    renderer.toneMappingExposure,
+    clearColor:  BP_SKY,      // canonical schematic clear color
+    fogColor:    BP_SKY,
+    fogDensity:  0.0025,
+    gndColor:    gnd.material.color.getHex(),
+    gndRough:    gnd.material.roughness,
+    drvColor:    driveway.material.color.getHex()
+  };
+}
+function rqApplyRealisticEnv() {
+  hemi.color.setHex(0xcae0f5);
+  hemi.groundColor.setHex(0x6b5842);
+  hemi.intensity = 0.85;
+  sun.color.setHex(0xffe6bf);
+  sun.intensity = 3.0;
+  fill.color.setHex(0xdce8ff);
+  fill.intensity = 0.55;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+  renderer.setClearColor(0x9fc4e6);
+  gnd.material.color.setHex(0x5a6b4a);
+  gnd.material.roughness = 1.0;
+  driveway.material.color.setHex(0x5b5b58);
+  if (!scene.fog) scene.fog = new THREE.FogExp2(0xc2d6e4, 0.0012);
+  else { scene.fog.color.setHex(0xc2d6e4); scene.fog.density = 0.0012; }
+  scene.environment = rqEnvMap;
+}
+function rqApplySchematicEnv() {
+  if (!rqLightingSnap) return;
+  const s = rqLightingSnap;
+  hemi.color.setHex(s.hemiColor); hemi.groundColor.setHex(s.hemiGround); hemi.intensity = s.hemiInt;
+  sun.color.setHex(s.sunColor);   sun.intensity = s.sunInt;
+  fill.color.setHex(s.fillColor); fill.intensity = s.fillInt;
+  renderer.toneMapping = s.toneMapping;
+  renderer.toneMappingExposure = s.exposure;
+  renderer.setClearColor(s.clearColor);
+  gnd.material.color.setHex(s.gndColor); gnd.material.roughness = s.gndRough;
+  driveway.material.color.setHex(s.drvColor);
+  if (!scene.fog) scene.fog = new THREE.FogExp2(s.fogColor, s.fogDensity);
+  else { scene.fog.color.setHex(s.fogColor); scene.fog.density = s.fogDensity; }
+  scene.environment = null;
+}
+
+// ---- Edge-line visibility driven by quality -------------------------------
+// Blueprint outlines belong to the schematic aesthetic; in realistic mode we
+// hide them so textures read cleanly without painted borders.
+function rqApplyEdgeVisibility() {
+  const hideEdges = (renderQuality === 'realistic') && !blueprintMode;
+  scene.traverse(obj => {
+    if (obj.isLineSegments && obj.parent && obj.parent.isMesh) {
+      // Only touch edges that are children of tagged component meshes,
+      // not dimension strings or other standalone line geometry.
+      if (obj.parent.userData && obj.parent.userData.key) {
+        obj.visible = !hideEdges;
+      }
+    }
+  });
+}
+
+// ---- The master switch ----------------------------------------------------
+function setRenderQuality(mode) {
+  if (mode === renderQuality) return;
+  // Blueprint mode owns the materials while it's active — don't clobber its
+  // _bpStash cache. Update state + button UI but defer the swap.
+  if (blueprintMode) {
+    renderQuality = mode;
+    rqSyncButtons();
+    return;
+  }
+  rqApplyQuality(mode);
+  renderQuality = mode;
+  rqSyncButtons();
+}
+
+function rqApplyQuality(mode) {
+  const toReal = (mode === 'realistic');
+  rqSnapSchematic();                   // safe: idempotent, captures once
+  if (toReal) rqBuildPBRPool();
+  scene.traverse(obj => {
+    if (!obj.isMesh) return;
+    const k = obj.userData && obj.userData.key;
+    if (!k) return;
+    if (toReal) {
+      if (!obj.userData.diagMat) obj.userData.diagMat = obj.material;
+      // Fall back to the 'interior' (drywall) PBR if a key is missing from
+      // the pool so nothing renders stuck on its flat schematic colour.
+      const pbr = rqPBRPool[k] || rqPBRPool.interior;
+      if (pbr && obj.material !== pbr) obj.material = pbr;
+    } else {
+      if (obj.userData.diagMat && obj.material !== obj.userData.diagMat) {
+        obj.material = obj.userData.diagMat;
+      }
+    }
+  });
+  if (toReal) rqApplyRealisticEnv(); else rqApplySchematicEnv();
+  rqApplyEdgeVisibility();
+}
+
+function rqSyncButtons() {
+  const bS = document.getElementById('rq-schematic');
+  const bR = document.getElementById('rq-realistic');
+  const toReal = (renderQuality === 'realistic');
+  if (bS) {
+    bS.classList.toggle('rq-btn-active', !toReal);
+    bS.disabled = blueprintMode;
+    bS.style.opacity = blueprintMode ? 0.4 : '';
+    bS.style.cursor  = blueprintMode ? 'not-allowed' : '';
+  }
+  if (bR) {
+    bR.classList.toggle('rq-btn-active',  toReal);
+    bR.disabled = blueprintMode;
+    bR.style.opacity = blueprintMode ? 0.4 : '';
+    bR.style.cursor  = blueprintMode ? 'not-allowed' : '';
+  }
+}
+
+// Capture the canonical schematic lighting state NOW, before anything else
+// touches lights / tone mapping / fog / clear colour.  This gives the
+// schematic⇄realistic toggle a reliable restore point immune to blueprint
+// mode transitions.
+rqSnapSchematic();
+
 // Initialize default configuration: Single (1 unit, 1 story), 3D view active
 setConfiguration(false, false);
 {
@@ -4397,24 +6053,29 @@ setConfiguration(false, false);
 //  Hides every component, then stages them in real build order with a narrator
 //  badge. User can dismiss via the Skip button or the Escape key.
 // ═══════════════════════════════════════════════════════════════════════════════
+// Exterior walls + roof are placed LAST so the interior build-out is visible.
 const ASSEMBLY_SEQUENCE = [
+  // Foundation + structure
   { keys:['pier'],                label:'Helical Pier Foundation' },
   { keys:['steel'],               label:'Steel Chassis + Columns' },
   { keys:['joists'],              label:'I-Joist Floor Framing' },
   { keys:['floor'],               label:'Subfloor Deck' },
   { keys:['rim'],                 label:'Rim Board Belt Trim' },
+  // Interior build-out (visible before walls close in)
+  { keys:['interior'],            label:'Interior Partitions' },
+  { keys:['stair'],               label:'Stairs' },
+  { keys:['panel','wiring'],      label:'Electrical Panel + Rough-In' },
+  { keys:['supply','waste'],      label:'Water Supply + DWV' },
+  { keys:['hrv','ducts'],         label:'HRV + Duct Distribution' },
+  { keys:['furnishings'],         label:'Fixtures + Furnishings' },
+  // Exterior envelope — CLOSES IN the inside
   { keys:['sip'],                 label:'SIP Wall Panels' },
   { keys:['window','door'],       label:'Windows + Entry Door' },
   { keys:['roof'],                label:'Roof Deck + TPO Membrane' },
   { keys:['parapet'],             label:'Parapet + Coping' },
   { keys:['skirt'],               label:'Perimeter Skirting' },
-  { keys:['interior'],            label:'Interior Partitions' },
-  { keys:['furnishings'],         label:'Fixtures + Furnishings' },
-  { keys:['stair'],               label:'Stairs' },
+  // Site services — outside the building
   { keys:['compressor'],          label:'Mini-Split Compressor' },
-  { keys:['hrv','ducts'],         label:'HRV + Duct Distribution' },
-  { keys:['panel','wiring'],      label:'Electrical Panel + Rough-In' },
-  { keys:['supply','waste'],      label:'Water Supply + DWV' },
   { keys:['well','septic'],       label:'Well + Septic Site Services' },
 ];
 const ASSEMBLY_STEP_MS  = 280;    // time between layer reveals
@@ -4442,7 +6103,10 @@ function __assemblyKeyHandler(e) {
   }
 }
 
-(function runAssemblySequence() {
+let __assemblyStarted = false;
+function runAssemblySequence() {
+  if (__assemblyStarted) return;
+  __assemblyStarted = true;
   // Hide EVERY tagged key (not just COMP entries) — covers 'rim' too
   const allKeys = new Set(Object.keys(COMP));
   scene.traverse(o => { if (o.userData && o.userData.key) allKeys.add(o.userData.key); });
@@ -4492,7 +6156,928 @@ function __assemblyKeyHandler(e) {
     i++;
     __assemblyTimer = setTimeout(tick, ASSEMBLY_STEP_MS);
   }
+}
+// Hide all keyed meshes up-front so the scene starts "unbuilt" — the timeline
+// will only kick off once the user picks a configuration (see selectConfig).
+(function preStageAssembly() {
+  const allKeys = new Set(Object.keys(COMP));
+  scene.traverse(o => { if (o.userData && o.userData.key) allKeys.add(o.userData.key); });
+  allKeys.forEach(k => {
+    if (COMP[k]) setVisibility(k, false);
+    else scene.traverse(o => { if (o.userData && o.userData.key === k) o.visible = false; });
+  });
 })();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  UI V2 — Mockup integrations (HUD / legend / config picker / timeline / BOM)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/* ── Top toolbar state sync ─────────────────────────────────────────────── */
+function setTopTool(tool) {
+  // Model / Blueprint are mutually exclusive (drive blueprint mode)
+  if (tool === 'blueprint' && !blueprintMode) toggleBlueprint();
+  else if (tool === 'model' && blueprintMode) toggleBlueprint();
+  syncTopToolbar();
+}
+function syncTopToolbar() {
+  const tb = document.getElementById('toolbar-top'); if (!tb) return;
+  tb.querySelectorAll('.tool-pill').forEach(b => {
+    const t = b.getAttribute('data-tool');
+    b.classList.toggle('tool-active',
+      (t === 'model' && !blueprintMode) ||
+      (t === 'blueprint' && blueprintMode));
+  });
+}
+
+/* ── Scale bar + world-coords readout ───────────────────────────────────── */
+const HUD_SCALES = [
+  { worldFt:4,  px:56 }, { worldFt:8,  px:56 }, { worldFt:16, px:56 },
+  { worldFt:32, px:56 }, { worldFt:64, px:56 }
+];
+function updateHudScale() {
+  // Pick the scale that renders near the cam's current framing
+  const cam = activeCam;
+  const d = cam.position.distanceTo(orbit.target);
+  let ft = 4;
+  if (d >   6) ft = 4;
+  if (d >  12) ft = 8;
+  if (d >  22) ft = 16;
+  if (d >  42) ft = 32;
+  if (d >  80) ft = 64;
+  const el = document.getElementById('hud-scale-txt');
+  if (el) el.textContent = `0 — ${ft}′`;
+}
+function updateHudCoords() {
+  // Show the orbit target (focus point) in world units
+  const t = (blueprintMode ? orthoOrbit.target : orbit.target);
+  const x = document.getElementById('hud-x');
+  const y = document.getElementById('hud-y');
+  const z = document.getElementById('hud-z');
+  if (x) x.textContent = t.x.toFixed(2);
+  if (y) y.textContent = t.y.toFixed(2);
+  if (z) z.textContent = t.z.toFixed(2);
+}
+
+/* ── Orientation gizmo ──────────────────────────────────────────────────── */
+function buildOrientationGizmo() {
+  const host = document.getElementById('hud-gizmo');
+  if (!host) return;
+  host.innerHTML = `
+<svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="0" cy="0" r="42" fill="none" stroke="rgba(125,211,252,.18)" stroke-width="0.6"/>
+  <circle cx="0" cy="0" r="32" fill="none" stroke="rgba(125,211,252,.3)"  stroke-width="0.5"/>
+  <g id="gizmo-rose">
+    <line x1="0" y1="-38" x2="0" y2="38" stroke="rgba(224,242,254,.35)" stroke-width="0.5"/>
+    <line x1="-38" y1="0" x2="38" y2="0" stroke="rgba(224,242,254,.35)" stroke-width="0.5"/>
+    <polygon points="0,-42 -5,-30 5,-30" fill="#fbbf24"/>
+    <polygon points="0,42  -5, 30 5, 30" fill="rgba(56,189,248,.6)"/>
+    <polygon points="42,0  30,-5 30,5"   fill="rgba(56,189,248,.6)"/>
+    <polygon points="-42,0 -30,-5 -30,5" fill="rgba(56,189,248,.6)"/>
+    <text x="0"   y="-44" text-anchor="middle" font-size="8" font-family="Space Mono, monospace" fill="#fbbf24" font-weight="700">N</text>
+    <text x="46"  y="3"   text-anchor="middle" font-size="8" font-family="Space Mono, monospace" fill="#7dd3fc">E</text>
+    <text x="0"   y="50"  text-anchor="middle" font-size="8" font-family="Space Mono, monospace" fill="#7dd3fc">S</text>
+    <text x="-46" y="3"   text-anchor="middle" font-size="8" font-family="Space Mono, monospace" fill="#7dd3fc">W</text>
+    <circle cx="0" cy="0" r="2.2" fill="#fbbf24"/>
+  </g>
+</svg>`;
+}
+function updateOrientationGizmo() {
+  const rose = document.getElementById('gizmo-rose');
+  if (!rose) return;
+  const cam = activeCam;
+  const dx = cam.position.x - orbit.target.x;
+  const dz = cam.position.z - orbit.target.z;
+  // Camera azimuth: rotate gizmo so N points toward -Z
+  const yaw = Math.atan2(dx, dz) * 180 / Math.PI;  // degrees
+  rose.setAttribute('transform', `rotate(${yaw.toFixed(1)})`);
+}
+
+/* ── Categorized legend (Mockup 09) ─────────────────────────────────────── */
+const LEGEND_CATS = [
+  { id:'structural', label:'Structural', disc:'S',
+    keys:['pier','steel','joists','floor','rim'] },
+  { id:'envelope',   label:'Envelope',   disc:'A',
+    keys:['sip','window','door','roof','parapet','skirt'] },
+  { id:'interior',   label:'Interior',   disc:'A',
+    keys:['interior','furnishings','stair'] },
+  { id:'mep',        label:'Mechanical · Electrical · Plumbing', disc:'M',
+    keys:['compressor','hrv','ducts','panel','wiring','supply','waste','well','septic'] }
+];
+let legendSearchQuery = '';
+let legendActiveDiscs = new Set(['S','A','M','E','P']);
+let legendCollapsed = new Set();
+
+function rebuildLegendV2() {
+  // Replace the contents of #legend-list with the categorized version.
+  const host = document.getElementById('legend-list');
+  if (!host) return;
+  // Preserve existing row builder: reuse legend-row children for each key.
+  // We rewrite the container but keep the row-building approach in renderLegendChip.
+  host.innerHTML = `
+    <div id="legend-search-wrap"><input id="legend-search" type="text" placeholder="Search components…" autocomplete="off"/></div>
+    <div id="legend-cats"></div>
+  `;
+  const catsHost = document.getElementById('legend-cats');
+  LEGEND_CATS.forEach(cat => {
+    const sec = document.createElement('div');
+    sec.className = 'legend-cat';
+    sec.dataset.cat = cat.id;
+    if (legendCollapsed.has(cat.id)) sec.classList.add('collapsed');
+    sec.innerHTML = `
+      <div class="legend-cat-head" onclick="toggleLegendCat('${cat.id}')">
+        <span class="legend-cat-caret">▾</span>
+        <span>${cat.label}</span>
+        <span class="legend-cat-count" data-count></span>
+        <button type="button" class="legend-cat-toggle" onclick="event.stopPropagation();bulkLegendCat('${cat.id}', true)" title="Show all in category">SHOW</button>
+        <button type="button" class="legend-cat-toggle" onclick="event.stopPropagation();bulkLegendCat('${cat.id}', false)" title="Hide all in category">HIDE</button>
+      </div>
+      <div class="legend-cat-body" data-body></div>
+    `;
+    catsHost.appendChild(sec);
+    const body = sec.querySelector('[data-body]');
+    cat.keys.forEach(k => {
+      if (!COMP[k]) return;
+      const row = buildLegendRow(k);
+      if (row) body.appendChild(row);
+    });
+  });
+  // Re-wire search
+  const input = document.getElementById('legend-search');
+  if (input) {
+    input.addEventListener('input', e => {
+      legendSearchQuery = (e.target.value || '').toLowerCase().trim();
+      applyLegendFilters();
+    });
+  }
+  applyLegendFilters();
+}
+
+function buildLegendRow(key) {
+  const c = COMP[key]; if (!c) return null;
+  const kn = String((LEGEND_KEYNOTES[key] || 0)).padStart(2, '0');
+  const div = document.createElement('div');
+  div.className = 'li';
+  div.dataset.k = key;
+  div.dataset.key = key;  // shim for applyLegendFilters
+  div.style.setProperty('--swatch', c.css);
+  div.title = `KEYNOTE ${kn} — ${c.label} — click to toggle visibility`;
+  div.innerHTML =
+    `<button type="button" class="li-info" aria-label="Show details" title="Show details">i</button>` +
+    `<span class="li-swatch" data-num="${kn}"></span>` +
+    `<span class="li-label">${c.short || c.label}</span>`;
+  // Primary click → toggle visibility
+  div.addEventListener('click', () => {
+    if (typeof visibility !== 'undefined') setVisibility(key, !visibility[key]);
+  });
+  div.querySelector('.li-info').addEventListener('click', (e) => {
+    e.stopPropagation();
+    pick(key);
+    try { renderInspectorSpecs(key); renderInspectorCost(key); } catch(ex) {}
+  });
+  return div;
+}
+// Fixed keynote numbers for the categorized legend (matches original ordering)
+const LEGEND_KEYNOTES = (() => {
+  const map = {}; let n = 0;
+  LEGEND_CATS.forEach(cat => cat.keys.forEach(k => { if (COMP[k]) map[k] = ++n; }));
+  return map;
+})();
+
+function toggleLegendCat(id) {
+  if (legendCollapsed.has(id)) legendCollapsed.delete(id);
+  else legendCollapsed.add(id);
+  const sec = document.querySelector(`.legend-cat[data-cat="${id}"]`);
+  if (sec) sec.classList.toggle('collapsed');
+}
+function bulkLegendCat(id, show) {
+  const cat = LEGEND_CATS.find(c => c.id === id);
+  if (!cat) return;
+  cat.keys.forEach(k => {
+    if (!COMP[k]) return;
+    setVisibility(k, show);
+    const row = document.querySelector(`.chip[data-key="${k}"] .chip-tog`);
+    if (row) row.checked = show;
+  });
+}
+function toggleLegendDisc(disc) {
+  if (legendActiveDiscs.has(disc)) legendActiveDiscs.delete(disc);
+  else legendActiveDiscs.add(disc);
+  const chip = document.querySelector(`.legend-chip[data-disc="${disc}"]`);
+  if (chip) chip.classList.toggle('legend-chip-on');
+  applyLegendFilters();
+}
+function applyLegendFilters() {
+  LEGEND_CATS.forEach(cat => {
+    let shown = 0;
+    cat.keys.forEach(k => {
+      // Rows are built with class .li + data-key (see buildLegendRow)
+      const row = document.querySelector(`.li[data-key="${k}"]`);
+      if (!row || !COMP[k]) return;
+      const discOk = legendActiveDiscs.has(cat.disc);
+      const q = legendSearchQuery;
+      const hay = `${COMP[k].label} ${COMP[k].short||''} ${k}`.toLowerCase();
+      const matches = !q || hay.includes(q);
+      const show = discOk && matches;
+      row.style.display = show ? '' : 'none';
+      if (show) shown++;
+      row.classList.toggle('legend-row-match', !!(q && matches));
+    });
+    const sec = document.querySelector(`.legend-cat[data-cat="${cat.id}"]`);
+    if (sec) {
+      const count = sec.querySelector('[data-count]');
+      if (count) count.textContent = shown + '/' + cat.keys.length;
+      // Only hide the section body if nothing matches — keep the header visible so users can un-collapse
+      const body = sec.querySelector('[data-body]');
+      if (body) body.style.display = shown ? '' : 'none';
+      sec.style.display = '';
+    }
+  });
+}
+
+/* ── Configuration picker overlay (Mockup 06) ───────────────────────────── */
+const CFG_META = {
+  single:   { num:'01', name:'Single',   sf:504,   bed:1, bath:1, price:'$128k', desc:'Original 42′ × 12′ single-story module — the baseline Axis unit.' },
+  stacked:  { num:'02', name:'Stacked',  sf:1000,  bed:2, bath:2, price:'$218k', desc:'Two single modules stacked — interior stair, shared mechanical.' },
+  bungalow: { num:'03', name:'Bungalow', sf:1008,  bed:2, bath:2, price:'$212k', desc:'Two singles side-by-side with connecting roof — wide-footprint plan.' },
+  duplex:   { num:'04', name:'Duplex',   sf:2016,  bed:4, bath:3, price:'$396k', desc:'Two bungalows joined — rental-ready two-unit configuration.' },
+  ushape:   { num:'05', name:'U-Shape',  sf:1512,  bed:2, bath:2, price:'$298k', desc:'Three modules in a U around a sheltered courtyard.' },
+};
+const CFG_ORDER = ['single','stacked','bungalow','duplex','ushape'];
+// Real module geometry per configuration — plan coordinates in feet.
+// Module = 42' long × 12' deep × 10' tall.  {x, z, w, d, h, f} — f is floor elev.
+const CFG_GEOMETRY = {
+  single:   [{x:0,  z:0,  w:42, d:12, h:10, f:0}],
+  stacked:  [
+    {x:0,  z:0,  w:42, d:12, h:10, f:0},
+    {x:0,  z:0,  w:42, d:12, h:10, f:10},
+  ],
+  bungalow: [
+    {x:0,  z:0,  w:42, d:12, h:10, f:0},
+    {x:0,  z:12, w:42, d:12, h:10, f:0},
+  ],
+  // Duplex = bungalow stacked — 42×24 footprint, 2 stories, 4 modules = 2016 sf
+  duplex:   [
+    {x:0,  z:0,  w:42, d:12, h:10, f:0},
+    {x:0,  z:12, w:42, d:12, h:10, f:0},
+    {x:0,  z:0,  w:42, d:12, h:10, f:10},
+    {x:0,  z:12, w:42, d:12, h:10, f:10},
+  ],
+  // U opens toward viewer — back bar at z=0 (far), two wings extend forward along +z
+  ushape:   [
+    {x:0,  z:0,  w:42, d:12, h:10, f:0}, // back bar
+    {x:0,  z:12, w:12, d:42, h:10, f:0}, // left wing extends forward
+    {x:30, z:12, w:12, d:42, h:10, f:0}, // right wing extends forward
+  ],
+};
+
+// Isometric SVG builder — painter's algorithm with configurable viewBox fit.
+function buildConfigSvg(cfgKey) {
+  const geom = CFG_GEOMETRY[cfgKey];
+  if (!geom || !geom.length) return '';
+  const SX=0.866, SY=0.5;
+  const iso = (x,y,z) => [SX*(x-z), SY*(x+z)-y];
+  // Bounds over all 8 corners of every box
+  let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
+  geom.forEach(b => {
+    const fl = b.f || 0;
+    for (let ix=0; ix<2; ix++)
+      for (let iz=0; iz<2; iz++)
+        for (let iy=0; iy<2; iy++) {
+          const p = iso(b.x + ix*b.w, fl + iy*b.h, b.z + iz*b.d);
+          if (p[0]<minX) minX=p[0]; if (p[0]>maxX) maxX=p[0];
+          if (p[1]<minY) minY=p[1]; if (p[1]>maxY) maxY=p[1];
+        }
+  });
+  const pad = 10;
+  const bw = maxX-minX || 1, bh = maxY-minY || 1;
+  const scale = Math.min((200-2*pad)/bw, (120-2*pad)/bh);
+  const ox = 100 - scale*(minX+maxX)/2;
+  const oy = 60  - scale*(minY+maxY)/2;
+  // Don't draw the top face of a box that has another box sitting on it
+  const hasBoxAbove = (b) => geom.some(o =>
+    o !== b && o.x === b.x && o.z === b.z && o.w === b.w && o.d === b.d &&
+    (o.f||0) === (b.f||0) + b.h
+  );
+  // Visible front face is at z = b.z + b.d (camera at +z).  Does another box abut it?
+  const hasFrontNeighbor = (b) => geom.some(o => {
+    if (o === b) return false;
+    const oFl = o.f || 0, bFl = b.f || 0;
+    const floorOK = oFl < bFl + b.h && oFl + o.h > bFl;
+    const xOK = o.x < b.x + b.w && o.x + o.w > b.x;
+    return floorOK && xOK && o.z === b.z + b.d;
+  });
+  // Does another box abut this box's right face (x = b.x+b.w)?
+  const hasRightNeighbor = (b) => geom.some(o => {
+    if (o === b) return false;
+    const oFl = o.f || 0, bFl = b.f || 0;
+    const floorOK = oFl < bFl + b.h && oFl + o.h > bFl;
+    const zOK = o.z < b.z + b.d && o.z + o.d > b.z;
+    return floorOK && zOK && o.x === b.x + b.w;
+  });
+  // Painter sort — far first (small x+z, then lower floor)
+  const sorted = geom.slice().sort((A,B) =>
+    (A.x+A.z) - (B.x+B.z) || ((A.f||0) - (B.f||0))
+  );
+  const TOP='rgba(125,211,252,.3)', FRONT='rgba(30,58,95,.55)', RIGHT='rgba(30,58,95,.7)';
+  const ROOF_LINE='rgba(125,211,252,.55)';
+  const S='#7dd3fc';
+  const WIN='rgba(186,230,253,.55)', DOOR='rgba(251,191,36,.75)';
+  let paths = '';
+  let doorPlaced = false;
+  const pt = (p) => p[0].toFixed(2)+','+p[1].toFixed(2);
+  sorted.forEach(b => {
+    const fl = b.f || 0;
+    const X=b.x, Z=b.z, W=b.w, D=b.d, H=b.h;
+    const btm = { a:iso(X,fl,Z),     b:iso(X+W,fl,Z),   c:iso(X+W,fl,Z+D),   d:iso(X,fl,Z+D) };
+    const top = { a:iso(X,fl+H,Z),   b:iso(X+W,fl+H,Z), c:iso(X+W,fl+H,Z+D), d:iso(X,fl+H,Z+D) };
+    const drawTop = !hasBoxAbove(b);
+    if (drawTop) {
+      paths += '<path d="M'+pt(top.a)+' L'+pt(top.b)+' L'+pt(top.c)+' L'+pt(top.d)+' Z" fill="'+TOP+'" stroke="'+S+'" stroke-width="1"/>';
+      // Roof center-line ridge (along long axis) for visual reference
+      if (W >= D) {
+        const r1 = iso(X, fl+H, Z+D/2), r2 = iso(X+W, fl+H, Z+D/2);
+        paths += '<line x1="'+pt(r1).replace(',',' " y1="')+'" x2="'+pt(r2).replace(',',' " y2="')+'" stroke="'+ROOF_LINE+'" stroke-width=".4" stroke-dasharray="2 1.5"/>';
+      } else {
+        const r1 = iso(X+W/2, fl+H, Z), r2 = iso(X+W/2, fl+H, Z+D);
+        paths += '<line x1="'+pt(r1).replace(',',' " y1="')+'" x2="'+pt(r2).replace(',',' " y2="')+'" stroke="'+ROOF_LINE+'" stroke-width=".4" stroke-dasharray="2 1.5"/>';
+      }
+    }
+    // Front face (z = Z+D, near viewer — camera is at +z direction)
+    const showFront = !hasFrontNeighbor(b);
+    if (showFront) {
+      paths += '<path d="M'+pt(btm.d)+' L'+pt(btm.c)+' L'+pt(top.c)+' L'+pt(top.d)+' Z" fill="'+FRONT+'" stroke="'+S+'" stroke-width="1"/>';
+      // Punch a few windows along the front face (only for long front faces — W >= 24)
+      if (W >= 24) {
+        const wCount = Math.min(3, Math.max(2, Math.floor(W/14)));
+        for (let i=0; i<wCount; i++) {
+          const cx = X + W * ((i+1)/(wCount+1));
+          const wW = 4, wH = 3.5;
+          const wy0 = fl + H*0.35, wy1 = wy0 + wH;
+          const p1 = iso(cx - wW/2, wy0, Z+D), p2 = iso(cx + wW/2, wy0, Z+D);
+          const p3 = iso(cx + wW/2, wy1, Z+D), p4 = iso(cx - wW/2, wy1, Z+D);
+          paths += '<path d="M'+pt(p1)+' L'+pt(p2)+' L'+pt(p3)+' L'+pt(p4)+' Z" fill="'+WIN+'" stroke="'+S+'" stroke-width=".4"/>';
+        }
+      }
+      // Entry door — one per config, on the first ground-floor module whose front is visible
+      if (!doorPlaced && fl === 0 && W >= 12) {
+        const dW = 3, dH = 5.5, dx = X + W*0.2;
+        const p1 = iso(dx, 0, Z+D), p2 = iso(dx+dW, 0, Z+D);
+        const p3 = iso(dx+dW, dH, Z+D), p4 = iso(dx, dH, Z+D);
+        paths += '<path d="M'+pt(p1)+' L'+pt(p2)+' L'+pt(p3)+' L'+pt(p4)+' Z" fill="'+DOOR+'" stroke="'+S+'" stroke-width=".4"/>';
+        doorPlaced = true;
+      }
+    }
+    // Right face (x = X+W, rightmost)
+    const showRight = !hasRightNeighbor(b);
+    if (showRight) {
+      paths += '<path d="M'+pt(btm.b)+' L'+pt(btm.c)+' L'+pt(top.c)+' L'+pt(top.b)+' Z" fill="'+RIGHT+'" stroke="'+S+'" stroke-width="1"/>';
+      // Small window on the right face if the face is wide enough (D >= 20, long skinny module laid sideways)
+      if (D >= 20) {
+        const cz = Z + D*0.5;
+        const wW = 4, wH = 3.5;
+        const wy0 = fl + H*0.35, wy1 = wy0 + wH;
+        const p1 = iso(X+W, wy0, cz-wW/2), p2 = iso(X+W, wy0, cz+wW/2);
+        const p3 = iso(X+W, wy1, cz+wW/2), p4 = iso(X+W, wy1, cz-wW/2);
+        paths += '<path d="M'+pt(p1)+' L'+pt(p2)+' L'+pt(p3)+' L'+pt(p4)+' Z" fill="'+WIN+'" stroke="'+S+'" stroke-width=".4"/>';
+      }
+    }
+  });
+  return '<svg viewBox="0 0 200 120"><g transform="translate('+ox.toFixed(2)+','+oy.toFixed(2)+') scale('+scale.toFixed(3)+')" stroke-linejoin="miter">'+paths+'</g></svg>';
+}
+
+// Legacy CFG_SVG map — lazily computed from geometry
+const CFG_SVG = new Proxy({}, { get: (_,k) => buildConfigSvg(k) });
+function openConfigPicker() {
+  buildConfigPickerGrid();
+  const el = document.getElementById('cfg-picker');
+  if (el) el.classList.add('open');
+}
+function closeConfigPicker() {
+  const el = document.getElementById('cfg-picker');
+  if (el) el.classList.remove('open');
+}
+function buildConfigPickerGrid() {
+  const host = document.getElementById('cfg-picker-grid');
+  if (!host) return;
+  const sel = document.getElementById('cfg-select');
+  const current = sel ? sel.value : 'single';
+  host.innerHTML = '';
+  CFG_ORDER.forEach(k => {
+    const m = CFG_META[k];
+    const svg = CFG_SVG[k] || '';
+    const card = document.createElement('div');
+    card.className = 'cfg-card' + (k === current ? ' cfg-card-on' : '');
+    card.innerHTML = `
+      <div class="cfg-card-thumb">
+        ${svg}
+        <span class="cfg-card-badge">✓ SELECTED</span>
+      </div>
+      <div class="cfg-card-body">
+        <div class="cfg-card-num">${m.num} · ${k.toUpperCase()}</div>
+        <div class="cfg-card-name">${m.name}</div>
+        <div class="cfg-card-desc">${m.desc}</div>
+        <div class="cfg-card-specs">
+          <span>SF</span><b>${m.sf.toLocaleString()}</b>
+          <span>BEDS</span><b>${m.bed}</b>
+          <span>BATHS</span><b>${m.bath}</b>
+          <span>CHASSIS</span><b>${k === 'stacked' ? '1 × 2' : (k === 'duplex' ? '2 × 2' : (k === 'ushape' ? '3' : (k === 'bungalow' ? '2' : '1')))}</b>
+        </div>
+        <div class="cfg-card-price">
+          <span class="cfg-card-price-lbl">Turnkey from</span>
+          <span class="cfg-card-price-val">${m.price}</span>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      if (typeof cfgSelectChange === 'function') cfgSelectChange(k);
+      if (sel) sel.value = k;
+      document.querySelectorAll('.cfg-card').forEach(c => c.classList.remove('cfg-card-on'));
+      card.classList.add('cfg-card-on');
+      setTimeout(() => {
+        closeConfigPicker();
+        // Start the assembly build-in timeline once the user picks a config
+        if (typeof runAssemblySequence === 'function') runAssemblySequence();
+      }, 160);
+    });
+    host.appendChild(card);
+  });
+}
+
+/* ── Blueprint title-block overlay (Mockup 02) ──────────────────────────── */
+function syncBlueprintTitleBlock() {
+  const tb = document.getElementById('bp-title-block');
+  if (!tb) return;
+  if (!blueprintMode) { tb.setAttribute('aria-hidden', 'true'); return; }
+  tb.setAttribute('aria-hidden', 'false');
+  let sheet = 'SHEET', title = '—';
+  // Pull the active sheet label from the existing blueprint sheet list
+  const active = document.querySelector('.bp-sheet.bp-sheet-active') ||
+                 document.querySelector('.bp-sheet.active');
+  if (active) {
+    const n = active.querySelector('.bp-sheet-num');
+    const t = active.querySelector('.bp-sheet-title');
+    sheet = n ? n.textContent.trim() : sheet;
+    title = t ? t.textContent.trim() : title;
+  }
+  const sel = document.getElementById('cfg-select');
+  const cfg = sel ? sel.value : 'single';
+  const cfgMeta = CFG_META[cfg] || CFG_META.single;
+  tb.innerHTML = `
+    <div class="bp-tb-cell bp-tb-big">
+      <div class="bp-tb-lbl">Project</div>
+      <b>${PROJ_NAME}</b>
+      <div class="bp-tb-sub">${cfgMeta.name} · ${cfgMeta.sf.toLocaleString()} SF · ${cfgMeta.bed} BR / ${cfgMeta.bath} BA</div>
+    </div>
+    <div class="bp-tb-cell">
+      <div class="bp-tb-lbl">Sheet</div>
+      <b>${sheet}</b>
+    </div>
+    <div class="bp-tb-cell">
+      <div class="bp-tb-lbl">Project No.</div>
+      <b>${PROJ_NO}</b>
+    </div>
+    <div class="bp-tb-cell">
+      <div class="bp-tb-lbl">Title</div>
+      <b style="font-size:7.5px;">${(title || '').slice(0,32)}</b>
+    </div>
+    <div class="bp-tb-cell">
+      <div class="bp-tb-lbl">Date · Rev</div>
+      <b>${ISSUE_DATE.replace(/^20/, '')} · 1</b>
+    </div>
+    <div class="bp-tb-cell">
+      <div class="bp-tb-lbl">Issue</div>
+      <b class="bp-tb-stamp">${ISSUE_TAG}</b>
+    </div>
+  `;
+}
+
+/* ── Assembly sequence timeline (Mockup 08) ─────────────────────────────── */
+let TL_STATE = { idx:0, playing:false, timer:null };
+const TL_STEP_MS = 1000;
+function buildTimeline() {
+  const scr = document.getElementById('tl-scrubber'); if (!scr) return;
+  scr.innerHTML = '';
+  ASSEMBLY_SEQUENCE.forEach((s, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'tl-dot';
+    dot.setAttribute('aria-label', `Step ${i+1}: ${s.label}`);
+    dot.title = `${String(i+1).padStart(2,'0')} — ${s.label}`;
+    dot.addEventListener('click', () => jumpTimeline(i));
+    scr.appendChild(dot);
+  });
+  updateTimelineDots();
+  updateTimelineReadout();
+}
+function showTimeline(show) {
+  const el = document.getElementById('assembly-timeline');
+  if (!el) return;
+  el.classList.toggle('visible', !!show);
+}
+function updateTimelineDots() {
+  const dots = document.querySelectorAll('#tl-scrubber .tl-dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('tl-dot-done',    i <  TL_STATE.idx);
+    d.classList.toggle('tl-dot-current', i === TL_STATE.idx);
+  });
+}
+function updateTimelineReadout() {
+  const total = ASSEMBLY_SEQUENCE.length;
+  const i = TL_STATE.idx;
+  const step = ASSEMBLY_SEQUENCE[i] || { label:'Ready' };
+  const numEl = document.getElementById('tl-step-num');
+  const lblEl = document.getElementById('tl-step-label');
+  if (numEl) numEl.textContent = `STEP ${String(Math.max(0,i)+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  if (lblEl) lblEl.textContent = step.label;
+  const play = document.getElementById('tl-play');
+  if (play) play.textContent = TL_STATE.playing ? '❚❚' : '▶';
+}
+function applyTimelineState() {
+  // Reveal everything up to and including the current step; hide the rest.
+  const allKeys = new Set(Object.keys(COMP));
+  scene.traverse(o => { if (o.userData && o.userData.key) allKeys.add(o.userData.key); });
+  allKeys.forEach(k => {
+    if (COMP[k]) setVisibility(k, false);
+    else scene.traverse(o => { if (o.userData && o.userData.key === k) o.visible = false; });
+  });
+  for (let j = 0; j <= TL_STATE.idx; j++) {
+    const s = ASSEMBLY_SEQUENCE[j]; if (!s) break;
+    s.keys.forEach(k => {
+      if (COMP[k]) setVisibility(k, true);
+      else scene.traverse(o => { if (o.userData && o.userData.key === k) o.visible = true; });
+    });
+  }
+  updateTimelineDots();
+  updateTimelineReadout();
+}
+function jumpTimeline(i) {
+  TL_STATE.idx = Math.max(0, Math.min(ASSEMBLY_SEQUENCE.length - 1, i));
+  applyTimelineState();
+}
+function toggleTimelinePlay() {
+  TL_STATE.playing = !TL_STATE.playing;
+  if (TL_STATE.playing) {
+    if (TL_STATE.idx >= ASSEMBLY_SEQUENCE.length - 1) TL_STATE.idx = -1;
+    tickTimeline();
+  } else if (TL_STATE.timer) {
+    clearTimeout(TL_STATE.timer); TL_STATE.timer = null;
+  }
+  updateTimelineReadout();
+}
+function tickTimeline() {
+  if (!TL_STATE.playing) return;
+  TL_STATE.idx++;
+  if (TL_STATE.idx >= ASSEMBLY_SEQUENCE.length) {
+    TL_STATE.idx = ASSEMBLY_SEQUENCE.length - 1;
+    TL_STATE.playing = false;
+    applyTimelineState();
+    return;
+  }
+  applyTimelineState();
+  TL_STATE.timer = setTimeout(tickTimeline, TL_STEP_MS);
+}
+function replayAssembly() {
+  showTimeline(true);
+  TL_STATE.idx = 0;
+  TL_STATE.playing = true;
+  applyTimelineState();
+  if (TL_STATE.timer) clearTimeout(TL_STATE.timer);
+  TL_STATE.timer = setTimeout(tickTimeline, TL_STEP_MS);
+}
+
+/* ── Spec sheet + BOM panel (Mockup 10) ─────────────────────────────────── */
+const BOM_PRICES = {
+  pier:        { qty:9,  unit:'ea',  unitCost:600,   cat:'struct'  },
+  steel:       { qty:1,  unit:'lot', unitCost:9800,  cat:'struct'  },
+  joists:      { qty:26, unit:'ea',  unitCost:145,   cat:'struct'  },
+  floor:       { qty:504,unit:'SF',  unitCost:4.20,  cat:'struct'  },
+  sip:         { qty:18, unit:'pnl', unitCost:1180,  cat:'envelope'},
+  window:      { qty:7,  unit:'ea',  unitCost:1350,  cat:'envelope'},
+  door:        { qty:1,  unit:'ea',  unitCost:2800,  cat:'envelope'},
+  roof:        { qty:504,unit:'SF',  unitCost:7.60,  cat:'envelope'},
+  parapet:     { qty:108,unit:'LF',  unitCost:22,    cat:'envelope'},
+  skirt:       { qty:108,unit:'LF',  unitCost:18,    cat:'envelope'},
+  interior:    { qty:1,  unit:'lot', unitCost:12500, cat:'interior'},
+  furnishings: { qty:1,  unit:'lot', unitCost:8400,  cat:'interior'},
+  compressor:  { qty:1,  unit:'ea',  unitCost:4600,  cat:'mep'     },
+  hrv:         { qty:1,  unit:'ea',  unitCost:3100,  cat:'mep'     },
+  panel:       { qty:1,  unit:'ea',  unitCost:1850,  cat:'mep'     },
+  supply:      { qty:1,  unit:'lot', unitCost:2600,  cat:'mep'     },
+  waste:       { qty:1,  unit:'lot', unitCost:2100,  cat:'mep'     },
+  well:        { qty:1,  unit:'ea',  unitCost:7800,  cat:'site'    },
+  septic:      { qty:1,  unit:'ea',  unitCost:9400,  cat:'site'    },
+};
+const BOM_CAT_META = {
+  struct:   { label:'Foundation + Structure', css:'#7dd3fc' },
+  envelope: { label:'Envelope',               css:'#fbbf24' },
+  interior: { label:'Interior + Finishes',    css:'#a78bfa' },
+  mep:      { label:'Mechanical · Electrical · Plumbing', css:'#34d399' },
+  site:     { label:'Site Services',          css:'#fb7185' },
+};
+function toggleSpecPanel(forceOpen) {
+  const el = document.getElementById('spec-panel'); if (!el) return;
+  const open = forceOpen === undefined ? !el.classList.contains('open') : !!forceOpen;
+  if (open) renderSpecPanel();
+  el.classList.toggle('open', open);
+}
+function renderSpecPanel() {
+  const host = document.getElementById('sp-body'); if (!host) return;
+  const sel = document.getElementById('cfg-select');
+  const cfg = sel ? sel.value : 'single';
+  const meta = CFG_META[cfg] || CFG_META.single;
+  const mult = (meta.sf / 504);  // scale BOM by square footage vs. single module
+  let rows = '';
+  const catTotals = {};
+  let grand = 0;
+  Object.entries(BOM_PRICES).forEach(([k, p]) => {
+    const c = COMP[k]; if (!c) return;
+    const qty = Math.round(p.qty * mult);
+    const cost = Math.round(p.unitCost * (p.qty * mult));
+    catTotals[p.cat] = (catTotals[p.cat] || 0) + cost;
+    grand += cost;
+    rows += `<tr>
+      <td>${k.toUpperCase()}</td>
+      <td>${c.short || c.label}</td>
+      <td class="sp-num">${qty}</td>
+      <td>${p.unit}</td>
+      <td class="sp-num">$${cost.toLocaleString()}</td>
+    </tr>`;
+  });
+  const catList = Object.entries(catTotals).sort((a,b) => b[1] - a[1]);
+  const barParts = catList.map(([c, v]) =>
+    `<span style="background:${BOM_CAT_META[c].css};width:${(v/grand*100).toFixed(1)}%;" title="${BOM_CAT_META[c].label}"></span>`
+  ).join('');
+  const costRows = catList.map(([c, v]) =>
+    `<div class="sp-cost-row">
+      <span><span class="sp-cost-sw" style="background:${BOM_CAT_META[c].css};"></span>${BOM_CAT_META[c].label}</span>
+      <span>$${v.toLocaleString()}</span>
+    </div>`
+  ).join('');
+  const eb = document.getElementById('sp-eyebrow');
+  const tt = document.getElementById('sp-title');
+  if (eb) eb.textContent = `${meta.name} · ${meta.num}`;
+  if (tt) tt.textContent = 'Spec Sheet · BOM';
+  host.innerHTML = `
+    <div class="sp-kpis">
+      <div class="sp-kpi"><div class="sp-kpi-v">${meta.sf.toLocaleString()}</div><div class="sp-kpi-l">SF</div></div>
+      <div class="sp-kpi"><div class="sp-kpi-v">R-35</div><div class="sp-kpi-l">SIP R-VAL</div></div>
+      <div class="sp-kpi"><div class="sp-kpi-v">0.6</div><div class="sp-kpi-l">ACH@50PA</div></div>
+      <div class="sp-kpi"><div class="sp-kpi-v">${Math.round(9 + (mult-1)*4)}d</div><div class="sp-kpi-l">BUILD</div></div>
+      <div class="sp-kpi"><div class="sp-kpi-v">$${Math.round(grand/1000)}k</div><div class="sp-kpi-l">TURNKEY</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-hd">Bill of Materials</div>
+      <table class="sp-table">
+        <thead><tr><th>KEY</th><th>COMPONENT</th><th class="sp-num">QTY</th><th>UNIT</th><th class="sp-num">COST</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-hd">Cost Breakdown</div>
+      <div class="sp-cost-bar">${barParts}</div>
+      ${costRows}
+      <div class="sp-cost-row"><span>TOTAL</span><span>$${grand.toLocaleString()}</span></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-hd">Envelope Performance</div>
+      <dl class="info-specs" style="padding:0;">
+        <dt>Wall R-value</dt><dd>R-35 (6.5″ SIP, EPS core)</dd>
+        <dt>Roof R-value</dt><dd>R-48 (8.25″ SIP)</dd>
+        <dt>Air tightness</dt><dd>0.6 ACH @ 50 Pa (Passive House)</dd>
+        <dt>Window U-value</dt><dd>0.18 (triple-pane IGU, warm-edge)</dd>
+        <dt>HRV</dt><dd>85% sensible recovery · CSA F326</dd>
+      </dl>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-hd">Schedule</div>
+      <dl class="info-specs" style="padding:0;">
+        <dt>Factory module</dt><dd>5–7 business days</dd>
+        <dt>Site prep + piers</dt><dd>2 days</dd>
+        <dt>Drop + hook-up</dt><dd>1 day</dd>
+        <dt>Total on-site</dt><dd>${Math.round(9 + (mult-1)*4)} days</dd>
+      </dl>
+    </div>
+    <div class="sp-actions">
+      <button type="button" class="sp-act sp-act-hot" onclick="alert('Export PDF — download PDF from here in a real build.');">↓ EXPORT PDF</button>
+      <button type="button" class="sp-act" onclick="alert('Export CSV — download CSV from here in a real build.');">↓ EXPORT CSV</button>
+      <button type="button" class="sp-act" onclick="window.print();">⎙ PRINT</button>
+    </div>
+  `;
+}
+
+/* ── Component inspector — tabs + footer actions (Mockup 05) ────────────── */
+function augmentInfoPanel() {
+  // Insert tab strip after info-name, and action footer inside #info.
+  const info = document.getElementById('info'); if (!info) return;
+  if (info.querySelector('.info-tabs')) return;  // once
+  const nameEl = document.getElementById('info-name');
+  const facts  = document.getElementById('info-facts');
+  const drawing= document.getElementById('info-drawing');
+  if (!nameEl || !facts || !drawing) return;
+
+  const tabs = document.createElement('div');
+  tabs.className = 'info-tabs';
+  tabs.innerHTML = `
+    <button type="button" class="info-tab info-tab-active" data-tab="overview" onclick="setInfoTab('overview')">Overview</button>
+    <button type="button" class="info-tab" data-tab="specs" onclick="setInfoTab('specs')">Specs</button>
+    <button type="button" class="info-tab" data-tab="drawings" onclick="setInfoTab('drawings')">Drawings</button>
+    <button type="button" class="info-tab" data-tab="cost" onclick="setInfoTab('cost')">Cost</button>
+  `;
+  nameEl.after(tabs);
+
+  // Wrap facts in a tab panel
+  facts.classList.add('info-tab-panel', 'active');
+  facts.dataset.tab = 'overview';
+
+  // Specs panel (dynamically filled by selectByKey hook)
+  const specs = document.createElement('dl');
+  specs.className = 'info-specs info-tab-panel';
+  specs.id = 'info-specs';
+  specs.dataset.tab = 'specs';
+  tabs.after(specs);
+
+  // Cost panel
+  const cost = document.createElement('div');
+  cost.className = 'info-tab-panel';
+  cost.id = 'info-cost';
+  cost.dataset.tab = 'cost';
+  cost.style.cssText = 'font-family:\"Roboto Mono\",monospace;font-size:10px;padding:4px 0;';
+  facts.after(cost);
+
+  // Drawings panel — reuse existing
+  drawing.classList.add('info-tab-panel');
+  drawing.dataset.tab = 'drawings';
+
+  // Action footer
+  const foot = document.createElement('div');
+  foot.className = 'info-foot';
+  foot.innerHTML = `
+    <button type="button" class="info-foot-btn info-foot-btn-hot" onclick="openInfoDrawingSheet()">↗ OPEN SHEET</button>
+    <button type="button" class="info-foot-btn" onclick="isolateActiveKey()">⊙ ISOLATE</button>
+    <button type="button" class="info-foot-btn" onclick="addActiveKeyToSpec()">Σ SPEC</button>
+  `;
+  info.appendChild(foot);
+}
+function setInfoTab(name) {
+  const info = document.getElementById('info'); if (!info) return;
+  info.querySelectorAll('.info-tab').forEach(b =>
+    b.classList.toggle('info-tab-active', b.dataset.tab === name));
+  info.querySelectorAll('.info-tab-panel').forEach(p =>
+    p.classList.toggle('active', p.dataset.tab === name));
+}
+function renderInspectorSpecs(key) {
+  const host = document.getElementById('info-specs'); if (!host) return;
+  const c = COMP[key]; if (!c) { host.innerHTML = ''; return; }
+  const bom = BOM_PRICES[key];
+  const rows = [];
+  if (c.short || c.label) rows.push(['Label', c.short || c.label]);
+  if (c.hex != null) rows.push(['Swatch', `#${c.hex.toString(16).padStart(6,'0').toUpperCase()}`]);
+  rows.push(['Key', key]);
+  if (bom) {
+    rows.push(['Qty (single)', `${bom.qty} ${bom.unit}`]);
+    rows.push(['Unit cost', `$${bom.unitCost.toLocaleString()}`]);
+    rows.push(['Line cost', `$${(bom.qty * bom.unitCost).toLocaleString()}`]);
+    rows.push(['Category', BOM_CAT_META[bom.cat] ? BOM_CAT_META[bom.cat].label : bom.cat]);
+  }
+  // Drawing pointer if any
+  if (typeof COMPONENT_BLUEPRINTS !== 'undefined' && COMPONENT_BLUEPRINTS[key]) {
+    rows.push(['Sheet', COMPONENT_BLUEPRINTS[key].sheet || '—']);
+  }
+  host.innerHTML = rows.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+}
+function renderInspectorCost(key) {
+  const host = document.getElementById('info-cost'); if (!host) return;
+  const bom = BOM_PRICES[key];
+  if (!bom) { host.innerHTML = `<div style="color:var(--bp-text-dim);padding:8px 0;">No cost data for this component.</div>`; return; }
+  const total = bom.qty * bom.unitCost;
+  host.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:4px 0 8px;">
+      <span style="color:var(--bp-text-dim);">Quantity</span><span style="text-align:right;">${bom.qty} ${bom.unit}</span>
+      <span style="color:var(--bp-text-dim);">Unit cost</span><span style="text-align:right;">$${bom.unitCost.toLocaleString()}</span>
+      <span style="color:var(--bp-text-dim);">Category</span><span style="text-align:right;">${BOM_CAT_META[bom.cat] ? BOM_CAT_META[bom.cat].label : bom.cat}</span>
+    </div>
+    <div style="padding-top:8px;border-top:1px dashed var(--bp-line);display:flex;justify-content:space-between;">
+      <span style="color:var(--bp-text-dim);">Line total</span>
+      <span style="color:var(--bp-accent-hot);font-weight:700;">$${total.toLocaleString()}</span>
+    </div>
+    <button type="button" class="info-foot-btn" style="width:100%;margin-top:10px;" onclick="toggleSpecPanel(true);">VIEW FULL BOM →</button>
+  `;
+}
+function openInfoDrawingSheet() {
+  if (typeof activeKey !== 'undefined' && typeof openBlueprintSheet === 'function') {
+    openBlueprintSheet(activeKey);
+  }
+}
+function isolateActiveKey() {
+  if (typeof activeKey === 'undefined' || !activeKey) return;
+  // Hide everything except the active key
+  Object.keys(COMP).forEach(k => setVisibility(k, k === activeKey));
+  // Sync legend toggles
+  document.querySelectorAll('.chip[data-key]').forEach(row => {
+    const k = row.dataset.key;
+    const t = row.querySelector('.chip-tog');
+    if (t) t.checked = (k === activeKey);
+  });
+}
+function addActiveKeyToSpec() {
+  toggleSpecPanel(true);
+}
+
+/* ── Init + bind ────────────────────────────────────────────────────────── */
+function initUIV2() {
+  buildOrientationGizmo();
+  buildConfigPickerGrid();
+  buildTimeline();
+  rebuildLegendV2();
+  augmentInfoPanel();
+  syncTopToolbar();
+  syncBlueprintTitleBlock();
+
+  // Hook into orbit controls change events for HUD updates
+  if (orbit && orbit.addEventListener) {
+    orbit.addEventListener('change', () => {
+      updateHudScale();
+      updateHudCoords();
+      updateOrientationGizmo();
+    });
+  }
+  if (orthoOrbit && orthoOrbit.addEventListener) {
+    orthoOrbit.addEventListener('change', () => {
+      updateHudCoords();
+    });
+  }
+
+  // Hook into pick() so inspector tabs populate Specs + Cost alongside Overview.
+  if (typeof pick === 'function') {
+    const origPick = pick;
+    window.pick = function(k) {
+      const r = origPick.apply(this, arguments);
+      try { renderInspectorSpecs(k); renderInspectorCost(k); } catch(e) {}
+      return r;
+    };
+  }
+
+  // Escape closes config picker / spec panel
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      const cp = document.getElementById('cfg-picker');
+      if (cp && cp.classList.contains('open')) closeConfigPicker();
+      const sp = document.getElementById('spec-panel');
+      if (sp && sp.classList.contains('open')) toggleSpecPanel(false);
+    }
+  });
+
+  // Patch toggleBlueprint to also refresh toolbar + title block
+  const origToggle = window.toggleBlueprint;
+  if (typeof origToggle === 'function') {
+    window.toggleBlueprint = function() {
+      const r = origToggle.apply(this, arguments);
+      try { syncTopToolbar(); syncBlueprintTitleBlock(); } catch(e) {}
+      return r;
+    };
+  }
+  // Also refresh title block whenever the blueprint sheet list rebuilds
+  const origBuildList = window.buildBlueprintSheetList;
+  if (typeof origBuildList === 'function') {
+    window.buildBlueprintSheetList = function() {
+      const r = origBuildList.apply(this, arguments);
+      try { syncBlueprintTitleBlock(); } catch(e) {}
+      return r;
+    };
+  }
+  // Refresh title block when active blueprint sheet changes
+  const origApplyPage = window.applyBlueprintPage;
+  if (typeof origApplyPage === 'function') {
+    window.applyBlueprintPage = function() {
+      const r = origApplyPage.apply(this, arguments);
+      try { syncBlueprintTitleBlock(); } catch(e) {}
+      return r;
+    };
+  }
+
+  // Initial HUD values
+  updateHudScale(); updateHudCoords(); updateOrientationGizmo();
+
+  // Show timeline after assembly sequence completes (runs automatically on load)
+  setTimeout(() => {
+    TL_STATE.idx = ASSEMBLY_SEQUENCE.length - 1;
+    updateTimelineDots();
+    updateTimelineReadout();
+    showTimeline(true);
+  }, 5800);
+
+  // Config picker is the main starter screen — show it on load so the user
+  // can pick a layout before digging in.  The 3D scene keeps building behind it.
+  setTimeout(openConfigPicker, 200);
+}
+
+// Kick off UI V2 after main scene has built out.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initUIV2);
+} else {
+  // Scene is already built; init on next frame to ensure globals are set
+  setTimeout(initUIV2, 0);
+}
 
 (function loop() {
   requestAnimationFrame(loop);
