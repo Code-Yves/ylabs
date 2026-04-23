@@ -2,603 +2,1921 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ylabs — projects by Yves Eggleston. Supplement Score, Axis, and more.">
-<meta name="theme-color" content="#010108">
-<title>ylabs — Yves</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Card Games</title>
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --pink:   #FF006E;
-  --purple: #8338EC;
-  --blue:   #3A86FF;
-  --orange: #FB5607;
-  --yellow: #FFBE0B;
-  --teal:   #06D6A0;
-  --bg:     #010108;
-}
-
-html, body {
-  width: 100%;
-  min-height: 100%;
-  background: var(--bg);
-  font-family: 'Courier New', Courier, monospace;
-  color: white;
-  overflow-x: hidden;
-}
-
-
-/* ───────────────── Aurora blobs ───────────────── */
-.aurora {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 0;
-  overflow: hidden;
-}
-
-/* blob-wrap is moved by JS parallax; blob inside drifts via CSS */
-.blob-wrap { position: absolute; }
-
-.blob {
-  border-radius: 50%;
-  filter: blur(110px);
-  will-change: transform, border-radius;
-}
-
-.blob-1 .blob {
-  width: 680px; height: 680px;
-  background: var(--purple); opacity: .07;
-  top: -240px; left: -160px;
-  animation: drift-a 40s ease-in-out infinite, morph-a 32s ease-in-out infinite, hue-cycle 55s ease-in-out infinite;
-}
-
-/* Subtle hue drift on the dominant purple blob */
-@keyframes hue-cycle {
-  0%   { filter: blur(110px) hue-rotate(-22deg); }
-  25%  { filter: blur(110px) hue-rotate(-8deg); }
-  50%  { filter: blur(110px) hue-rotate(20deg); }
-  75%  { filter: blur(110px) hue-rotate(6deg); }
-  100% { filter: blur(110px) hue-rotate(-22deg); }
-}
-.blob-2 .blob {
-  width: 520px; height: 520px;
-  background: var(--pink); opacity: .06;
-  bottom: -180px; right: -140px;
-  animation: drift-b 38s ease-in-out infinite, morph-b 30s ease-in-out infinite;
-}
-.blob-3 .blob {
-  width: 420px; height: 420px;
-  background: var(--blue); opacity: .05;
-  top: 35%; left: 42%;
-  animation: drift-c 50s ease-in-out infinite, morph-a 40s ease-in-out infinite reverse;
-}
-.blob-4 .blob {
-  width: 360px; height: 360px;
-  background: var(--orange); opacity: .04;
-  top: 10%; right: 12%;
-  animation: drift-d 35s ease-in-out infinite, morph-b 45s ease-in-out infinite;
-}
-.blob-5 .blob {
-  width: 280px; height: 280px;
-  background: var(--teal); opacity: .05;
-  bottom: 20%; left: 18%;
-  animation: drift-e 44s ease-in-out infinite, morph-a 34s ease-in-out infinite;
-}
-
-@keyframes drift-a {
-  0%,100% { transform: translate(0,0); }
-  33%      { transform: translate(90px,70px); }
-  66%      { transform: translate(-50px,120px); }
-}
-@keyframes drift-b {
-  0%,100% { transform: translate(0,0); }
-  33%      { transform: translate(-70px,-90px); }
-  66%      { transform: translate(50px,-40px); }
-}
-@keyframes drift-c {
-  0%,100% { transform: translate(-50%,-50%); }
-  50%      { transform: translate(-50%,-50%) scale(1.35); }
-}
-@keyframes drift-d {
-  0%,100% { transform: translate(0,0); }
-  50%      { transform: translate(-100px,80px) scale(1.15); }
-}
-@keyframes drift-e {
-  0%,100% { transform: translate(0,0); }
-  40%      { transform: translate(60px,-60px); }
-  80%      { transform: translate(-30px,40px); }
-}
-
-@keyframes morph-a {
-  0%,100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-  25%      { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
-  50%      { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
-  75%      { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
-}
-@keyframes morph-b {
-  0%,100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-  33%      { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-  66%      { border-radius: 70% 30% 50% 50% / 30% 70% 40% 60%; }
-}
-
-/* ───────────────── Background Y mark ───────────────── */
-.bg-y-wrap {
-  position: fixed;
-  top: 60%; left: 65%;
-  transform: translate(-50%, -50%);
-  width: 150vmin; height: 150vmin;
-  pointer-events: none; z-index: 1;
-  animation: bg-spin 60s linear infinite;
-}
-
-.bg-y-wrap svg {
-  width: 100%; height: 100%;
-  opacity: .025;
-  animation: flicker 5s steps(1) infinite;
-  filter: url(#static);
-}
-
-@keyframes bg-spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes flicker {
-  0%   { opacity: .025; filter: url(#static); }
-  22%  { opacity: .025; filter: url(#static); }
-  22.5%{ opacity: .016; filter: url(#static2); }
-  23%  { opacity: .025; filter: url(#static); }
-  55%  { opacity: .025; filter: url(#static); }
-  55.4%{ opacity: .018; filter: url(#static2); }
-  55.8%{ opacity: .025; filter: url(#static); }
-  56.2%{ opacity: .014; filter: url(#static2); }
-  56.6%{ opacity: .025; filter: url(#static); }
-  84%  { opacity: .025; filter: url(#static); }
-  84.4%{ opacity: .017; filter: url(#static2); }
-  84.8%{ opacity: .025; filter: url(#static); }
-  100% { opacity: .025; filter: url(#static); }
-}
-
-/* ───────────────── ylabs flicker (scaled to .55 base) ───────────────── */
-@keyframes title-flicker {
-  0%,100% { opacity: .55; }
-  41%     { opacity: .55; }
-  41.6%   { opacity: .48; }
-  42.2%   { opacity: .55; }
-  72%     { opacity: .55; }
-  72.4%   { opacity: .46; }
-  72.9%   { opacity: .55; }
-  73.3%   { opacity: .50; }
-  73.7%   { opacity: .55; }
-}
-
-/* ───────────────── Content ───────────────── */
-.content {
-  position: relative; z-index: 10;
-  width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh; /* stable across iOS URL-bar collapse */
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-start;
-  padding-top: 4vh;
-  padding-bottom: 120px;
-  gap: 44px;
-}
-
-/* ───────────────── Header ───────────────── */
-.header { text-align: center; display: flex; flex-direction: column; align-items: center; }
-
-.header .logo-tile {
-  width: clamp(96px, 10.4vw, 136px);
-  height: auto;
-  animation: title-flicker 11s steps(1) infinite;
-  opacity: .55;
-}
-
-/* Thinner strokes on header logo */
-.header .logo-tile rect,
-.header .logo-tile circle,
-.header .logo-tile line { stroke-width: 1; }
-.header .logo-tile text { opacity: .8; }
-
-.header .logo-tile .y-pupil {
-  transition: transform .35s cubic-bezier(.2,.8,.2,1);
-}
-
-.header h1 {
-  /* keep for a11y but visually hidden — tile IS the wordmark now */
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
-}
-
-/* ───────────────── Project cards ───────────────── */
-.projects {
-  display: flex; gap: 12px;
-  flex-wrap: wrap; justify-content: center;
-  max-width: 700px; padding: 0 20px;
-  margin-top: 22vh;
-}
-
-.card {
-  position: relative;
-  padding: 20px 22px 18px;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 10px;
-  background: rgba(255,255,255,.03);
-  backdrop-filter: blur(14px);
-  cursor: pointer;
-  text-decoration: none; color: white;
-  transition: border-color .3s, background .3s;
-  overflow: hidden;
-  width: 200px;
-  min-height: 90px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-}
-
-@media (hover: hover) {
-  .card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.055); }
-  .card:hover .card-icon { opacity: 1; }
-}
-.card:active { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.055); }
-
-.card-icon {
-  width: 42px;
-  height: 42px;
-  display: block;
-  opacity: .7;
-  transition: opacity .35s;
-  flex-shrink: 0;
-}
-
-.card-title {
-  font-size: .82rem; font-weight: 400;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-.card-desc {
-  font-size: .66rem;
-  color: rgba(255,255,255,.32);
-  letter-spacing: .02em;
-  line-height: 1.45;
-}
-
-/* ───────────────── Hint ───────────────── */
-.hint {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%);
-  font-size: .52rem; letter-spacing: .32em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.28); z-index: 10;
-  animation: pulse 5s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100% { opacity:.45; } 50% { opacity:.75; } }
-
-/* ───────────────── Footer logo ───────────────── */
-.footer-logo {
-  position: fixed;
-  bottom: 64px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32px;
-  opacity: .22;
-  z-index: 10;
-  pointer-events: none;
-}
-
-/* ───────────────── Layout switch ───────────────── */
-.layout-switch {
-  position: fixed;
-  bottom: 18px;
-  right: 18px;
-  z-index: 20;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 9px;
-  line-height: 1;
-  color: rgba(255,255,255,.3);
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 2px;
-  background: rgba(255,255,255,.02);
-  transition: color .3s, border-color .3s, background .3s;
-}
-@media (hover: hover) {
-  .layout-switch:hover {
-    color: rgba(255,255,255,.85);
-    border-color: rgba(255,255,255,.35);
-    background: rgba(255,255,255,.06);
-  }
-}
-
-/* ───────────────── Swing silhouette ───────────────── */
-.swing-wrap {
-  position: fixed;
-  bottom: 0;
-  left: calc(50% - 110px);
-  z-index: 4;
-  pointer-events: none;
-  width: 220px;
-}
-
-.swing-svg {
-  width: 220px;
-  opacity: .18;
-  filter: blur(1.5px);
-  transform-origin: top center;
-  animation: swing 6s ease-in-out infinite;
-}
-
-@keyframes swing {
-  0%   { transform: rotate(-14deg); }
-  50%  { transform: rotate(14deg); }
-  100% { transform: rotate(-14deg); }
-}
-
-/* ───────────────── Mobile ───────────────── */
-@media (max-width: 720px) {
-  .content {
-    padding-top: 6vh;
-    padding-bottom: 160px;
-    gap: 28px;
+  :root {
+    --card-w: 120px; --card-h: 126px; --radius: 12px;
+    --gap: 7px; --s-off: 50px; --fd-off: 17px; --rk: 22px; --cx: 50px;
   }
 
-  .header .logo-tile {
-    width: clamp(84px, 22vw, 120px);
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    user-select: none; -webkit-user-select: none; touch-action: manipulation;
   }
 
-  .projects {
-    margin-top: 6vh;
-    gap: 10px;
-    padding: 0 16px;
-    max-width: 100%;
+  body {
+    display: flex; flex-direction: row;
+    font-family: Georgia, 'Times New Roman', serif;
+    background:
+      radial-gradient(ellipse at 20% 15%, #4a9e66 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 85%, #1b4d2a 0%, transparent 50%),
+      radial-gradient(ellipse at 65% 25%, #2d7545 0%, transparent 40%),
+      #246035;
   }
 
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: 76px; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: stretch;
+    justify-content: center; gap: 8px; padding: 8px 7px;
+    background: rgba(0,0,0,0.22);
+    border-right: 1px solid rgba(255,255,255,0.10);
+    overflow-y: auto;
+  }
+
+  .game-badge {
+    text-align: center; font-size: 9px; font-weight: bold;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: rgba(255,255,255,0.55); padding: 2px 0;
+  }
+
+  .stat {
+    background: rgba(0,0,0,.42); border-radius: 10px;
+    padding: 8px 4px 6px; text-align: center;
+  }
+  .stat-lbl { font-size: 9px; color: rgba(255,255,255,.60); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-val  { font-size: 24px; font-weight: bold; color: #fff; line-height: 1.1; margin-top: 2px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    border: none; border-radius: 14px; padding: 18px 4px 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,.50), inset 0 1px 0 rgba(255,255,255,.22);
+    width: 100%; line-height: 1; -webkit-appearance: none;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    transition: opacity .12s, transform .12s;
+    min-height: 68px;
+  }
+  .btn:active { opacity: .72; transform: scale(0.94); }
+  .btn-icon { font-size: 34px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+  .btn-icon svg { display: block; }
+  .btn-lbl  { font-size: 10px; font-family: Georgia, serif;
+               text-transform: uppercase; letter-spacing: 0.8px; font-weight: bold; }
+
+  #btn-new    { background: linear-gradient(150deg, #f9d44a, #e5a918); color: #1a1200; }
+  #btn-undo   { background: rgba(255,255,255,.15); color: #fff; border: 2px solid rgba(255,255,255,.28); }
+  #btn-finish { background: linear-gradient(150deg, #62d492, #3aaa68); color: #fff; display: none; }
+  #btn-finish.show { display: flex; }
+
+  /* Game picker buttons — icon only. Active glows. */
+  .btn-game {
+    padding: 16px 4px;
+    min-height: 64px;
+    background: rgba(255,255,255,.10);
+    color: rgba(255,255,255,.60);
+    border: 2px solid rgba(255,255,255,.18);
+  }
+  .btn-game .btn-icon svg { width: 40px; height: 40px; }
+  .btn-game.active {
+    background: linear-gradient(150deg, #5b9bd5, #3a72a8);
+    color: #fff;
+    border-color: rgba(255,255,255,.55);
+    box-shadow: 0 0 0 3px rgba(91,155,213,.35),
+                0 4px 14px rgba(0,0,0,.55),
+                inset 0 1px 0 rgba(255,255,255,.28);
+  }
+
+  .game-divider {
+    height: 1px; background: rgba(255,255,255,.14);
+    margin: 2px 4px;
+  }
+
+  /* ── CONFIRM NEW-GAME MODAL ── */
+  #confirm {
+    display: none; position: fixed; inset: 0; z-index: 550;
+    background: rgba(0,0,0,.78);
+    align-items: center; justify-content: center;
+  }
+  #confirm.show { display: flex; }
+  .confirm-box {
+    background: linear-gradient(150deg, #ffffff 0%, #f0ece5 100%);
+    border-radius: 28px; padding: 44px 48px 40px; text-align: center;
+    box-shadow: 0 28px 64px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.4);
+    max-width: 400px; width: 88%;
+  }
+  .confirm-box .ic  { font-size: 70px; margin-bottom: 10px; line-height: 1; }
+  .confirm-box h2   { font-size: 36px; color: #181818; margin-bottom: 10px; }
+  .confirm-box p    { font-size: 18px; color: #555; margin-bottom: 32px; line-height: 1.55; }
+  .confirm-box .row { display: flex; gap: 14px; justify-content: center; }
+  .confirm-box button {
+    flex: 1; max-width: 170px;
+    border: none; padding: 18px 10px;
+    border-radius: 14px; font-family: Georgia, serif;
+    font-size: 20px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 5px 16px rgba(0,0,0,.38);
+    transition: opacity .12s, transform .12s;
+  }
+  .confirm-box button:active { opacity: .82; transform: scale(.96); }
+  #confirm-yes { background: linear-gradient(150deg, #e26a5a, #c04332); color: #fff; }
+  #confirm-no  { background: linear-gradient(150deg, #6d7680, #4a535c); color: #fff; }
+
+  /* ── GAME AREA ── */
+  #game {
+    flex: 1; display: flex; flex-direction: column;
+    padding: 8px 8px 6px; gap: var(--gap);
+    overflow: hidden; min-height: 0; min-width: 0;
+  }
+
+  #top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: var(--gap); flex-shrink: 0;
+  }
+  #left-piles  { display: flex; gap: var(--gap); }
+  #foundations { display: flex; gap: var(--gap); }
+
+  #tableau {
+    display: flex; gap: var(--gap); justify-content: space-between;
+    flex: 1; position: relative;
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; min-height: 0;
+  }
+
+  .col {
+    width: var(--card-w); position: relative;
+    flex-shrink: 0; align-self: flex-start;
+  }
+  .col.empty {
+    height: var(--card-h); border-radius: var(--radius);
+    border: 3px dashed rgba(255,255,255,.40);
+    background: rgba(0,0,0,.14);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,.22);
+  }
+
+  /* ── SLOTS ── */
+  .slot {
+    width: var(--card-w); height: var(--card-h);
+    border-radius: var(--radius);
+    border: 3px dashed rgba(255,255,255,.40);
+    background: rgba(0,0,0,.14);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,.22);
+    position: relative; flex-shrink: 0;
+  }
+  /* Free cell slots — warm amber tint to distinguish from foundations */
+  .fc-slot {
+    border-color: rgba(255,200,80,.50);
+    background: rgba(18,9,0,.20);
+  }
+  .slot-icon {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px; pointer-events: none;
+  }
+  .slot-icon .si      { font-size: 36px; opacity: 0.55; line-height: 1; color: #fff; }
+  .slot-icon .si.red  { color: #ffbbbb; opacity: 0.65; }
+  .slot-icon .sl      { font-size: 10px; font-weight: bold;
+                        color: rgba(255,255,255,.50); letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* ── CARDS ── */
   .card {
-    width: 100%;
-    max-width: 360px;
-    min-height: 0;
-    padding: 18px 20px 16px;
+    width: var(--card-w); height: var(--card-h);
+    border-radius: var(--radius); position: absolute;
+    cursor: pointer; -webkit-touch-callout: none;
+  }
+  .card.dn {
+    background: radial-gradient(ellipse at 35% 30%, #2a5fbb 0%, transparent 65%), #183c7e;
+    border: 2.5px solid rgba(255,255,255,.16);
+    box-shadow: 2px 4px 12px rgba(0,0,0,.55);
+  }
+  .card.dn::before {
+    content: ''; position: absolute; inset: 6px; border-radius: 7px;
+    border: 1.5px solid rgba(255,255,255,.14);
+    background:
+      repeating-linear-gradient( 45deg, rgba(255,255,255,.055) 0px 2px, transparent 2px 10px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,.035) 0px 2px, transparent 2px 10px);
+  }
+  .card.up {
+    background: linear-gradient(150deg, #ffffff 0%, #f9f5ef 100%);
+    border: 2px solid #c4bbb0;
+    box-shadow: 2px 4px 12px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.95);
+  }
+  .card.red   { color: #c4000f; }
+  .card.black { color: #141414; }
+  .card.sel {
+    outline: 5px solid #ffd400; outline-offset: 3px;
+    box-shadow:
+      0 0 0 10px rgba(255,212,0,.55),
+      0 0 26px 4px rgba(255,212,0,.85),
+      3px 5px 14px rgba(0,0,0,.50) !important;
+    z-index: 200 !important;
+    animation: selPulse 1.15s ease-in-out infinite;
+  }
+  @keyframes selPulse {
+    0%,100% { box-shadow: 0 0 0 10px rgba(255,212,0,.55), 0 0 26px 4px rgba(255,212,0,.85), 3px 5px 14px rgba(0,0,0,.50); }
+    50%     { box-shadow: 0 0 0 13px rgba(255,212,0,.40), 0 0 34px 6px rgba(255,212,0,1.0),  3px 5px 14px rgba(0,0,0,.50); }
   }
 
-  .footer-logo {
-    bottom: 80px;
-    width: 26px;
-    opacity: .2;
+  /* ── CARD LABELS ── */
+  .tl { position: absolute; top: 5px; left: 6px; line-height: 1; }
+  .rk { font-family: Georgia, serif; font-weight: bold; font-size: var(--rk); line-height: 1; }
+  .cx {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--cx); opacity: 0.80;
+    pointer-events: none; line-height: 1; user-select: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.4);
   }
 
-  .hint {
-    bottom: 52px;
-    font-size: .5rem;
+  /* ── SUDOKU ── */
+  #sud-top {
+    display: flex; flex-direction: column; gap: 8px; width: 100%;
+  }
+  .sud-diff-row {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  }
+  .sud-diff {
+    background: rgba(255,255,255,.12); color: rgba(255,255,255,.85);
+    border: 2px solid rgba(255,255,255,.22); border-radius: 10px;
+    font-family: Georgia, serif; font-size: 14px; font-weight: bold;
+    padding: 8px 18px; letter-spacing: .5px;
+    cursor: pointer; -webkit-appearance: none;
+    transition: opacity .1s, transform .1s;
+  }
+  .sud-diff:active { opacity: .75; transform: scale(.96); }
+  .sud-diff.active {
+    background: linear-gradient(150deg, #f9d44a, #e5a918);
+    color: #1a1200; border-color: rgba(255,255,255,.55);
+    box-shadow: 0 3px 10px rgba(0,0,0,.4);
+  }
+  .sud-info {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 6px;
+  }
+  .sud-diff-label {
+    font-family: Georgia, serif; font-weight: bold;
+    color: rgba(255,255,255,.85); font-size: 16px; letter-spacing: .5px;
+  }
+  .sud-mistakes {
+    display: flex; align-items: baseline; gap: 6px;
+    color: rgba(255,255,255,.78);
+  }
+  .sud-mistakes #sud-mistakes {
+    font-family: Georgia, serif; font-weight: bold;
+    font-size: 20px; color: #fff;
+  }
+  .sud-mistakes-lbl {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
   }
 
-  .layout-switch {
-    bottom: 14px;
-    right: 14px;
+  #sud-root {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    width: 100%; min-height: 0; flex: 1;
   }
+  #sud-board {
+    display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr);
+    gap: 0; background: #111; border: 3px solid #111;
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0,0,0,.55);
+    aspect-ratio: 1 / 1;
+    width: min(86vh, 92vw - 76px, 560px);
+    max-height: 62vh;
+  }
+  .sud-cell {
+    background: #faf7f0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: Georgia, serif; font-weight: bold;
+    font-size: clamp(16px, 5vmin, 34px);
+    color: #2b6cb0;
+    border: 1px solid #d9cfbe;
+    cursor: pointer; user-select: none;
+    transition: background-color .08s;
+    position: relative;
+  }
+  /* Thick 3x3 block borders */
+  .sud-cell[data-c="2"], .sud-cell[data-c="5"] { border-right: 2px solid #1a1a1a; }
+  .sud-cell[data-r="2"], .sud-cell[data-r="5"] { border-bottom: 2px solid #1a1a1a; }
+  /* Givens are rendered in black; user entries in blue */
+  .sud-cell.given { color: #141414; background: #f2ece0; }
+  /* Peer highlight: same row/column/box as selected cell */
+  .sud-cell.peer { background: #e8e2d0; }
+  .sud-cell.peer.given { background: #ded6c1; }
+  /* Matching value highlight: same digit as selected cell */
+  .sud-cell.match { background: #ffe8a8; }
+  /* Selected cell: strong yellow */
+  .sud-cell.sel { background: #ffd400 !important; box-shadow: inset 0 0 0 3px #b28900; }
+  /* Conflict: shares row/col/box with a cell of the same digit */
+  .sud-cell.conflict { color: #c4000f; }
+  .sud-cell.conflict.sel { background: #ffb0b0 !important; }
 
-  .swing-wrap {
-    width: 160px;
-    left: calc(50% - 80px);
+  #sud-keypad {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 6px; width: min(86vh, 92vw - 76px, 560px);
   }
-  .swing-svg {
-    width: 160px;
-    opacity: .1;
+  .sud-key {
+    background: linear-gradient(150deg, #ffffff 0%, #f0ece5 100%);
+    color: #1a1a1a; border: 2px solid #b8b0a0;
+    border-radius: 10px; padding: 10px 0;
+    font-family: Georgia, serif; font-size: 22px; font-weight: bold;
+    cursor: pointer; -webkit-appearance: none;
+    transition: opacity .1s, transform .1s;
+    box-shadow: 0 3px 8px rgba(0,0,0,.25);
   }
+  .sud-key:active { opacity: .80; transform: scale(.95); }
+  .sud-key.sud-erase { color: #c4000f; background: linear-gradient(150deg, #fff8f8, #f3d8d8); }
 
-  /* Background Y mark smaller on mobile so it doesn't dominate */
-  .bg-y-wrap {
-    opacity: .7;
+  /* ── WIN OVERLAY ── */
+  #win {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.78);
+    align-items: center; justify-content: center; overflow: hidden;
   }
-}
-
-@media (max-width: 420px) {
-  .card-title { font-size: .78rem; }
-  .card-desc { font-size: .64rem; }
-}
-
-/* ───────────────── Reduced motion ───────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .blob,
-  .bg-y-wrap,
-  .bg-y-wrap svg,
-  .swing-svg,
-  .header .logo-tile,
-  .hint {
-    animation: none !important;
+  #win.show { display: flex; }
+  .win-box {
+    background: linear-gradient(150deg, #ffffff 0%, #f0ece5 100%);
+    border-radius: 28px; padding: 40px 52px; text-align: center;
+    box-shadow: 0 28px 64px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.4);
+    max-width: 370px; width: 88%; position: relative; z-index: 10;
   }
-}
+  .win-box .tr  { font-size: 76px; margin-bottom: 8px; line-height: 1; }
+  .win-box h2   { font-size: 42px; color: #181818; margin-bottom: 10px; }
+  .win-box p    { font-size: 20px; color: #555; margin-bottom: 28px; line-height: 1.75; white-space: pre-line; }
+  .win-box button {
+    background: linear-gradient(150deg, #3e8050, #29633c);
+    color: #fff; border: none; padding: 18px 44px;
+    border-radius: 14px; font-family: Georgia, serif;
+    font-size: 22px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 5px 16px rgba(0,0,0,.38);
+  }
+  .win-box button:active { opacity: .80; transform: scale(.97); }
+
+  .confetti-piece {
+    position: absolute; top: -20px; border-radius: 3px;
+    animation: confettiFall linear forwards; pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(0)     rotate(0deg);   opacity: 1; }
+    75%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(800deg); opacity: 0; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Aurora -->
-<div class="aurora">
-  <div class="blob-wrap blob-1" data-speed="25"><div class="blob"></div></div>
-  <div class="blob-wrap blob-2" data-speed="18"><div class="blob"></div></div>
-  <div class="blob-wrap blob-3" data-speed="10"><div class="blob"></div></div>
-  <div class="blob-wrap blob-4" data-speed="32"><div class="blob"></div></div>
-  <div class="blob-wrap blob-5" data-speed="22"><div class="blob"></div></div>
-</div>
-
-<!-- Background Y mark -->
-<div class="bg-y-wrap">
-  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <!-- Gentle organic warp — always on -->
-      <filter id="static" x="-15%" y="-15%" width="130%" height="130%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="5" seed="3" result="noise"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-      <!-- Slightly stronger warp for rare flicker moments -->
-      <filter id="static2" x="-15%" y="-15%" width="130%" height="130%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="5" seed="11" result="noise"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-    </defs>
-    <circle cx="100" cy="100" r="88" fill="none" stroke="white" stroke-width="0.8"/>
-    <line x1="100" y1="105" x2="52" y2="65" stroke="white" stroke-width="0.8" stroke-linecap="round"/>
-    <line x1="100" y1="105" x2="148" y2="65" stroke="white" stroke-width="0.8" stroke-linecap="round"/>
-    <line x1="100" y1="105" x2="100" y2="167" stroke="white" stroke-width="0.8" stroke-linecap="round"/>
-  </svg>
-</div>
-
-<!-- Swing silhouette -->
-<div class="swing-wrap">
-  <svg class="swing-svg" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Ropes from top -->
-    <line x1="70" y1="0" x2="70" y2="130" stroke="#1a1a2e" stroke-width="2"/>
-    <line x1="130" y1="0" x2="130" y2="130" stroke="#1a1a2e" stroke-width="2"/>
-    <!-- Swing seat -->
-    <rect x="60" y="128" width="80" height="8" rx="3" fill="#0d0d1a"/>
-    <!-- Person body -->
-    <!-- torso -->
-    <rect x="88" y="100" width="24" height="32" rx="4" fill="#0a0a14"/>
-    <!-- head -->
-    <ellipse cx="100" cy="88" rx="13" ry="14" fill="#0a0a14"/>
-    <!-- left arm hanging -->
-    <path d="M88 110 Q72 125 68 145" stroke="#0a0a14" stroke-width="7" stroke-linecap="round" fill="none"/>
-    <!-- right arm hanging -->
-    <path d="M112 110 Q128 125 132 145" stroke="#0a0a14" stroke-width="7" stroke-linecap="round" fill="none"/>
-    <!-- left leg dangling -->
-    <path d="M92 132 Q82 165 78 195" stroke="#0a0a14" stroke-width="8" stroke-linecap="round" fill="none"/>
-    <!-- right leg dangling -->
-    <path d="M108 132 Q118 165 122 195" stroke="#0a0a14" stroke-width="8" stroke-linecap="round" fill="none"/>
-    <!-- feet -->
-    <ellipse cx="76" cy="198" rx="8" ry="4" fill="#0a0a14" transform="rotate(-15 76 198)"/>
-    <ellipse cx="124" cy="198" rx="8" ry="4" fill="#0a0a14" transform="rotate(15 124 198)"/>
-  </svg>
-</div>
-
-<!-- ── Main ── -->
-<main class="content">
-  <header class="header">
-    <h1>ylabs</h1>
-    <svg class="logo-tile" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect class="tile-box" x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8" stroke-opacity=".9"/>
-      <g transform="translate(90,78)">
-        <circle class="y-socket" cx="0" cy="0" r="34" fill="none" stroke="white" stroke-width="1.58"/>
-        <g class="y-pupil">
-          <line x1="0" y1="2" x2="-18" y2="-14" stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-          <line x1="0" y1="2" x2="18"  y2="-14" stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-          <line x1="0" y1="2" x2="0"   y2="24"  stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-        </g>
-      </g>
-      <text x="92" y="148" fill="white" font-family="Courier New, Courier, monospace" font-size="13" text-anchor="middle" letter-spacing="4">LABS</text>
-    </svg>
-  </header>
-
-  <div class="projects">
-    <a href="https://supplementscore.org/" class="card c1" target="_blank" rel="noopener noreferrer">
-      <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
-        <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
-        <g transform="translate(90,90)" fill="none" stroke="white" stroke-width="1.58" stroke-linejoin="round" stroke-linecap="round">
-          <path d="M 0 -38 L 32 -26 L 32 6 C 32 22, 16 34, 0 40 C -16 34, -32 22, -32 6 L -32 -26 Z"/>
-          <path d="M -14 0 L -4 12 L 16 -10"/>
-        </g>
-      </svg>
-      <div class="card-title">Supplement Score</div>
-      <div class="card-desc">Cuts through the supplement industry. Ratings built on published research, not paid placements. Non-profit.</div>
-    </a>
-    <a href="https://ylabs.ca/axis/" class="card c2" target="_blank" rel="noopener noreferrer">
-      <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
-        <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
-        <g transform="translate(90,90)" fill="none" stroke="white" stroke-width="1.58" stroke-linejoin="round">
-          <path d="M -34 26 L 26 26 L 34 14 L -26 14 Z"/>
-          <path d="M -34 26 L -34 8 L -26 -4 L -26 14 Z"/>
-          <path d="M -26 -4 L 26 -4 L 34 -16 L -18 -16 Z"/>
-          <path d="M -26 -4 L -26 -22 L -18 -34 L -18 -16 Z"/>
-          <path d="M -18 -16 L 18 -16 L 26 -28 L -10 -28 Z"/>
-        </g>
-      </svg>
-      <div class="card-title">Axis Modular</div>
-      <div class="card-desc">Web-based tool to visualize construction projects. Easy to use, built for clarity from concept to build.</div>
-    </a>
-    <a href="https://ylabs.ca/cardgames/" class="card c4" target="_blank" rel="noopener noreferrer">
-      <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
-        <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
-        <g transform="translate(90,90)">
-          <g transform="rotate(-18)">
-            <rect x="-18" y="-30" width="36" height="60" rx="3" fill="#010108" stroke="white" stroke-width="1.58"/>
-          </g>
-          <rect x="-18" y="-30" width="36" height="60" rx="3" fill="#010108" stroke="white" stroke-width="1.58"/>
-          <g transform="rotate(18)">
-            <rect x="-18" y="-30" width="36" height="60" rx="3" fill="#010108" stroke="white" stroke-width="1.58"/>
-          </g>
-        </g>
-      </svg>
-      <div class="card-title">Games</div>
-      <div class="card-desc">Timeless card games for low-vision players. Large, legible, uncluttered. Free, no ads.</div>
-    </a>
+<div id="sidebar">
+  <div class="stat">
+    <div class="stat-lbl">Score</div>
+    <div class="stat-val" id="v-score">0</div>
   </div>
-</main>
+  <div class="stat">
+    <div class="stat-lbl">Moves</div>
+    <div class="stat-val" id="v-moves">0</div>
+  </div>
+  <button class="btn" id="btn-finish">
+    <span class="btn-icon">✓</span>
+    <span class="btn-lbl">Finish</span>
+  </button>
+  <button class="btn" id="btn-undo">
+    <span class="btn-icon">↩</span>
+    <span class="btn-lbl">Undo</span>
+  </button>
+  <button class="btn" id="btn-new">
+    <span class="btn-icon">↺</span>
+    <span class="btn-lbl">New</span>
+  </button>
 
-<svg class="footer-logo" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
-  <g transform="translate(90,78)">
-    <circle cx="0" cy="0" r="34" fill="none" stroke="white" stroke-width="1.58"/>
-    <line x1="0" y1="2" x2="-18" y2="-14" stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-    <line x1="0" y1="2" x2="18"  y2="-14" stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-    <line x1="0" y1="2" x2="0"   y2="24"  stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-  </g>
-  <text x="92" y="148" fill="white" font-family="Courier New, Courier, monospace" font-size="13" text-anchor="middle" letter-spacing="4">LABS</text>
-</svg>
-<p class="hint">Yves Eggleston</p>
-<a class="layout-switch" href="layout-3-swiss.html" aria-label="Alt layout">A</a>
+  <div class="game-divider"></div>
+
+  <button class="btn btn-game" id="btn-sol" aria-label="Solitaire">
+    <span class="btn-icon">
+      <svg viewBox="0 0 40 40" fill="currentColor" aria-hidden="true">
+        <rect x="5" y="7" width="18" height="24" rx="3" opacity="0.40"/>
+        <rect x="11" y="10" width="18" height="24" rx="3" opacity="0.70"/>
+        <rect x="17" y="13" width="18" height="24" rx="3"/>
+      </svg>
+    </span>
+  </button>
+  <button class="btn btn-game" id="btn-fc" aria-label="FreeCell">
+    <span class="btn-icon">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3"  y="13" width="7" height="14" rx="1.6"/>
+        <rect x="12" y="13" width="7" height="14" rx="1.6"/>
+        <rect x="21" y="13" width="7" height="14" rx="1.6"/>
+        <rect x="30" y="13" width="7" height="14" rx="1.6"/>
+      </svg>
+    </span>
+  </button>
+  <button class="btn btn-game" id="btn-spi" aria-label="Spider">
+    <span class="btn-icon">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 16 L6  8"/>
+        <path d="M14 20 L3  18"/>
+        <path d="M14 23 L3  27"/>
+        <path d="M16 26 L9  34"/>
+        <path d="M25 16 L34 8"/>
+        <path d="M26 20 L37 18"/>
+        <path d="M26 23 L37 27"/>
+        <path d="M24 26 L31 34"/>
+        <circle cx="20" cy="21" r="6.5" fill="currentColor"/>
+        <circle cx="20" cy="14" r="3.5" fill="currentColor"/>
+      </svg>
+    </span>
+  </button>
+  <button class="btn btn-game" id="btn-au" aria-label="Aces Up">
+    <span class="btn-icon">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="5" width="22" height="30" rx="3"/>
+        <path d="M15 29 L20 13 L25 29 M17 23 L23 23"/>
+      </svg>
+    </span>
+  </button>
+  <button class="btn btn-game" id="btn-sud" aria-label="Sudoku">
+    <span class="btn-icon">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true">
+        <rect x="5" y="5" width="30" height="30" rx="2"/>
+        <line x1="15" y1="5" x2="15" y2="35"/>
+        <line x1="25" y1="5" x2="25" y2="35"/>
+        <line x1="5" y1="15" x2="35" y2="15"/>
+        <line x1="5" y1="25" x2="35" y2="25"/>
+        <text x="10" y="13" font-size="7" font-family="Georgia,serif" font-weight="bold" fill="currentColor" stroke="none">5</text>
+        <text x="30" y="33" font-size="7" font-family="Georgia,serif" font-weight="bold" fill="currentColor" stroke="none">3</text>
+      </svg>
+    </span>
+  </button>
+</div>
+
+<div id="game">
+  <div id="top"></div>
+  <div id="tableau"></div>
+</div>
+
+<div id="win">
+  <div class="win-box">
+    <div class="tr" id="win-emoji">🏆</div>
+    <h2 id="win-title">You Won!</h2>
+    <p id="win-p"></p>
+    <button id="btn-play-again">Play Again</button>
+  </div>
+</div>
+
+<div id="confirm">
+  <div class="confirm-box">
+    <div class="ic">⚠️</div>
+    <h2>Start New Game?</h2>
+    <p>Your current progress will be lost.</p>
+    <div class="row">
+      <button id="btn-confirm-no">Cancel</button>
+      <button id="btn-confirm-yes">New Game</button>
+    </div>
+  </div>
+</div>
 
 <script>
+// ── GAME MODE ─────────────────────────────────────────────────────
+var GAME = 'solitaire'; // 'solitaire' | 'freecell' | 'spider' | 'acesup' | 'sudoku'
 
-// ── Blob parallax ────────────────────────────────────────
-const blobWraps = document.querySelectorAll('.blob-wrap');
-const logoTile  = document.querySelector('.header .logo-tile');
-const pupil     = logoTile?.querySelector('.y-pupil');
+// Per-game column/foundation counts (sudoku is a special case, no cards)
+var COLS        = { solitaire: 7, freecell: 8, spider: 10, acesup: 4,  sudoku: 7 };
+var FOUNDS      = { solitaire: 4, freecell: 4, spider: 8,  acesup: 1,  sudoku: 0 };
+var TOTAL_CARDS = { solitaire: 52, freecell: 52, spider: 104, acesup: 48, sudoku: 0 };
 
-// Skip mousemove tracking on touch-only and reduced-motion devices
-const hoverCapable = window.matchMedia('(hover: hover)').matches;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ── SIZE CARDS ────────────────────────────────────────────────────
+function sizeCards() {
+  if (GAME === 'sudoku') { sudSize(); return; }
+  var sidebarW = 76, W = window.innerWidth - sidebarW;
+  var sidePad = 16, gap = 7;
+  var cols = COLS[GAME];
+  var cardW = Math.floor((W - sidePad - (cols - 1) * gap) / cols);
+  var cardH = Math.floor(cardW * 1.05);
+  var rkSz  = Math.max(20, Math.floor(cardW * 0.32));
+  var sOff  = rkSz + 10;                               // just clears the rank label
+  var fdOff = Math.floor(cardH * 0.13);                // solitaire face-down sliver
+  var cxSz  = Math.max(58, Math.floor(cardH * 0.70));  // prominent centre suit — bigger, darker
+  var s = document.documentElement.style;
+  s.setProperty('--card-w', cardW + 'px');
+  s.setProperty('--card-h', cardH + 'px');
+  s.setProperty('--s-off',  sOff  + 'px');
+  s.setProperty('--fd-off', fdOff + 'px');
+  s.setProperty('--rk', rkSz + 'px');
+  s.setProperty('--cx', cxSz + 'px');
+}
+window.addEventListener('resize', function() { sizeCards(); if (G) renderAll(); });
 
-if (hoverCapable && !reducedMotion) document.addEventListener('mousemove', e => {
-  const cx = (e.clientX / window.innerWidth  - .5);
-  const cy = (e.clientY / window.innerHeight - .5);
-  blobWraps.forEach(w => {
-    const s = parseFloat(w.dataset.speed || 20);
-    w.style.transform = `translate(${cx * s}px, ${cy * s}px)`;
-  });
+// ── CONSTANTS ─────────────────────────────────────────────────────
+var SUITS = ['♠','♥','♦','♣'];
+var RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+var IS_RED = {'♥':1,'♦':1};
+function clr(s) { return IS_RED[s] ? 'red' : 'black'; }
+function rv(r)  { return RANKS.indexOf(r) + 1; }
+function cssInt(n) { return parseInt(getComputedStyle(document.documentElement).getPropertyValue(n)) || 0; }
 
-  // ── Logo: Y inside the circle "looks" at the cursor — only when nearby ──
-  if (!logoTile || !pupil) return;
-  const r = logoTile.getBoundingClientRect();
-  const lcx = r.left + r.width  / 2;
-  const lcy = r.top  + r.height / 2;
-  const dx = e.clientX - lcx;
-  const dy = e.clientY - lcy;
-  const dist = Math.hypot(dx, dy);
+// ── WIN MESSAGES ──────────────────────────────────────────────────
+var WIN_MSGS = [
+  { emoji:'🏆', title:'You Won!',          msg:'What a brilliant game!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🌟', title:'Superstar!',        msg:'Patience and skill — perfect!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🎉', title:'Outstanding!',      msg:'You cleared every card!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'👑', title:'Card Master!',      msg:'A truly royal performance!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🎊', title:'Magnificent!',      msg:'Patience always pays off!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🦋', title:'Beautiful!',        msg:'Graceful from start to finish!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🌈', title:'Wonderful!',        msg:'Simply wonderful play!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🎯', title:'Bullseye!',         msg:'Right on target — well done!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🍀', title:'Lucky & Skilled!',  msg:'Luck meets skill — perfect combo!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🎶', title:'In Perfect Order!', msg:'Every card right where it belongs!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🌸', title:'Lovely Game!',      msg:'That was a joy to watch unfold!\nScore: {score}  ·  Moves: {moves}' },
+  { emoji:'🚀', title:'Speedy Victory!',   msg:'You flew right through that!\nScore: {score}  ·  Moves: {moves}' },
+];
 
-  const proximity = 160;                  // only react when cursor is within this many px
-  if (dist > proximity || dist === 0) {
-    pupil.setAttribute('transform', 'translate(0 0)');
+// ── STATE ─────────────────────────────────────────────────────────
+var G, hist = [], sel = null;
+var lastTapKey = '', lastTapTime = 0, DBL_TAP = 600;
+
+// ── DECK ──────────────────────────────────────────────────────────
+function makeDeck() {
+  var d = [];
+  for (var si = 0; si < 4; si++)
+    for (var ri = 0; ri < 13; ri++)
+      d.push({s: SUITS[si], r: RANKS[ri], up: false});
+  return d;
+}
+function shuffle(a) {
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// ── CARD ELEMENT ──────────────────────────────────────────────────
+function mkCard(card) {
+  var el = document.createElement('div');
+  el.className = 'card ' + (card.up ? 'up ' + clr(card.s) : 'dn');
+  if (card.up) {
+    el.innerHTML =
+      '<div class="tl"><div class="rk">' + card.r + '</div></div>' +
+      '<div class="cx">' + card.s + '</div>';
+  }
+  return el;
+}
+
+// ── SHARED RULES ──────────────────────────────────────────────────
+function canF(card, fi) {
+  var p = G.f[fi];
+  return p.length === 0
+    ? card.r === 'A'
+    : p[p.length-1].s === card.s && rv(card.r) === rv(p[p.length-1].r) + 1;
+}
+// FreeCell/Spider: any card to empty column. Solitaire: Kings only.
+// Aces Up: any card to empty column, nothing to non-empty.
+// Spider: rank-only descending (any suit). Solitaire/FreeCell: alternating colour + descending.
+function canT(card, c) {
+  var p = G.t[c];
+  if (!p.length) return GAME === 'solitaire' ? card.r === 'K' : true;
+  if (GAME === 'acesup') return false; // Aces Up: no stacking on occupied columns
+  var top = p[p.length - 1];
+  if (!top || !top.up) return false;
+  if (GAME === 'spider') return rv(card.r) === rv(top.r) - 1;
+  return clr(card.s) !== clr(top.s) && rv(card.r) === rv(top.r) - 1;
+}
+
+// ── HISTORY ───────────────────────────────────────────────────────
+function save() { hist.push(JSON.parse(JSON.stringify(G))); if (hist.length > 60) hist.shift(); }
+function undo() {
+  if (!hist.length) return;
+  sel = null; G = hist.pop();
+  renderAll(); updateStats(); checkFinish();
+}
+
+// ── SHARED RENDERING HELPERS ─────────────────────────────────────
+function clearCards(id) {
+  var el = document.getElementById(id);
+  if (!el) return null;
+  var cs = el.querySelectorAll('.card');
+  for (var i = 0; i < cs.length; i++) el.removeChild(cs[i]);
+  return el;
+}
+
+function rFoundations() {
+  for (var i = 0; i < FOUNDS[GAME]; i++) {
+    var el = clearCards('f' + i);
+    if (!el) continue;
+    var icon = el.querySelector('.slot-icon');
+    if (G.f[i].length) {
+      icon.style.display = 'none';
+      var ce = mkCard(G.f[i][G.f[i].length - 1]);
+      ce.dataset.zone = 'f'; ce.dataset.fi = i;
+      el.appendChild(ce);
+    } else {
+      icon.style.display = '';
+    }
+  }
+}
+
+// Unified tableau render — works for all games.
+// Solitaire cards can be face-down (use fdOff); FreeCell all face-up (use sOff for every card).
+function rTableau() {
+  var cols = COLS[GAME];
+  var sOff = cssInt('--s-off'), fdOff = cssInt('--fd-off'), cardH = cssInt('--card-h');
+  for (var c = 0; c < cols; c++) {
+    var el = clearCards('t' + c);
+    if (!el) continue;
+    if (G.t[c].length === 0) { el.classList.add('empty'); } else { el.classList.remove('empty'); }
+    var y = 0;
+    for (var i = 0; i < G.t[c].length; i++) {
+      var card = G.t[c][i];
+      var ce = mkCard(card);
+      ce.style.top = y + 'px';
+      ce.dataset.zone = 't'; ce.dataset.col = c; ce.dataset.idx = i;
+      if (sel && sel.area === 't' && sel.col === c && i >= sel.idx) ce.classList.add('sel');
+      el.appendChild(ce);
+      y += card.up ? sOff : fdOff;
+    }
+    var last = G.t[c].length > 0 ? G.t[c][G.t[c].length - 1] : null;
+    var stackH = last ? (y - (last.up ? sOff : fdOff)) + cardH : cardH;
+    el.style.height = Math.max(cardH, stackH) + 'px';
+  }
+}
+
+function updateStats() {
+  document.getElementById('v-score').textContent = G.score;
+  document.getElementById('v-moves').textContent = G.moves;
+}
+
+// ── WIN CHECK (shared) ────────────────────────────────────────────
+function checkWin() {
+  if (GAME === 'sudoku') { sudCheckWin(); return; }
+  var n = 0; for (var i = 0; i < FOUNDS[GAME]; i++) n += G.f[i].length;
+  if (n !== TOTAL_CARDS[GAME]) return;
+  showWin();
+}
+function showWin() {
+  var msg = WIN_MSGS[Math.floor(Math.random() * WIN_MSGS.length)];
+  document.getElementById('win-emoji').textContent  = msg.emoji;
+  document.getElementById('win-title').textContent  = msg.title;
+  document.getElementById('win-p').textContent = msg.msg
+    .replace('{score}', G.score).replace('{moves}', G.moves);
+  document.getElementById('win').classList.add('show');
+  launchConfetti();
+}
+
+// ── CONFETTI ──────────────────────────────────────────────────────
+function launchConfetti() {
+  var container = document.getElementById('win');
+  var colors = ['#f5c842','#4caf7d','#e74c3c','#3498db','#9b59b6','#e67e22','#1abc9c','#e91e8c'];
+  for (var i = 0; i < 80; i++) {
+    (function() {
+      var p = document.createElement('div');
+      p.className = 'confetti-piece';
+      var sz = Math.random() * 9 + 5;
+      p.style.cssText =
+        'left:'+(Math.random()*100)+'%;width:'+sz+'px;height:'+sz+'px;' +
+        'background:'+colors[Math.floor(Math.random()*colors.length)]+';' +
+        'border-radius:'+(Math.random()>.5?'50%':'2px')+';' +
+        'animation-delay:'+(Math.random()*1.8)+'s;' +
+        'animation-duration:'+(Math.random()*2.5+2)+'s;';
+      container.appendChild(p);
+      setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, 6000);
+    })();
+  }
+}
+function clearConfetti() {
+  var c = document.getElementById('win'), ps = c.querySelectorAll('.confetti-piece');
+  for (var i = 0; i < ps.length; i++) c.removeChild(ps[i]);
+}
+
+// ── LAYOUT BUILDER ────────────────────────────────────────────────
+function setupGameLayout() {
+  var suits = ['♠','♥','♦','♣'];
+  var topEl = document.getElementById('top');
+  var tabEl = document.getElementById('tableau');
+
+  function colHtml(n) {
+    var h = '';
+    for (var i = 0; i < n; i++) h += '<div class="col" id="t'+i+'"></div>';
+    return h;
+  }
+
+  if (GAME === 'solitaire') {
+    var fHtml = suits.map(function(s, i) {
+      var rc = (i===1||i===2) ? ' red' : '';
+      return '<div class="slot" id="f'+i+'"><div class="slot-icon"><div class="si'+rc+'">'+s+'</div></div></div>';
+    }).join('');
+    topEl.innerHTML =
+      '<div id="left-piles">' +
+        '<div class="slot" id="stock"><div class="slot-icon"><div class="si">↺</div><div class="sl">Draw</div></div></div>' +
+        '<div class="slot" id="waste"></div>' +
+      '</div>' +
+      '<div id="foundations">' + fHtml + '</div>';
+    tabEl.innerHTML = colHtml(7);
+  } else if (GAME === 'freecell') {
+    var fHtml = suits.map(function(s, i) {
+      var rc = (i===1||i===2) ? ' red' : '';
+      return '<div class="slot" id="f'+i+'"><div class="slot-icon"><div class="si'+rc+'">'+s+'</div></div></div>';
+    }).join('');
+    var fcHtml = [0,1,2,3].map(function(i) {
+      return '<div class="slot fc-slot" id="fc'+i+'"><div class="slot-icon"><div class="sl">Free</div></div></div>';
+    }).join('');
+    topEl.innerHTML =
+      '<div id="left-piles">' + fcHtml + '</div>' +
+      '<div id="foundations">' + fHtml + '</div>';
+    tabEl.innerHTML = colHtml(8);
+  } else if (GAME === 'spider') {
+    // 8 spider foundations (all spades — completed K→A runs)
+    var fHtml = '';
+    for (var i = 0; i < 8; i++) {
+      fHtml += '<div class="slot" id="f'+i+'"><div class="slot-icon"><div class="si">♠</div></div></div>';
+    }
+    topEl.innerHTML =
+      '<div id="left-piles">' +
+        '<div class="slot" id="stock"><div class="slot-icon"><div class="si">↺</div><div class="sl">Deal</div></div></div>' +
+      '</div>' +
+      '<div id="foundations">' + fHtml + '</div>';
+    tabEl.innerHTML = colHtml(10);
+  } else if (GAME === 'acesup') {
+    topEl.innerHTML =
+      '<div id="left-piles">' +
+        '<div class="slot" id="stock"><div class="slot-icon"><div class="si">↺</div><div class="sl">Deal</div></div></div>' +
+      '</div>' +
+      '<div id="foundations">' +
+        '<div class="slot" id="f0"><div class="slot-icon"><div class="si">✕</div><div class="sl">Discard</div></div></div>' +
+      '</div>';
+    tabEl.innerHTML = colHtml(4);
+  } else if (GAME === 'sudoku') {
+    // Top shows difficulty selector + mistakes counter
+    topEl.innerHTML =
+      '<div id="sud-top">' +
+        '<div class="sud-diff-row">' +
+          '<button class="sud-diff" data-d="easy">Easy</button>' +
+          '<button class="sud-diff" data-d="medium">Medium</button>' +
+          '<button class="sud-diff" data-d="hard">Hard</button>' +
+        '</div>' +
+        '<div class="sud-info">' +
+          '<div class="sud-diff-label" id="sud-current">Medium</div>' +
+          '<div class="sud-mistakes"><span id="sud-mistakes">0</span><span class="sud-mistakes-lbl">mistakes</span></div>' +
+        '</div>' +
+      '</div>';
+    tabEl.innerHTML =
+      '<div id="sud-root">' +
+        '<div id="sud-board"></div>' +
+        '<div id="sud-keypad">' +
+          '<button class="sud-key" data-n="1">1</button>' +
+          '<button class="sud-key" data-n="2">2</button>' +
+          '<button class="sud-key" data-n="3">3</button>' +
+          '<button class="sud-key" data-n="4">4</button>' +
+          '<button class="sud-key" data-n="5">5</button>' +
+          '<button class="sud-key" data-n="6">6</button>' +
+          '<button class="sud-key" data-n="7">7</button>' +
+          '<button class="sud-key" data-n="8">8</button>' +
+          '<button class="sud-key" data-n="9">9</button>' +
+          '<button class="sud-key sud-erase" data-n="0">✕</button>' +
+        '</div>' +
+      '</div>';
+    sudWireUp();
+  }
+}
+
+// ── RENDER DISPATCHER ─────────────────────────────────────────────
+function renderAll() {
+  if      (GAME === 'solitaire') { rStock(); rWaste(); rFoundations(); rTableau(); }
+  else if (GAME === 'freecell')  { fcRenderCells(); rFoundations(); rTableau(); }
+  else if (GAME === 'spider')    { spiRenderStock(); rFoundations(); rTableau(); }
+  else if (GAME === 'acesup')    { auRenderStock(); rFoundations(); rTableau(); }
+  else if (GAME === 'sudoku')    { sudRender(); }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SOLITAIRE
+// ══════════════════════════════════════════════════════════════════
+
+function newSolitaire() {
+  document.getElementById('win').classList.remove('show');
+  clearConfetti(); hist = []; sel = null;
+  G = {stock:[], waste:[], f:[[],[],[],[]], t:[[],[],[],[],[],[],[]], score:0, moves:0};
+  var deck = shuffle(makeDeck()), k = 0;
+  for (var c = 0; c < 7; c++)
+    for (var r = 0; r <= c; r++) { G.t[c].push({s:deck[k].s, r:deck[k].r, up:(r===c)}); k++; }
+  for (; k < deck.length; k++) G.stock.push({s:deck[k].s, r:deck[k].r, up:false});
+  renderAll(); updateStats(); checkFinish();
+}
+
+function rStock() {
+  var el = clearCards('stock'); if (!el) return;
+  var icon = el.querySelector('.slot-icon');
+  if (G.stock.length) {
+    icon.style.display = 'none';
+    var c = mkCard({s:'♠', r:'A', up:false}); c.dataset.zone = 'stock';
+    var badge = document.createElement('div');
+    badge.style.cssText = 'position:absolute;bottom:7px;right:8px;background:rgba(255,255,255,.28);' +
+      'color:#fff;border-radius:9px;padding:3px 7px;font-size:12px;font-weight:bold;' +
+      'pointer-events:none;font-family:Georgia,serif;';
+    badge.textContent = G.stock.length;
+    c.appendChild(badge); el.appendChild(c);
+  } else {
+    icon.style.display = '';
+    icon.querySelector('.si').textContent = G.waste.length ? '↺' : '—';
+    icon.querySelector('.sl').textContent = G.waste.length ? 'Tap to reset' : 'Empty';
+  }
+}
+
+function rWaste() {
+  var el = clearCards('waste'); if (!el) return;
+  if (G.waste.length) {
+    var ce = mkCard(G.waste[G.waste.length - 1]); ce.dataset.zone = 'waste';
+    if (sel && sel.area === 'waste') ce.classList.add('sel');
+    el.appendChild(ce);
+  }
+}
+
+function flipStock() {
+  save(); sel = null;
+  if (!G.stock.length) {
+    if (!G.waste.length) return;
+    for (var i = G.waste.length - 1; i >= 0; i--)
+      G.stock.push({s:G.waste[i].s, r:G.waste[i].r, up:false});
+    G.waste = []; G.score = Math.max(0, G.score - 100);
+  } else {
+    var c = G.stock.pop(); c.up = true; G.waste.push(c); G.score += 5; G.moves++;
+  }
+  renderAll(); updateStats(); checkFinish();
+}
+
+function solAutoToF(area, col, idx) {
+  var card;
+  if (area === 'waste') { if (!G.waste.length) return false; card = G.waste[G.waste.length-1]; }
+  else {
+    if (idx !== G.t[col].length - 1) return false;
+    card = G.t[col][idx]; if (!card || !card.up) return false;
+  }
+  for (var f = 0; f < 4; f++) {
+    if (canF(card, f)) {
+      save();
+      if (area === 'waste') { G.waste.pop(); }
+      else { G.t[col].pop(); var p=G.t[col]; if(p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;} }
+      G.f[f].push(card); G.score += 15; G.moves++;
+      sel = null; renderAll(); updateStats(); checkFinish(); checkWin(); return true;
+    }
+  }
+  return false;
+}
+
+function solExecMove(fromArea, fromCol, fromIdx, toArea, toCol) {
+  save();
+  var cards = [];
+  if (fromArea === 'waste') { cards = [G.waste.pop()]; }
+  else {
+    cards = G.t[fromCol].splice(fromIdx);
+    var p = G.t[fromCol]; if (p.length&&!p[p.length-1].up){p[p.length-1].up=true;G.score+=5;}
+  }
+  if (toArea === 'f')      { G.f[toCol].push(cards[0]); G.score += 15; }
+  else { for (var i=0;i<cards.length;i++) G.t[toCol].push(cards[i]); if(fromArea==='waste') G.score+=5; }
+  G.moves++;
+  sel = null; renderAll(); updateStats(); checkFinish(); checkWin();
+}
+
+function solCheckFinish() {
+  var ok = G.stock.length === 0;
+  if (ok) for (var c=0;c<7&&ok;c++) for (var i=0;i<G.t[c].length&&ok;i++) if (!G.t[c][i].up) ok=false;
+  document.getElementById('btn-finish').className = 'btn' + (ok ? ' show' : '');
+}
+
+function solAutoFinish() {
+  save();
+  function step() {
+    var moved=false, srcs=[];
+    if (G.waste.length) srcs.push({area:'waste',c:0,card:G.waste[G.waste.length-1]});
+    for (var c=0;c<7;c++) { var p=G.t[c]; if(p.length&&p[p.length-1].up) srcs.push({area:'t',c:c,card:p[p.length-1]}); }
+    outer: for (var si=0;si<srcs.length;si++) for (var f=0;f<4;f++) {
+      if (canF(srcs[si].card,f)) {
+        var src=srcs[si];
+        if(src.area==='waste'){G.waste.pop();}
+        else{G.t[src.c].pop();var p2=G.t[src.c];if(p2.length&&!p2[p2.length-1].up){p2[p2.length-1].up=true;G.score+=5;}}
+        G.f[f].push(src.card); G.score+=15; G.moves++; moved=true; break outer;
+      }
+    }
+    renderAll(); updateStats();
+    if (moved) { checkWin(); checkFinish(); if (!document.getElementById('win').classList.contains('show')) setTimeout(step, 65); }
+  }
+  step();
+}
+
+function solOnTap(x, y) {
+  if (hits(document.getElementById('stock'), x, y)) { flipStock(); return; }
+
+  if (sel) {
+    var zone = solDropZone(x, y);
+    if (zone && zone.area === 'f') {
+      var cards = sel.area==='waste' ? [G.waste[G.waste.length-1]] : G.t[sel.col].slice(sel.idx);
+      if (cards.length===1 && canF(cards[0], zone.col)) solExecMove(sel.area,sel.col,sel.idx,'f',zone.col);
+      else { sel=null; renderAll(); }
+      return;
+    }
+    if (zone && zone.area === 't') {
+      if (sel.area==='t' && sel.col===zone.col) { sel=null; renderAll(); return; }
+      var card = sel.area==='waste' ? G.waste[G.waste.length-1] : G.t[sel.col][sel.idx];
+      if (canT(card, zone.col)) { solExecMove(sel.area,sel.col,sel.idx,'t',zone.col); }
+      else {
+        var tap = solFindCard(x,y);
+        if (tap && tap.area==='t') solTrySelect(tap.col, tap.idx); else { sel=null; renderAll(); }
+      }
+      return;
+    }
+    sel=null; renderAll(); return;
+  }
+
+  var tap = solFindCard(x, y); if (!tap) return;
+  if (tap.area==='waste') {
+    var key='waste', now=Date.now();
+    if (key===lastTapKey && now-lastTapTime<DBL_TAP) { lastTapKey=''; solAutoToF('waste',0,0); return; }
+    lastTapKey=key; lastTapTime=now; sel={area:'waste',col:0,idx:0}; renderAll(); return;
+  }
+  if (tap.area==='t') solTrySelect(tap.col, tap.idx);
+}
+
+function solTrySelect(c, idx) {
+  var card = G.t[c][idx]; if (!card||!card.up) return;
+  var key='t:'+c+':'+idx, now=Date.now();
+  if (key===lastTapKey && now-lastTapTime<DBL_TAP && idx===G.t[c].length-1) { lastTapKey=''; solAutoToF('t',c,idx); return; }
+  lastTapKey=key; lastTapTime=now; sel={area:'t',col:c,idx:idx}; renderAll();
+}
+
+function solFindCard(x, y) {
+  var wEl=document.getElementById('waste');
+  if (wEl) { var wc=wEl.querySelectorAll('.card'); if(wc.length&&hits(wc[0],x,y)) return {area:'waste',col:0,idx:0}; }
+  for (var c=0;c<7;c++) {
+    var col=document.getElementById('t'+c); if(!col) continue;
+    var cs=col.querySelectorAll('.card');
+    for (var i=cs.length-1;i>=0;i--) if(hits(cs[i],x,y)) return {area:'t',col:c,idx:parseInt(cs[i].dataset.idx)};
+  }
+  return null;
+}
+
+function solDropZone(x, y) {
+  for (var f=0;f<4;f++) { var el=document.getElementById('f'+f); if(el&&hits(el,x,y)) return {area:'f',col:f}; }
+  for (var c=0;c<7;c++) { var el=document.getElementById('t'+c); if(el&&hits(el,x,y)) return {area:'t',col:c}; }
+  return null;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// FREECELL
+// ══════════════════════════════════════════════════════════════════
+
+function newFreecell() {
+  document.getElementById('win').classList.remove('show');
+  clearConfetti(); hist = []; sel = null;
+  G = {cells:[null,null,null,null], f:[[],[],[],[]], t:[[],[],[],[],[],[],[],[]], score:0, moves:0};
+  var deck = shuffle(makeDeck()), k = 0;
+  // 4 columns of 7 cards, 4 columns of 6 cards (all face-up)
+  for (var c = 0; c < 8; c++) {
+    var count = c < 4 ? 7 : 6;
+    for (var i = 0; i < count; i++) { G.t[c].push({s:deck[k].s, r:deck[k].r, up:true}); k++; }
+  }
+  renderAll(); updateStats(); checkFinish();
+}
+
+function fcRenderCells() {
+  for (var i = 0; i < 4; i++) {
+    var el = clearCards('fc'+i); if (!el) continue;
+    var icon = el.querySelector('.slot-icon');
+    if (G.cells[i]) {
+      icon.style.display = 'none';
+      var ce = mkCard(G.cells[i]); ce.dataset.zone='cell'; ce.dataset.col=i;
+      if (sel && sel.area==='cell' && sel.col===i) ce.classList.add('sel');
+      el.appendChild(ce);
+    } else { icon.style.display = ''; }
+  }
+}
+
+// How many cards can move at once (supermove rule).
+// targetCol: the destination column (-1 if unknown — conservative).
+function fcMaxMovable(targetCol) {
+  var emptyCells = 0; for (var i=0;i<4;i++) if(G.cells[i]===null) emptyCells++;
+  var emptyTab   = 0; for (var c=0;c<8;c++) if(c!==targetCol && G.t[c].length===0) emptyTab++;
+  return (emptyCells + 1) * Math.pow(2, emptyTab);
+}
+
+function fcAutoToF(area, col) {
+  var card = area==='cell' ? G.cells[col]
+           : (G.t[col].length ? G.t[col][G.t[col].length-1] : null);
+  if (!card) return false;
+  for (var f=0;f<4;f++) {
+    if (canF(card, f)) {
+      save();
+      if (area==='cell') G.cells[col]=null; else G.t[col].pop();
+      G.f[f].push(card); G.score+=10; G.moves++;
+      sel=null; renderAll(); updateStats(); checkFinish(); checkWin(); return true;
+    }
+  }
+  return false;
+}
+
+function fcExecMove(fromArea, fromCol, fromIdx, toArea, toCol) {
+  save();
+  var cards = [];
+  if (fromArea==='cell') { cards=[G.cells[fromCol]]; G.cells[fromCol]=null; }
+  else                   { cards=G.t[fromCol].splice(fromIdx); }
+
+  if (toArea==='cell')   { G.cells[toCol]=cards[0]; }
+  else if (toArea==='f') { G.f[toCol].push(cards[0]); G.score+=10; }
+  else                   { for(var i=0;i<cards.length;i++) G.t[toCol].push(cards[i]); }
+
+  G.moves++; sel=null; renderAll(); updateStats(); checkFinish(); checkWin();
+}
+
+// Returns the cards the current selection represents, or null if none.
+function fcGetSelected() {
+  if (!sel) return null;
+  if (sel.area==='cell') return G.cells[sel.col] ? [G.cells[sel.col]] : null;
+  return G.t[sel.col].slice(sel.idx);
+}
+
+function fcTrySelect(col, idx) {
+  var p = G.t[col]; if (!p[idx]) return;
+
+  // Validate sequence from idx to bottom of column
+  for (var i=idx; i<p.length-1; i++) {
+    if (clr(p[i].s)===clr(p[i+1].s) || rv(p[i].r)!==rv(p[i+1].r)+1) {
+      // Broken sequence — only allow selecting the last card
+      if (idx < p.length-1) return;
+      break;
+    }
+  }
+  // Check supermove (without knowing target yet — conservative check)
+  if (p.length-idx > fcMaxMovable(-1)) return;
+
+  var key='t:'+col+':'+idx, now=Date.now();
+  if (idx===p.length-1 && key===lastTapKey && now-lastTapTime<DBL_TAP) {
+    lastTapKey=''; fcAutoToF('t', col); return;
+  }
+  lastTapKey=key; lastTapTime=now;
+  sel={area:'t', col:col, idx:idx}; renderAll();
+}
+
+function fcOnTap(x, y) {
+  // ── Foundation slots ──
+  for (var f=0; f<4; f++) {
+    var fEl=document.getElementById('f'+f); if (!fEl||!hits(fEl,x,y)) continue;
+    if (sel) {
+      var cards=fcGetSelected();
+      if (cards&&cards.length===1&&canF(cards[0],f)) fcExecMove(sel.area,sel.col,sel.idx,'f',f);
+      else { sel=null; renderAll(); }
+    }
     return;
   }
-  // closer = stronger, fades smoothly to 0 at the proximity edge
-  const factor   = 1 - (dist / proximity);
-  const maxShift = 2;                     // SVG user units — subtle
-  const sx = (dx / dist) * maxShift * factor;
-  const sy = (dy / dist) * maxShift * factor;
-  pupil.setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)})`);
+
+  // ── Free cell slots ──
+  for (var ci=0; ci<4; ci++) {
+    var fcEl=document.getElementById('fc'+ci); if (!fcEl||!hits(fcEl,x,y)) continue;
+    if (sel) {
+      if (G.cells[ci]===null) {
+        // Place single selected card into empty free cell
+        var cards=fcGetSelected();
+        if (cards&&cards.length===1) fcExecMove(sel.area,sel.col,sel.idx,'cell',ci);
+        else { sel=null; renderAll(); } // can't put a stack in a cell
+      } else if (sel.area==='cell' && sel.col===ci) {
+        sel=null; renderAll(); // tapped same occupied cell — deselect
+      } else {
+        // Occupied cell — switch selection to this cell card
+        sel={area:'cell', col:ci, idx:0}; renderAll();
+      }
+      return;
+    }
+    // Nothing selected — select the card in this cell (if any)
+    if (G.cells[ci]) {
+      var key='cell:'+ci, now=Date.now();
+      if (key===lastTapKey && now-lastTapTime<DBL_TAP) { lastTapKey=''; fcAutoToF('cell',ci); return; }
+      lastTapKey=key; lastTapTime=now;
+      sel={area:'cell', col:ci, idx:0}; renderAll();
+    }
+    return;
+  }
+
+  // ── Tableau columns ──
+  for (var c=0; c<8; c++) {
+    var colEl=document.getElementById('t'+c); if (!colEl||!hits(colEl,x,y)) continue;
+
+    // Find specific card tapped within this column
+    var cardEls=colEl.querySelectorAll('.card'), tapped=null;
+    for (var i=cardEls.length-1; i>=0; i--) {
+      if (hits(cardEls[i],x,y)) { tapped={col:c, idx:parseInt(cardEls[i].dataset.idx)}; break; }
+    }
+
+    if (sel) {
+      // Tapping the same column — re-select a different card or deselect
+      if (sel.area==='t' && sel.col===c) {
+        if (tapped && tapped.idx!==sel.idx) fcTrySelect(c, tapped.idx); else { sel=null; renderAll(); }
+        return;
+      }
+      var cards=fcGetSelected();
+      if (cards && canT(cards[0], c) && cards.length<=fcMaxMovable(c)) {
+        fcExecMove(sel.area, sel.col, sel.idx, 't', c);
+      } else if (tapped) {
+        fcTrySelect(tapped.col, tapped.idx); // re-select the tapped card
+      } else { sel=null; renderAll(); }
+      return;
+    }
+    // No selection
+    if (tapped) fcTrySelect(tapped.col, tapped.idx);
+    return;
+  }
+
+  // Tapped empty space — deselect
+  if (sel) { sel=null; renderAll(); }
+}
+
+function fcCheckFinish() {
+  // Show auto-finish when free cells are clear and foundations are deep enough
+  // that the remaining moves are all obvious (heuristic: all suits have ≥ 2 placed)
+  var cellsEmpty = G.cells.every(function(c){ return c===null; });
+  var minF = 13; for (var i=0;i<4;i++) minF=Math.min(minF, G.f[i].length);
+  var ok = cellsEmpty && minF >= 2;
+  document.getElementById('btn-finish').className = 'btn' + (ok ? ' show' : '');
+}
+
+function fcAutoFinish() {
+  save();
+  function step() {
+    var moved=false, srcs=[];
+    for (var ci=0;ci<4;ci++) { if(G.cells[ci]) srcs.push({area:'cell',col:ci,card:G.cells[ci]}); }
+    for (var c=0;c<8;c++) { var p=G.t[c]; if(p.length) srcs.push({area:'t',col:c,card:p[p.length-1]}); }
+    outer: for (var si=0;si<srcs.length;si++) for (var f=0;f<4;f++) {
+      if (canF(srcs[si].card,f)) {
+        var src=srcs[si];
+        if(src.area==='cell') G.cells[src.col]=null; else G.t[src.col].pop();
+        G.f[f].push(src.card); G.score+=10; G.moves++; moved=true; break outer;
+      }
+    }
+    renderAll(); updateStats();
+    if (moved) { checkWin(); checkFinish(); if(!document.getElementById('win').classList.contains('show')) setTimeout(step, 65); }
+  }
+  step();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SPIDER (1-suit — all ♠, 8 decks of 13 ranks = 104 cards)
+// ══════════════════════════════════════════════════════════════════
+
+function newSpider() {
+  document.getElementById('win').classList.remove('show');
+  clearConfetti(); hist = []; sel = null;
+  G = {
+    stock: [],
+    f: [[],[],[],[],[],[],[],[]],
+    t: [[],[],[],[],[],[],[],[],[],[]],
+    score: 500, moves: 0
+  };
+  // Build 104-card single-suit (♠) deck
+  var deck = [];
+  for (var copy = 0; copy < 8; copy++)
+    for (var ri = 0; ri < 13; ri++)
+      deck.push({s:'♠', r:RANKS[ri], up:false});
+  shuffle(deck);
+  var k = 0;
+  // First 4 columns: 6 cards. Last 6 columns: 5 cards. Only bottom card up.
+  for (var c = 0; c < 10; c++) {
+    var count = c < 4 ? 6 : 5;
+    for (var i = 0; i < count; i++) {
+      G.t[c].push({s:deck[k].s, r:deck[k].r, up:(i === count - 1)});
+      k++;
+    }
+  }
+  // Remaining 50 cards → stock (5 deals of 10)
+  for (; k < deck.length; k++) G.stock.push({s:deck[k].s, r:deck[k].r, up:false});
+  renderAll(); updateStats(); checkFinish();
+}
+
+function spiRenderStock() {
+  var el = clearCards('stock'); if (!el) return;
+  var icon = el.querySelector('.slot-icon');
+  if (G.stock.length) {
+    icon.style.display = 'none';
+    var c = mkCard({s:'♠', r:'A', up:false}); c.dataset.zone = 'stock';
+    var badge = document.createElement('div');
+    badge.style.cssText = 'position:absolute;bottom:7px;right:8px;background:rgba(255,255,255,.28);' +
+      'color:#fff;border-radius:9px;padding:3px 7px;font-size:12px;font-weight:bold;' +
+      'pointer-events:none;font-family:Georgia,serif;';
+    // Show deals remaining (each deal = 10 cards)
+    badge.textContent = Math.ceil(G.stock.length / 10);
+    c.appendChild(badge); el.appendChild(c);
+  } else {
+    icon.style.display = '';
+    icon.querySelector('.si').textContent = '—';
+    icon.querySelector('.sl').textContent = 'Empty';
+  }
+}
+
+// Deal one card (face-up) to each tableau column. Disallowed if any column is empty.
+function spiDealStock() {
+  if (!G.stock.length) return;
+  for (var c = 0; c < 10; c++) if (G.t[c].length === 0) {
+    flashMsg('Fill empty columns first'); return;
+  }
+  save(); sel = null;
+  for (var c2 = 0; c2 < 10 && G.stock.length; c2++) {
+    var card = G.stock.pop(); card.up = true;
+    G.t[c2].push(card);
+  }
+  G.moves++;
+  // Check each column for newly-completed K→A runs
+  for (var c3 = 0; c3 < 10; c3++) spiCollectSequence(c3);
+  renderAll(); updateStats(); checkFinish(); checkWin();
+}
+
+// Check if bottom of column has an in-suit K→A run; if so, move to foundation.
+function spiCollectSequence(col) {
+  var p = G.t[col];
+  if (p.length < 13) return false;
+  var start = p.length - 13;
+  // Verify run is K, Q, J, ..., A all face-up and same suit
+  for (var i = 0; i < 13; i++) {
+    var card = p[start + i];
+    if (!card.up) return false;
+    if (card.s !== p[start].s) return false;
+    if (rv(card.r) !== 13 - i) return false;
+  }
+  // Collect it — find first empty foundation slot
+  for (var f = 0; f < 8; f++) {
+    if (G.f[f].length === 0) {
+      var seq = p.splice(start, 13);
+      for (var j = 0; j < seq.length; j++) G.f[f].push(seq[j]);
+      // Flip newly-exposed card
+      if (p.length && !p[p.length-1].up) { p[p.length-1].up = true; G.score += 5; }
+      G.score += 100;
+      return true;
+    }
+  }
+  return false;
+}
+
+// Returns idx of topmost card in a valid movable group starting at idx (must be same-suit descending run).
+// Returns -1 if the selection is invalid.
+function spiValidateSelection(col, idx) {
+  var p = G.t[col];
+  if (!p[idx] || !p[idx].up) return false;
+  for (var i = idx; i < p.length - 1; i++) {
+    if (p[i].s !== p[i+1].s) return false;
+    if (rv(p[i].r) !== rv(p[i+1].r) + 1) return false;
+  }
+  return true;
+}
+
+function spiExecMove(fromCol, fromIdx, toCol) {
+  save();
+  var cards = G.t[fromCol].splice(fromIdx);
+  for (var i = 0; i < cards.length; i++) G.t[toCol].push(cards[i]);
+  // Flip exposed card in source column
+  var p = G.t[fromCol];
+  if (p.length && !p[p.length-1].up) { p[p.length-1].up = true; G.score += 5; }
+  G.moves++; G.score = Math.max(0, G.score - 1);
+  sel = null;
+  // Check the destination column for completed K→A
+  spiCollectSequence(toCol);
+  renderAll(); updateStats(); checkFinish(); checkWin();
+}
+
+function spiTrySelect(col, idx) {
+  if (!spiValidateSelection(col, idx)) return;
+  sel = {area:'t', col:col, idx:idx}; renderAll();
+}
+
+function spiOnTap(x, y) {
+  // Stock tap = deal a round
+  if (hits(document.getElementById('stock'), x, y)) {
+    if (sel) { sel = null; renderAll(); return; }
+    spiDealStock(); return;
+  }
+
+  // Find which tableau column was tapped
+  var tappedCol = -1, tappedIdx = -1;
+  for (var c = 0; c < 10; c++) {
+    var colEl = document.getElementById('t'+c);
+    if (!colEl || !hits(colEl, x, y)) continue;
+    tappedCol = c;
+    var cardEls = colEl.querySelectorAll('.card');
+    for (var i = cardEls.length - 1; i >= 0; i--) {
+      if (hits(cardEls[i], x, y)) { tappedIdx = parseInt(cardEls[i].dataset.idx); break; }
+    }
+    break;
+  }
+
+  if (tappedCol === -1) { if (sel) { sel = null; renderAll(); } return; }
+
+  if (sel) {
+    // Tap same column — switch selection or deselect
+    if (sel.col === tappedCol) {
+      if (tappedIdx >= 0 && tappedIdx !== sel.idx) spiTrySelect(tappedCol, tappedIdx);
+      else { sel = null; renderAll(); }
+      return;
+    }
+    // Attempt move
+    var first = G.t[sel.col][sel.idx];
+    if (canT(first, tappedCol)) {
+      spiExecMove(sel.col, sel.idx, tappedCol);
+    } else if (tappedIdx >= 0) {
+      spiTrySelect(tappedCol, tappedIdx);
+    } else {
+      sel = null; renderAll();
+    }
+    return;
+  }
+
+  if (tappedIdx >= 0) spiTrySelect(tappedCol, tappedIdx);
+}
+
+// Auto-finish is impractical in Spider (requires real strategy). Hide it.
+function spiCheckFinish() {
+  document.getElementById('btn-finish').className = 'btn';
+}
+function spiAutoFinish() { /* no-op */ }
+
+// Transient toast for messages like "Fill empty columns first"
+function flashMsg(text) {
+  var el = document.createElement('div');
+  el.textContent = text;
+  el.style.cssText =
+    'position:fixed;top:18px;left:50%;transform:translateX(-50%);' +
+    'background:rgba(0,0,0,.82);color:#fff;padding:10px 18px;border-radius:10px;' +
+    'font-family:Georgia,serif;font-size:14px;z-index:600;' +
+    'box-shadow:0 4px 12px rgba(0,0,0,.5);pointer-events:none;' +
+    'transition:opacity .3s;';
+  document.body.appendChild(el);
+  setTimeout(function(){ el.style.opacity = '0'; }, 1200);
+  setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 1600);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ACES UP (a.k.a. Idiot's Delight — 4 tableau columns + discard pile)
+// ══════════════════════════════════════════════════════════════════
+// Rules: Deal 1 card face-up to each of 4 columns. If two tops share a suit,
+// the lower-ranked one can be discarded (Aces are HIGH). Any top card may be
+// moved to an empty column. Win by discarding all 48 non-Ace cards so only
+// the 4 Aces remain on the tableau. 12 deals (48/4) total from stock.
+
+function newAcesUp() {
+  document.getElementById('win').classList.remove('show');
+  clearConfetti(); hist = []; sel = null;
+  G = { stock:[], f:[[]], t:[[],[],[],[]], score:0, moves:0 };
+  var deck = shuffle(makeDeck()), k = 0;
+  // Initial deal: 1 face-up card per column
+  for (var c = 0; c < 4; c++) {
+    G.t[c].push({s:deck[k].s, r:deck[k].r, up:true});
+    k++;
+  }
+  // Remaining 48 → stock (face-down)
+  for (; k < deck.length; k++) G.stock.push({s:deck[k].s, r:deck[k].r, up:false});
+  renderAll(); updateStats(); checkFinish();
+}
+
+// Aces Up rank value: Aces are HIGH (value 14).
+function auRv(r) { return r === 'A' ? 14 : rv(r); }
+
+// Is the top card of column `col` discardable right now?
+// (Some other column has a top card with the same suit and a HIGHER rank.)
+function auCanDiscard(col) {
+  var p = G.t[col]; if (!p.length) return false;
+  var c = p[p.length - 1];
+  for (var i = 0; i < 4; i++) {
+    if (i === col) continue;
+    var q = G.t[i]; if (!q.length) continue;
+    var other = q[q.length - 1];
+    if (other.s === c.s && auRv(other.r) > auRv(c.r)) return true;
+  }
+  return false;
+}
+
+function auDiscardCol(col) {
+  if (!auCanDiscard(col)) return false;
+  save();
+  var c = G.t[col].pop();
+  G.f[0].push(c);
+  G.score += 10; G.moves++;
+  sel = null;
+  renderAll(); updateStats(); checkFinish(); checkWin();
+  return true;
+}
+
+function auMoveToEmpty(fromCol, toCol) {
+  if (G.t[toCol].length !== 0) return false;
+  if (G.t[fromCol].length === 0) return false;
+  save();
+  var c = G.t[fromCol].pop();
+  G.t[toCol].push(c);
+  G.moves++;
+  sel = null;
+  renderAll(); updateStats(); checkFinish(); checkWin();
+  return true;
+}
+
+function auDealStock() {
+  if (!G.stock.length) { flashMsg('No more cards to deal'); return; }
+  // Check that every column has at least one card before dealing (standard rule)
+  for (var c = 0; c < 4; c++) if (G.t[c].length === 0) {
+    flashMsg('Fill empty columns first'); return;
+  }
+  save(); sel = null;
+  for (var c2 = 0; c2 < 4 && G.stock.length; c2++) {
+    var card = G.stock.pop(); card.up = true;
+    G.t[c2].push(card);
+  }
+  G.moves++;
+  renderAll(); updateStats(); checkFinish(); checkWin();
+}
+
+// Render stock pile (shared ID #stock — same structure as Solitaire/Spider)
+function auRenderStock() {
+  var el = clearCards('stock'); if (!el) return;
+  var icon = el.querySelector('.slot-icon');
+  if (G.stock.length) {
+    icon.style.display = 'none';
+    var c = mkCard({s:'♠', r:'A', up:false}); c.dataset.zone = 'stock';
+    var badge = document.createElement('div');
+    badge.style.cssText = 'position:absolute;bottom:7px;right:8px;background:rgba(255,255,255,.28);' +
+      'color:#fff;border-radius:9px;padding:3px 7px;font-size:12px;font-weight:bold;' +
+      'pointer-events:none;font-family:Georgia,serif;';
+    // Show deals remaining (each deal = 4 cards)
+    badge.textContent = Math.ceil(G.stock.length / 4);
+    c.appendChild(badge); el.appendChild(c);
+  } else {
+    icon.style.display = '';
+    icon.querySelector('.si').textContent = '—';
+    icon.querySelector('.sl').textContent = 'Empty';
+  }
+}
+
+function auOnTap(x, y) {
+  // Stock
+  if (hits(document.getElementById('stock'), x, y)) {
+    if (sel) { sel = null; renderAll(); return; }
+    auDealStock(); return;
+  }
+
+  // Discard pile (foundation f0) — if selected card is discardable, move it.
+  var fEl = document.getElementById('f0');
+  if (fEl && hits(fEl, x, y)) {
+    if (sel) {
+      if (auCanDiscard(sel.col)) auDiscardCol(sel.col);
+      else { sel = null; renderAll(); }
+    }
+    return;
+  }
+
+  // Find tapped column
+  var tappedCol = -1;
+  for (var c = 0; c < 4; c++) {
+    var colEl = document.getElementById('t'+c);
+    if (colEl && hits(colEl, x, y)) { tappedCol = c; break; }
+  }
+  if (tappedCol === -1) { if (sel) { sel = null; renderAll(); } return; }
+
+  if (sel) {
+    // Tapping the selected column again — deselect
+    if (sel.col === tappedCol) { sel = null; renderAll(); return; }
+    // Empty target → move selected there
+    if (G.t[tappedCol].length === 0) { auMoveToEmpty(sel.col, tappedCol); return; }
+    // Otherwise re-select if tapped column has a card
+    if (G.t[tappedCol].length > 0) {
+      sel = { area:'t', col:tappedCol, idx:G.t[tappedCol].length-1 };
+      renderAll();
+    } else { sel = null; renderAll(); }
+    return;
+  }
+
+  // No selection — tap a column's top card
+  if (G.t[tappedCol].length === 0) return;
+  // Double-tap auto-discards if possible
+  var key = 't:'+tappedCol, now = Date.now();
+  if (key === lastTapKey && now - lastTapTime < DBL_TAP && auCanDiscard(tappedCol)) {
+    lastTapKey = ''; auDiscardCol(tappedCol); return;
+  }
+  lastTapKey = key; lastTapTime = now;
+  sel = { area:'t', col:tappedCol, idx:G.t[tappedCol].length-1 };
+  renderAll();
+}
+
+// No auto-finish for Aces Up (requires real strategy)
+function auCheckFinish() {
+  document.getElementById('btn-finish').className = 'btn';
+}
+function auAutoFinish() { /* no-op */ }
+
+// ══════════════════════════════════════════════════════════════════
+// SUDOKU (9x9, three difficulties — easy/medium/hard)
+// ══════════════════════════════════════════════════════════════════
+// Board: 9x9 int array. 0 means empty. Given cells are fixed.
+// Generation: build a valid complete solution by applying random valid
+// transformations to a canonical pattern, then remove cells in a
+// symmetric pattern until we hit the target "givens" count.
+
+var SUD_DIFF_GIVENS = { easy: 40, medium: 32, hard: 26 };
+
+// Canonical completed Sudoku (one of the simplest valid grids).
+function sudBaseSolution() {
+  // Pattern: value at (r,c) = ((r%3)*3 + Math.floor(r/3) + c) % 9 + 1
+  var base = [];
+  for (var r = 0; r < 9; r++) {
+    var row = [];
+    for (var c = 0; c < 9; c++) {
+      row.push(((r % 3) * 3 + Math.floor(r / 3) + c) % 9 + 1);
+    }
+    base.push(row);
+  }
+  return base;
+}
+
+function sudShuffleArr(a) {
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// Generate a random valid completed grid.
+function sudGenerateSolution() {
+  var g = sudBaseSolution();
+
+  // 1) Random digit permutation (1..9 -> random 1..9)
+  var perm = sudShuffleArr([1,2,3,4,5,6,7,8,9]);
+  for (var r = 0; r < 9; r++)
+    for (var c = 0; c < 9; c++)
+      g[r][c] = perm[g[r][c] - 1];
+
+  // 2) Swap rows within each band (3 bands of 3 rows)
+  for (var band = 0; band < 3; band++) {
+    var rowOrder = sudShuffleArr([0,1,2]);
+    var orig = [g[band*3], g[band*3+1], g[band*3+2]];
+    for (var i = 0; i < 3; i++) g[band*3 + i] = orig[rowOrder[i]];
+  }
+
+  // 3) Swap columns within each stack
+  for (var stack = 0; stack < 3; stack++) {
+    var colOrder = sudShuffleArr([0,1,2]);
+    for (var r2 = 0; r2 < 9; r2++) {
+      var origRow = [g[r2][stack*3], g[r2][stack*3+1], g[r2][stack*3+2]];
+      for (var j = 0; j < 3; j++) g[r2][stack*3 + j] = origRow[colOrder[j]];
+    }
+  }
+
+  // 4) Swap entire bands (3x3 blocks of rows)
+  var bandOrder = sudShuffleArr([0,1,2]);
+  var origBands = [g.slice(0,3), g.slice(3,6), g.slice(6,9)];
+  g = [];
+  for (var bi = 0; bi < 3; bi++) for (var k = 0; k < 3; k++) g.push(origBands[bandOrder[bi]][k]);
+
+  // 5) Swap entire stacks (3-column groups)
+  var stackOrder = sudShuffleArr([0,1,2]);
+  for (var r3 = 0; r3 < 9; r3++) {
+    var origStacks = [g[r3].slice(0,3), g[r3].slice(3,6), g[r3].slice(6,9)];
+    g[r3] = [].concat(origStacks[stackOrder[0]], origStacks[stackOrder[1]], origStacks[stackOrder[2]]);
+  }
+
+  // 6) Maybe transpose (keeps solution valid)
+  if (Math.random() < 0.5) {
+    var t = [];
+    for (var r4 = 0; r4 < 9; r4++) t.push(new Array(9));
+    for (var r5 = 0; r5 < 9; r5++) for (var c5 = 0; c5 < 9; c5++) t[c5][r5] = g[r5][c5];
+    g = t;
+  }
+
+  return g;
+}
+
+function sudDeepCopy(g) { var out = []; for (var i=0;i<g.length;i++) out.push(g[i].slice()); return out; }
+
+function sudMakePuzzle(difficulty) {
+  var solution = sudGenerateSolution();
+  var board = sudDeepCopy(solution);
+  var given = [];
+  for (var r = 0; r < 9; r++) given.push([true,true,true,true,true,true,true,true,true]);
+
+  var target = SUD_DIFF_GIVENS[difficulty] || 32;
+  var cellsToRemove = 81 - target;
+
+  // Build all cell positions and shuffle
+  var positions = [];
+  for (var r2 = 0; r2 < 9; r2++) for (var c2 = 0; c2 < 9; c2++) positions.push([r2, c2]);
+  sudShuffleArr(positions);
+
+  // Remove cells in rotational pairs (point-symmetric around center)
+  var removed = 0;
+  for (var i = 0; i < positions.length && removed < cellsToRemove; i++) {
+    var r3 = positions[i][0], c3 = positions[i][1];
+    if (!given[r3][c3]) continue;
+    board[r3][c3] = 0; given[r3][c3] = false; removed++;
+    // Mirror position
+    var mr = 8 - r3, mc = 8 - c3;
+    if ((mr !== r3 || mc !== c3) && given[mr][mc] && removed < cellsToRemove) {
+      board[mr][mc] = 0; given[mr][mc] = false; removed++;
+    }
+  }
+
+  return { board: board, given: given, solution: solution };
+}
+
+function newSudoku(diff) {
+  document.getElementById('win').classList.remove('show');
+  clearConfetti(); hist = []; sel = null;
+  var currentDiff = (G && G.difficulty) ? G.difficulty : 'medium';
+  var d = diff || currentDiff;
+  var puz = sudMakePuzzle(d);
+  G = {
+    board: puz.board,
+    given: puz.given,
+    solution: puz.solution,
+    selR: -1, selC: -1,
+    difficulty: d,
+    score: 0, moves: 0,
+    mistakes: 0
+  };
+  renderAll(); updateStats(); checkFinish();
+}
+
+// Is value v legal at (r, c) given the current board state?
+function sudIsLegal(board, r, c, v) {
+  if (v === 0) return true;
+  for (var i = 0; i < 9; i++) {
+    if (i !== c && board[r][i] === v) return false;
+    if (i !== r && board[i][c] === v) return false;
+  }
+  var br = Math.floor(r / 3) * 3, bc = Math.floor(c / 3) * 3;
+  for (var rr = br; rr < br + 3; rr++)
+    for (var cc = bc; cc < bc + 3; cc++)
+      if ((rr !== r || cc !== c) && board[rr][cc] === v) return false;
+  return true;
+}
+
+// Does this cell currently conflict with any peer?
+function sudCellConflict(r, c) {
+  var v = G.board[r][c];
+  if (v === 0) return false;
+  return !sudIsLegal(G.board, r, c, v);
+}
+
+// Render the 9x9 grid and keypad state.
+function sudRender() {
+  var boardEl = document.getElementById('sud-board');
+  if (!boardEl) return;
+  boardEl.innerHTML = '';
+  var selV = (G.selR >= 0 && G.selC >= 0) ? G.board[G.selR][G.selC] : 0;
+  var selBr = G.selR >= 0 ? Math.floor(G.selR / 3) : -1;
+  var selBc = G.selC >= 0 ? Math.floor(G.selC / 3) : -1;
+
+  for (var r = 0; r < 9; r++) {
+    for (var c = 0; c < 9; c++) {
+      var cell = document.createElement('div');
+      cell.className = 'sud-cell';
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      var v = G.board[r][c];
+      cell.textContent = v === 0 ? '' : v;
+      if (G.given[r][c]) cell.classList.add('given');
+      // Peer highlights (same row/col/box as selection)
+      if (G.selR >= 0) {
+        var sameRow = r === G.selR, sameCol = c === G.selC;
+        var sameBox = Math.floor(r/3) === selBr && Math.floor(c/3) === selBc;
+        if ((sameRow || sameCol || sameBox) && !(r === G.selR && c === G.selC)) cell.classList.add('peer');
+        if (v !== 0 && selV !== 0 && v === selV && !(r === G.selR && c === G.selC)) cell.classList.add('match');
+      }
+      if (sudCellConflict(r, c)) cell.classList.add('conflict');
+      if (r === G.selR && c === G.selC) cell.classList.add('sel');
+      boardEl.appendChild(cell);
+    }
+  }
+
+  // Update difficulty label + mistakes counter + active button
+  var lbl = document.getElementById('sud-current');
+  if (lbl) lbl.textContent = G.difficulty.charAt(0).toUpperCase() + G.difficulty.slice(1);
+  var mc = document.getElementById('sud-mistakes');
+  if (mc) mc.textContent = G.mistakes;
+  var btns = document.querySelectorAll('.sud-diff');
+  for (var b = 0; b < btns.length; b++) {
+    if (btns[b].dataset.d === G.difficulty) btns[b].classList.add('active');
+    else btns[b].classList.remove('active');
+  }
+}
+
+// Wire up cell + keypad click handlers ONCE per layout.
+function sudWireUp() {
+  var boardEl = document.getElementById('sud-board');
+  if (boardEl) {
+    boardEl.addEventListener('click', function(e) {
+      var t = e.target;
+      while (t && t !== boardEl && !t.classList.contains('sud-cell')) t = t.parentNode;
+      if (!t || t === boardEl) return;
+      var r = parseInt(t.dataset.r), c = parseInt(t.dataset.c);
+      sudSelectCell(r, c);
+    });
+  }
+  var keypad = document.getElementById('sud-keypad');
+  if (keypad) {
+    keypad.addEventListener('click', function(e) {
+      var t = e.target;
+      while (t && t !== keypad && !t.classList.contains('sud-key')) t = t.parentNode;
+      if (!t || t === keypad) return;
+      sudEnter(parseInt(t.dataset.n));
+    });
+  }
+  // Difficulty pickers
+  var diffBtns = document.querySelectorAll('.sud-diff');
+  for (var i = 0; i < diffBtns.length; i++) {
+    diffBtns[i].addEventListener('click', function(e) {
+      var d = e.currentTarget.dataset.d;
+      if (G && G.difficulty === d) return;
+      newSudoku(d);
+    });
+  }
+}
+
+function sudSelectCell(r, c) {
+  G.selR = r; G.selC = c;
+  sudRender();
+}
+
+function sudEnter(n) {
+  if (G.selR < 0 || G.selC < 0) return;
+  var r = G.selR, c = G.selC;
+  if (G.given[r][c]) return;          // can't overwrite a given
+  if (G.board[r][c] === n) return;    // no-op
+  save();
+  if (n !== 0 && n !== G.solution[r][c]) G.mistakes++;
+  G.board[r][c] = n;
+  G.moves++;
+  renderAll(); updateStats(); checkFinish(); checkWin();
+}
+
+function sudCheckFinish() {
+  // No "auto-finish" for sudoku
+  document.getElementById('btn-finish').className = 'btn';
+}
+
+function sudCheckWin() {
+  // Win: every cell filled and matches the solution
+  for (var r = 0; r < 9; r++)
+    for (var c = 0; c < 9; c++)
+      if (G.board[r][c] !== G.solution[r][c]) return;
+  // Score: 1000 - 50 per mistake, floored at 0
+  G.score = Math.max(0, 1000 - G.mistakes * 50);
+  updateStats();
+  showWin();
+}
+
+// Size the board to available viewport height / width.
+function sudSize() {
+  // CSS already clamps board size via aspect-ratio; nothing to compute.
+}
+
+// ══════════════════════════════════════════════════════════════════
+// DISPATCHERS
+// ══════════════════════════════════════════════════════════════════
+
+function checkFinish() {
+  if      (GAME === 'solitaire') solCheckFinish();
+  else if (GAME === 'freecell')  fcCheckFinish();
+  else if (GAME === 'spider')    spiCheckFinish();
+  else if (GAME === 'acesup')    auCheckFinish();
+  else if (GAME === 'sudoku')    sudCheckFinish();
+}
+function autoFinish() {
+  if      (GAME === 'solitaire') solAutoFinish();
+  else if (GAME === 'freecell')  fcAutoFinish();
+  else if (GAME === 'spider')    spiAutoFinish();
+  else if (GAME === 'acesup')    auAutoFinish();
+  // sudoku has no auto-finish
+}
+function newGame() {
+  if      (GAME === 'solitaire') newSolitaire();
+  else if (GAME === 'freecell')  newFreecell();
+  else if (GAME === 'spider')    newSpider();
+  else if (GAME === 'acesup')    newAcesUp();
+  else if (GAME === 'sudoku')    newSudoku();
+}
+function onTap(x, y) {
+  if      (GAME === 'solitaire') solOnTap(x, y);
+  else if (GAME === 'freecell')  fcOnTap(x, y);
+  else if (GAME === 'spider')    spiOnTap(x, y);
+  else if (GAME === 'acesup')    auOnTap(x, y);
+  // sudoku uses delegated handlers on its cells/keys — no global onTap
+}
+
+// ── GAME SELECTION ────────────────────────────────────────────────
+var GAME_BTN = { solitaire: 'btn-sol', freecell: 'btn-fc', spider: 'btn-spi', acesup: 'btn-au', sudoku: 'btn-sud' };
+
+// Per-game state snapshots — preserved across game switches so switching
+// back to a game resumes exactly where you left off.
+var SAVES = {};
+function snapshotCurrent() {
+  if (!G) return;
+  SAVES[GAME] = {
+    G: JSON.parse(JSON.stringify(G)),
+    hist: JSON.parse(JSON.stringify(hist)),
+    sel: sel ? JSON.parse(JSON.stringify(sel)) : null,
+  };
+}
+function restoreSaved(name) {
+  var s = SAVES[name];
+  G    = JSON.parse(JSON.stringify(s.G));
+  hist = JSON.parse(JSON.stringify(s.hist));
+  sel  = s.sel ? JSON.parse(JSON.stringify(s.sel)) : null;
+}
+
+function updateGameButtons() {
+  for (var name in GAME_BTN) {
+    var el = document.getElementById(GAME_BTN[name]);
+    if (!el) continue;
+    if (name === GAME) el.classList.add('active'); else el.classList.remove('active');
+  }
+}
+function setGame(name) {
+  if (name === GAME) return; // already active — no-op
+  // Snapshot the outgoing game so we can resume it later unchanged.
+  snapshotCurrent();
+  GAME = name;
+  updateGameButtons();
+  setupGameLayout();
+  sizeCards();
+  // Restore prior save if we have one; else start a fresh game.
+  if (SAVES[name]) {
+    restoreSaved(name);
+    // Hide any stale win overlay/confetti carried from the previous game
+    document.getElementById('win').classList.remove('show');
+    clearConfetti();
+    renderAll();
+    updateStats();
+    checkFinish();
+  } else {
+    newGame();
+  }
+}
+
+// ── CONFIRM NEW-GAME PROMPT ───────────────────────────────────────
+function askNewGame() {
+  document.getElementById('confirm').classList.add('show');
+}
+function hideConfirm() {
+  document.getElementById('confirm').classList.remove('show');
+}
+function confirmNewGame() {
+  hideConfirm();
+  newGame();
+}
+
+// ── HIT TESTING ───────────────────────────────────────────────────
+function hits(el, x, y) {
+  if (!el) return false;
+  var r = el.getBoundingClientRect();
+  return x>=r.left && x<=r.right && y>=r.top && y<=r.bottom;
+}
+
+// ── TOUCH / CLICK ─────────────────────────────────────────────────
+var touchStartX = 0, touchStartY = 0;
+document.addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+function btnTouch(id, fn) {
+  var el = document.getElementById(id);
+  el.addEventListener('touchend', function(e) { e.stopPropagation(); e.preventDefault(); fn(); });
+  el.addEventListener('click', fn);
+}
+btnTouch('btn-new',         askNewGame);
+btnTouch('btn-undo',        undo);
+btnTouch('btn-finish',      autoFinish);
+btnTouch('btn-play-again',  newGame);
+btnTouch('btn-confirm-yes', confirmNewGame);
+btnTouch('btn-confirm-no',  hideConfirm);
+btnTouch('btn-sol', function() { setGame('solitaire'); });
+btnTouch('btn-fc',  function() { setGame('freecell');  });
+btnTouch('btn-spi', function() { setGame('spider');    });
+btnTouch('btn-au',  function() { setGame('acesup');    });
+btnTouch('btn-sud', function() { setGame('sudoku');    });
+
+document.addEventListener('touchend', function(e) {
+  var t = e.changedTouches[0];
+  if (Math.abs(t.clientX-touchStartX)>12 || Math.abs(t.clientY-touchStartY)>12) return;
+  // In Sudoku, rely on native click bubbling to the delegated handlers
+  // on #sud-board / #sud-keypad / .sud-diff (calling preventDefault here
+  // would suppress those synthetic clicks on touch devices).
+  if (GAME === 'sudoku') return;
+  e.preventDefault(); onTap(t.clientX, t.clientY);
+}, { passive: false });
+
+document.addEventListener('click', function(e) {
+  if ('ontouchstart' in window) return;
+  if (GAME === 'sudoku') return; // delegated handlers own Sudoku input
+  onTap(e.clientX, e.clientY);
 });
 
+document.addEventListener('touchmove', function(e) {
+  if (document.getElementById('tableau').contains(e.target)) return; e.preventDefault();
+}, { passive: false });
+
+document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+
+// ── START ─────────────────────────────────────────────────────────
+setupGameLayout();
+sizeCards();
+updateGameButtons();
+newGame();
 </script>
 </body>
 </html>
