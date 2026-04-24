@@ -179,8 +179,7 @@ html, body {
   min-height: 100vh;
   min-height: 100dvh; /* stable across iOS URL-bar collapse */
   display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-start;
-  padding-top: 4vh;
+  align-items: center; justify-content: center;
   padding-bottom: 120px;
   gap: 44px;
 }
@@ -221,7 +220,6 @@ html, body {
   grid-template-columns: repeat(2, 200px);
   gap: 12px;
   padding: 0 20px;
-  margin-top: 22vh;
 }
 
 .card {
@@ -290,9 +288,10 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   width: 32px;
-  opacity: .22;
+  opacity: .45;
   z-index: 10;
   pointer-events: none;
+  animation: title-flicker 11s steps(1) infinite;
 }
 
 /* ───────────────── Layout switch ───────────────── */
@@ -356,12 +355,7 @@ html, body {
     gap: 28px;
   }
 
-  .header .logo-tile {
-    width: clamp(84px, 22vw, 120px);
-  }
-
   .projects {
-    margin-top: 6vh;
     gap: 10px;
     padding: 0 16px;
     max-width: 100%;
@@ -377,7 +371,7 @@ html, body {
   .footer-logo {
     bottom: 80px;
     width: 26px;
-    opacity: .2;
+    opacity: .4;
   }
 
   .hint {
@@ -487,18 +481,6 @@ html, body {
 <main class="content">
   <header class="header">
     <h1>ylabs</h1>
-    <svg class="logo-tile" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect class="tile-box" x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8" stroke-opacity=".9"/>
-      <g transform="translate(90,78)">
-        <circle class="y-socket" cx="0" cy="0" r="34" fill="none" stroke="white" stroke-width="1.58"/>
-        <g class="y-pupil">
-          <line x1="0" y1="2" x2="-18" y2="-14" stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-          <line x1="0" y1="2" x2="18"  y2="-14" stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-          <line x1="0" y1="2" x2="0"   y2="24"  stroke="white" stroke-width="1.58" stroke-linecap="round"/>
-        </g>
-      </g>
-      <text x="92" y="148" fill="white" font-family="Courier New, Courier, monospace" font-size="13" text-anchor="middle" letter-spacing="4">LABS</text>
-    </svg>
   </header>
 
   <div class="projects">
