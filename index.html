@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ylabs — projects by Yves Eggleston. Supplement Score, Axis, and more.">
+<meta name="theme-color" content="#010108">
 <title>ylabs — Yves</title>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,11 +20,12 @@
 }
 
 html, body {
-  width: 100%; height: 100%;
-  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
   background: var(--bg);
   font-family: 'Courier New', Courier, monospace;
   color: white;
+  overflow-x: hidden;
 }
 
 
@@ -46,7 +49,16 @@ html, body {
   width: 680px; height: 680px;
   background: var(--purple); opacity: .07;
   top: -240px; left: -160px;
-  animation: drift-a 40s ease-in-out infinite, morph-a 32s ease-in-out infinite;
+  animation: drift-a 40s ease-in-out infinite, morph-a 32s ease-in-out infinite, hue-cycle 55s ease-in-out infinite;
+}
+
+/* Subtle hue drift on the dominant purple blob */
+@keyframes hue-cycle {
+  0%   { filter: blur(110px) hue-rotate(-22deg); }
+  25%  { filter: blur(110px) hue-rotate(-8deg); }
+  50%  { filter: blur(110px) hue-rotate(20deg); }
+  75%  { filter: blur(110px) hue-rotate(6deg); }
+  100% { filter: blur(110px) hue-rotate(-22deg); }
 }
 .blob-2 .blob {
   width: 520px; height: 520px;
@@ -147,42 +159,29 @@ html, body {
   100% { opacity: .025; filter: url(#static); }
 }
 
-/* ───────────────── ylabs flicker ───────────────── */
+/* ───────────────── ylabs flicker (scaled to .55 base) ───────────────── */
 @keyframes title-flicker {
-  0%,100% { opacity: .92; }
-  41%     { opacity: .92; }
-  41.6%   { opacity: .84; }
-  42.2%   { opacity: .92; }
-  72%     { opacity: .92; }
-  72.4%   { opacity: .82; }
-  72.9%   { opacity: .92; }
-  73.3%   { opacity: .88; }
-  73.7%   { opacity: .92; }
-}
-
-/* ───────────────── Noise grain ───────────────── */
-.noise {
-  position: fixed; inset: -50%;
-  width: 200%; height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: .018; pointer-events: none; z-index: 3;
-  animation: grain .6s steps(1) infinite;
-}
-@keyframes grain {
-  0%  { transform: translate(0,0); }
-  20% { transform: translate(-2%,-1%); }
-  40% { transform: translate(1%, 2%); }
-  60% { transform: translate(2%,-2%); }
-  80% { transform: translate(-1%, 1%); }
+  0%,100% { opacity: .55; }
+  41%     { opacity: .55; }
+  41.6%   { opacity: .48; }
+  42.2%   { opacity: .55; }
+  72%     { opacity: .55; }
+  72.4%   { opacity: .46; }
+  72.9%   { opacity: .55; }
+  73.3%   { opacity: .50; }
+  73.7%   { opacity: .55; }
 }
 
 /* ───────────────── Content ───────────────── */
 .content {
   position: relative; z-index: 10;
-  width: 100%; height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh; /* stable across iOS URL-bar collapse */
   display: flex; flex-direction: column;
   align-items: center; justify-content: flex-start;
   padding-top: 4vh;
+  padding-bottom: 120px;
   gap: 44px;
 }
 
@@ -193,8 +192,14 @@ html, body {
   width: clamp(96px, 10.4vw, 136px);
   height: auto;
   animation: title-flicker 11s steps(1) infinite;
-  opacity: .92;
+  opacity: .55;
 }
+
+/* Thinner strokes on header logo */
+.header .logo-tile rect,
+.header .logo-tile circle,
+.header .logo-tile line { stroke-width: 1; }
+.header .logo-tile text { opacity: .8; }
 
 .header .logo-tile .y-pupil {
   transition: transform .35s cubic-bezier(.2,.8,.2,1);
@@ -208,14 +213,6 @@ html, body {
   overflow: hidden;
   clip: rect(0,0,0,0);
   border: 0;
-}
-
-.header .role {
-  margin-top: 14px;
-  font-size: .78rem;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.35);
 }
 
 /* ───────────────── Project cards ───────────────── */
@@ -247,7 +244,11 @@ html, body {
   gap: 10px;
 }
 
-.card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.055); }
+@media (hover: hover) {
+  .card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.055); }
+  .card:hover .card-icon { opacity: 1; }
+}
+.card:active { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.055); }
 
 .card-icon {
   width: 42px;
@@ -257,7 +258,6 @@ html, body {
   transition: opacity .35s;
   flex-shrink: 0;
 }
-.card:hover .card-icon { opacity: 1; }
 
 .card-title {
   font-size: .82rem; font-weight: 400;
@@ -277,7 +277,7 @@ html, body {
   transform: translateX(-50%);
   font-size: .52rem; letter-spacing: .32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.11); z-index: 10;
+  color: rgba(255,255,255,.28); z-index: 10;
   animation: pulse 5s ease-in-out infinite;
 }
 @keyframes pulse { 0%,100% { opacity:.45; } 50% { opacity:.75; } }
@@ -289,7 +289,7 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   width: 32px;
-  opacity: .12;
+  opacity: .22;
   z-index: 10;
   pointer-events: none;
 }
@@ -315,10 +315,12 @@ html, body {
   background: rgba(255,255,255,.02);
   transition: color .3s, border-color .3s, background .3s;
 }
-.layout-switch:hover {
-  color: rgba(255,255,255,.85);
-  border-color: rgba(255,255,255,.35);
-  background: rgba(255,255,255,.06);
+@media (hover: hover) {
+  .layout-switch:hover {
+    color: rgba(255,255,255,.85);
+    border-color: rgba(255,255,255,.35);
+    background: rgba(255,255,255,.06);
+  }
 }
 
 /* ───────────────── Swing silhouette ───────────────── */
@@ -343,6 +345,80 @@ html, body {
   0%   { transform: rotate(-14deg); }
   50%  { transform: rotate(14deg); }
   100% { transform: rotate(-14deg); }
+}
+
+/* ───────────────── Mobile ───────────────── */
+@media (max-width: 720px) {
+  .content {
+    padding-top: 6vh;
+    padding-bottom: 160px;
+    gap: 28px;
+  }
+
+  .header .logo-tile {
+    width: clamp(84px, 22vw, 120px);
+  }
+
+  .projects {
+    margin-top: 6vh;
+    gap: 10px;
+    padding: 0 16px;
+    max-width: 100%;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 360px;
+    min-height: 0;
+    padding: 18px 20px 16px;
+  }
+
+  .footer-logo {
+    bottom: 80px;
+    width: 26px;
+    opacity: .2;
+  }
+
+  .hint {
+    bottom: 52px;
+    font-size: .5rem;
+  }
+
+  .layout-switch {
+    bottom: 14px;
+    right: 14px;
+  }
+
+  .swing-wrap {
+    width: 160px;
+    left: calc(50% - 80px);
+  }
+  .swing-svg {
+    width: 160px;
+    opacity: .1;
+  }
+
+  /* Background Y mark smaller on mobile so it doesn't dominate */
+  .bg-y-wrap {
+    opacity: .7;
+  }
+}
+
+@media (max-width: 420px) {
+  .card-title { font-size: .78rem; }
+  .card-desc { font-size: .64rem; }
+}
+
+/* ───────────────── Reduced motion ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .blob,
+  .bg-y-wrap,
+  .bg-y-wrap svg,
+  .swing-svg,
+  .header .logo-tile,
+  .hint {
+    animation: none !important;
+  }
 }
 </style>
 </head>
@@ -379,8 +455,6 @@ html, body {
   </svg>
 </div>
 
-<div class="noise"></div>
-
 <!-- Swing silhouette -->
 <div class="swing-wrap">
   <svg class="swing-svg" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -403,7 +477,7 @@ html, body {
     <!-- right leg dangling -->
     <path d="M108 132 Q118 165 122 195" stroke="#0a0a14" stroke-width="8" stroke-linecap="round" fill="none"/>
     <!-- feet -->
-    <ellipse cx="76" cy="198" rx="8" ry="5" rx="8" ry="4" fill="#0a0a14" transform="rotate(-15 76 198)"/>
+    <ellipse cx="76" cy="198" rx="8" ry="4" fill="#0a0a14" transform="rotate(-15 76 198)"/>
     <ellipse cx="124" cy="198" rx="8" ry="4" fill="#0a0a14" transform="rotate(15 124 198)"/>
   </svg>
 </div>
@@ -427,7 +501,7 @@ html, body {
   </header>
 
   <div class="projects">
-    <a href="https://supplementscore.org/" class="card c1" target="_blank" rel="noopener">
+    <a href="https://supplementscore.org/" class="card c1" target="_blank" rel="noopener noreferrer">
       <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
         <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
         <g transform="translate(90,90)" fill="none" stroke="white" stroke-width="1.58" stroke-linejoin="round" stroke-linecap="round">
@@ -438,7 +512,7 @@ html, body {
       <div class="card-title">Supplement Score</div>
       <div class="card-desc">Cuts through the supplement industry. Ratings built on published research, not paid placements. Non-profit.</div>
     </a>
-    <a href="https://ylabs.ca/axis/" class="card c2" target="_blank" rel="noopener">
+    <a href="https://ylabs.ca/axis/" class="card c2" target="_blank" rel="noopener noreferrer">
       <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
         <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
         <g transform="translate(90,90)" fill="none" stroke="white" stroke-width="1.58" stroke-linejoin="round">
@@ -452,7 +526,32 @@ html, body {
       <div class="card-title">Axis Modular</div>
       <div class="card-desc">Web-based tool to visualize construction projects. Easy to use, built for clarity from concept to build.</div>
     </a>
-    <a href="https://ylabs.ca/cardgames/" class="card c4" target="_blank" rel="noopener">
+    <a href="https://claude.ai/public/artifacts/43000c9b-b397-4197-a566-d5a18d61fe9a" class="card c5" target="_blank" rel="noopener noreferrer">
+      <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
+        <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
+        <g transform="translate(90,90)" fill="none" stroke="white" stroke-width="1.58" stroke-linecap="round">
+          <!-- Baseball circle -->
+          <circle cx="0" cy="0" r="34"/>
+          <!-- Left stitch curve -->
+          <path d="M -10 -22 C -18 -10, -18 10, -10 22"/>
+          <!-- Right stitch curve -->
+          <path d="M 10 -22 C 18 -10, 18 10, 10 22"/>
+          <!-- Stitch ticks left -->
+          <line x1="-10" y1="-14" x2="-16" y2="-12"/>
+          <line x1="-10" y1="-4"  x2="-16" y2="-2"/>
+          <line x1="-10" y1="6"   x2="-16" y2="8"/>
+          <line x1="-10" y1="16"  x2="-16" y2="14"/>
+          <!-- Stitch ticks right -->
+          <line x1="10" y1="-14" x2="16" y2="-12"/>
+          <line x1="10" y1="-4"  x2="16" y2="-2"/>
+          <line x1="10" y1="6"   x2="16" y2="8"/>
+          <line x1="10" y1="16"  x2="16" y2="14"/>
+        </g>
+      </svg>
+      <div class="card-title">STK Baseball</div>
+      <div class="card-desc">SKT Player stats</div>
+    </a>
+    <a href="https://ylabs.ca/cardgames/" class="card c4" target="_blank" rel="noopener noreferrer">
       <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
         <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
         <g transform="translate(90,90)">
@@ -491,7 +590,11 @@ const blobWraps = document.querySelectorAll('.blob-wrap');
 const logoTile  = document.querySelector('.header .logo-tile');
 const pupil     = logoTile?.querySelector('.y-pupil');
 
-document.addEventListener('mousemove', e => {
+// Skip mousemove tracking on touch-only and reduced-motion devices
+const hoverCapable = window.matchMedia('(hover: hover)').matches;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (hoverCapable && !reducedMotion) document.addEventListener('mousemove', e => {
   const cx = (e.clientX / window.innerWidth  - .5);
   const cy = (e.clientY / window.innerHeight - .5);
   blobWraps.forEach(w => {
