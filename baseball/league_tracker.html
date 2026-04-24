@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKT Baseball · League Tracker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #06091a;
+  --surface:   #0c1428;
+  --surface2:  #111d35;
+  --border:    #1c2d4a;
+  --text:      #e2e8f0;
+  --muted:     #5a7090;
+  --win:       #34d399;
+  --loss:      #f87171;
+  --roster:    #818cf8;
+  --log:       #34d399;
+  --standings: #22d3ee;
+  --batting:   #fb923c;
+  --pitching:  #f472b6;
+  --gamelog:   #fbbf24;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.pulse {
+  width: 8px; height: 8px;
+  background: var(--win);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--win);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.hdr-sub   { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
+.hdr-title { font-size: 18px; font-weight: 700; cursor: pointer; }
+
+/* ── MAIN ── */
+.main { padding: 28px; max-width: 1340px; margin: 0 auto; }
+
+/* ── SECTION LABELS ── */
+.sec-label {
+  font-size: 10px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .15em;
+  margin-bottom: 4px;
+}
+.sec-title {
+  font-size: 26px; font-weight: 800;
+  margin-bottom: 24px;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  background: var(--border);
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.stat-cell    { background: var(--surface); padding: 18px 20px; text-align: center; }
+.stat-val     { font-size: 30px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.stat-lbl     { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+
+/* ── LEADER CARDS ── */
+.leaders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.leader-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.leader-lbl  { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+.leader-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.leader-stat { font-size: 28px; font-weight: 800; line-height: 1; }
+.leader-sub  { font-size: 10px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+
+/* ── NAV GRID ── */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.nav-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform .15s, border-color .15s, background .15s;
+}
+.nav-card:hover { transform: translateY(-3px); background: var(--surface2); }
+.nav-icon  { font-size: 24px; margin-bottom: 10px; }
+.nav-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.nav-sub   { font-size: 12px; color: var(--muted); }
+
+/* ── GAME ROW ── */
+.game-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.game-result { font-size: 13px; font-weight: 800; width: 18px; text-align: center; }
+.game-result.W { color: var(--win); }
+.game-result.L { color: var(--loss); }
+.game-score  { font-size: 18px; font-weight: 800; min-width: 54px; }
+.game-vs     { flex: 1; min-width: 100px; }
+.game-opp    { font-size: 14px; font-weight: 500; }
+.game-meta   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.game-notes  { font-size: 12px; color: var(--muted); font-style: italic; flex: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ha-badge    { font-size: 10px; padding: 2px 7px; border-radius: 4px; background: var(--surface2); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+
+/* ── ROSTER ── */
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 12px;
+}
+.player-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  cursor: pointer;
+  transition: transform .15s, border-color .15s;
+  position: relative;
+}
+.player-card:hover { transform: translateY(-2px); }
+.pl-num     { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+.pl-name    { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.pl-pos     { font-size: 12px; }
+.pl-stats   { display: flex; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
+.pl-stat-v  { font-size: 17px; font-weight: 800; line-height: 1; }
+.pl-stat-l  { font-size: 10px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+.del-btn    {
+  position: absolute; top: 12px; right: 12px;
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; padding: 2px 4px;
+  border-radius: 4px; transition: color .15s;
+  opacity: 0;
+}
+.player-card:hover .del-btn { opacity: 1; }
+.del-btn:hover { color: var(--loss) !important; }
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tab {
+  padding: 7px 14px; border-radius: 8px;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border);
+  color: var(--muted); background: transparent;
+  transition: all .15s; text-transform: uppercase; letter-spacing: .08em;
+}
+.tab.active { background: var(--surface2); border-color: var(--standings); color: var(--standings); }
+.tab:hover  { color: var(--text); }
+
+/* ── TABLE ── */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: auto;
+  margin-bottom: 24px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  padding: 11px 14px;
+  font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--muted); text-align: left;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none; white-space: nowrap;
+}
+thead th:hover { color: var(--text); }
+thead th.sorted { color: var(--standings); }
+tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+tbody td { padding: 11px 14px; white-space: nowrap; }
+
+/* ── FORM ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(6,9,26,.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50; padding: 20px;
+}
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%; max-width: 540px;
+  max-height: 90vh; overflow-y: auto;
+}
+.form-title { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
+.form-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg.full { grid-column: 1 / -1; }
+.fg label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+input, select, textarea {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 12px;
+  color: var(--text); font-size: 13px; width: 100%;
+  transition: border-color .15s;
+}
+input:focus, select:focus { outline: none; border-color: var(--standings); }
+.form-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+.btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all .15s; }
+.btn-primary { background: var(--standings); color: #06091a; }
+.btn-primary:hover { opacity: .88; }
+.btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); }
+.btn-ghost:hover { color: var(--text); border-color: var(--text); }
+
+/* ── BACK ── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--muted); background: none; border: none;
+  cursor: pointer; margin-bottom: 20px; text-transform: uppercase; letter-spacing: .08em;
+}
+.back-btn:hover { color: var(--text); }
+
+/* ── STREAK BOXES ── */
+.streak { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+.sb {
+  width: 20px; height: 20px; border-radius: 4px;
+  font-size: 9px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.sb.W { background: rgba(52,211,153,.2); color: var(--win); }
+.sb.L { background: rgba(248,113,113,.15); color: var(--loss); }
+
+/* ── PREVIEW BOX ── */
+.preview {
+  margin-top: 14px; padding: 12px 16px;
+  border-radius: 10px; background: var(--surface2); border: 1px solid var(--border);
+  font-size: 13px; color: var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 580px) {
+  .main { padding: 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .sec-title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const {
+  useState,
+  useMemo,
+  useEffect
+} = React;
+
+// ═══════════════════════════════════
+// SEED DATA
+// ═══════════════════════════════════
+const SEED_BATTERS = [{
+  id: 1,
+  name: "Marcus Rivera",
+  num: "12",
+  pos: "C",
+  G: 10,
+  AB: 35,
+  R: 8,
+  H: 12,
+  D: 3,
+  T: 0,
+  HR: 2,
+  RBI: 9,
+  BB: 4,
+  SO: 7,
+  SB: 1,
+  HBP: 1,
+  SF: 1
+}, {
+  id: 2,
+  name: "Danny Chen",
+  num: "24",
+  pos: "1B",
+  G: 10,
+  AB: 38,
+  R: 10,
+  H: 14,
+  D: 4,
+  T: 0,
+  HR: 1,
+  RBI: 8,
+  BB: 5,
+  SO: 6,
+  SB: 0,
+  HBP: 0,
+  SF: 0
+}, {
+  id: 3,
+  name: "Kofi Asante",
+  num: "7",
+  pos: "2B",
+  G: 10,
+  AB: 36,
+  R: 11,
+  H: 13,
+  D: 2,
+  T: 1,
+  HR: 0,
+  RBI: 5,
+  BB: 6,
+  SO: 5,
+  SB: 5,
+  HBP: 2,
+  SF: 0
+}, {
+  id: 4,
+  name: "Liam O'Brien",
+  num: "33",
+  pos: "3B",
+  G: 10,
+  AB: 37,
+  R: 7,
+  H: 11,
+  D: 3,
+  T: 0,
+  HR: 3,
+  RBI: 12,
+  BB: 3,
+  SO: 9,
+  SB: 0,
+  HBP: 0,
+  SF: 2
+}, {
+  id: 5,
+  name: "Julio Mendez",
+  num: "11",
+  pos: "SS",
+  G: 10,
+  AB: 40,
+  R: 9,
+  H: 15,
+  D: 2,
+  T: 2,
+  HR: 1,
+  RBI: 7,
+  BB: 4,
+  SO: 8,
+  SB: 3,
+  HBP: 1,
+  SF: 0
+}, {
+  id: 6,
+  name: "Tyler Barnes",
+  num: "5",
+  pos: "LF",
+  G: 9,
+  AB: 32,
+  R: 6,
+  H: 9,
+  D: 1,
+  T: 0,
+  HR: 1,
+  RBI: 5,
+  BB: 7,
+  SO: 10,
+  SB: 2,
+  HBP: 0,
+  SF: 0
+}, {
+  id: 7,
+  name: "Jordan West",
+  num: "21",
+  pos: "CF",
+  G: 10,
+  AB: 39,
+  R: 13,
+  H: 14,
+  D: 2,
+  T: 1,
+  HR: 2,
+  RBI: 6,
+  BB: 5,
+  SO: 7,
+  SB: 7,
+  HBP: 1,
+  SF: 0
+}, {
+  id: 8,
+  name: "Sam Park",
+  num: "18",
+  pos: "RF",
+  G: 10,
+  AB: 35,
+  R: 8,
+  H: 11,
+  D: 4,
+  T: 0,
+  HR: 2,
+  RBI: 8,
+  BB: 3,
+  SO: 9,
+  SB: 1,
+  HBP: 0,
+  SF: 1
+}, {
+  id: 9,
+  name: "Mike Torres",
+  num: "44",
+  pos: "DH",
+  G: 8,
+  AB: 28,
+  R: 5,
+  H: 9,
+  D: 2,
+  T: 0,
+  HR: 3,
+  RBI: 10,
+  BB: 4,
+  SO: 6,
+  SB: 0,
+  HBP: 0,
+  SF: 0
+}];
+const SEED_PITCHERS = [{
+  id: 10,
+  name: "Alex Kimura",
+  num: "19",
+  role: "SP",
+  G: 4,
+  GS: 4,
+  W: 3,
+  L: 0,
+  SV: 0,
+  IP: 24.2,
+  H: 18,
+  R: 7,
+  ER: 6,
+  BB: 6,
+  SO: 28,
+  HR: 1
+}, {
+  id: 11,
+  name: "Brandon Cole",
+  num: "32",
+  role: "SP",
+  G: 3,
+  GS: 3,
+  W: 2,
+  L: 1,
+  SV: 0,
+  IP: 17.1,
+  H: 15,
+  R: 9,
+  ER: 8,
+  BB: 7,
+  SO: 18,
+  HR: 2
+}, {
+  id: 12,
+  name: "Tyrese Johnson",
+  num: "15",
+  role: "SP",
+  G: 3,
+  GS: 3,
+  W: 1,
+  L: 1,
+  SV: 0,
+  IP: 16.0,
+  H: 14,
+  R: 7,
+  ER: 7,
+  BB: 9,
+  SO: 15,
+  HR: 1
+}, {
+  id: 13,
+  name: "Noah Garcia",
+  num: "27",
+  role: "RP",
+  G: 7,
+  GS: 0,
+  W: 1,
+  L: 1,
+  SV: 0,
+  IP: 9.0,
+  H: 7,
+  R: 3,
+  ER: 3,
+  BB: 4,
+  SO: 11,
+  HR: 0
+}, {
+  id: 14,
+  name: "Carlos Ruiz",
+  num: "8",
+  role: "RP",
+  G: 6,
+  GS: 0,
+  W: 0,
+  L: 0,
+  SV: 1,
+  IP: 7.2,
+  H: 6,
+  R: 2,
+  ER: 2,
+  BB: 3,
+  SO: 9,
+  HR: 0
+}, {
+  id: 15,
+  name: "Jake Wilson",
+  num: "41",
+  role: "CL",
+  G: 5,
+  GS: 0,
+  W: 0,
+  L: 0,
+  SV: 4,
+  IP: 5.1,
+  H: 3,
+  R: 1,
+  ER: 1,
+  BB: 2,
+  SO: 8,
+  HR: 0
+}];
+const SEED_GAMES = [{
+  id: 1,
+  date: "2026-04-01",
+  opp: "Valley Hawks",
+  ha: "H",
+  us: 5,
+  them: 3,
+  result: "W",
+  wp: "Kimura",
+  lp: "Martinez",
+  notes: "Mendez 3-for-4, strong pitching"
+}, {
+  id: 2,
+  date: "2026-04-03",
+  opp: "River Dogs",
+  ha: "A",
+  us: 2,
+  them: 7,
+  result: "L",
+  wp: "Peterson",
+  lp: "Cole",
+  notes: "Rough outing for Cole early"
+}, {
+  id: 3,
+  date: "2026-04-06",
+  opp: "Desert Foxes",
+  ha: "H",
+  us: 8,
+  them: 1,
+  result: "W",
+  wp: "Johnson",
+  lp: "Davis",
+  notes: "West 3-run HR in the 4th"
+}, {
+  id: 4,
+  date: "2026-04-08",
+  opp: "Valley Hawks",
+  ha: "A",
+  us: 4,
+  them: 2,
+  result: "W",
+  wp: "Kimura",
+  lp: "Torres",
+  notes: "Rivera called a great game"
+}, {
+  id: 5,
+  date: "2026-04-10",
+  opp: "Mountain Lions",
+  ha: "H",
+  us: 3,
+  them: 5,
+  result: "L",
+  wp: "Adams",
+  lp: "Johnson",
+  notes: "Late-inning bullpen struggles"
+}, {
+  id: 6,
+  date: "2026-04-13",
+  opp: "River Dogs",
+  ha: "H",
+  us: 6,
+  them: 4,
+  result: "W",
+  wp: "Cole",
+  lp: "Green",
+  notes: "Barnes 2 RBI, Wilson closes"
+}, {
+  id: 7,
+  date: "2026-04-15",
+  opp: "Desert Foxes",
+  ha: "A",
+  us: 9,
+  them: 3,
+  result: "W",
+  wp: "Kimura",
+  lp: "Brown",
+  notes: "Asante 2 SB, O'Brien HR"
+}, {
+  id: 8,
+  date: "2026-04-17",
+  opp: "Mountain Lions",
+  ha: "A",
+  us: 1,
+  them: 4,
+  result: "L",
+  wp: "White",
+  lp: "Johnson",
+  notes: "Offense went cold"
+}, {
+  id: 9,
+  date: "2026-04-20",
+  opp: "Valley Hawks",
+  ha: "H",
+  us: 7,
+  them: 2,
+  result: "W",
+  wp: "Cole",
+  lp: "Lee",
+  notes: "Park 2 RBI, Mendez HR"
+}, {
+  id: 10,
+  date: "2026-04-22",
+  opp: "Mountain Lions",
+  ha: "A",
+  us: 5,
+  them: 3,
+  result: "W",
+  wp: "Johnson",
+  lp: "Clark",
+  notes: "Torres 3 RBI, Wilson save"
+}];
+
+// ═══════════════════════════════════
+// STAT HELPERS
+// ═══════════════════════════════════
+const ipReal = ip => {
+  const f = Math.floor(ip);
+  const t = Math.round((ip - f) * 10);
+  return f + t / 3;
+};
+const fmt3 = n => {
+  const s = Math.min(Math.round(n * 1000), 999);
+  return '.' + String(s).padStart(3, '0');
+};
+const calcAVG = (h, ab) => ab ? fmt3(h / ab) : '.000';
+const calcOBP = (h, bb, hbp, ab, sf) => {
+  const d = ab + bb + hbp + sf;
+  return d ? fmt3((h + bb + hbp) / d) : '.000';
+};
+const calcSLG = (h, d, t, hr, ab) => {
+  if (!ab) return '.000';
+  const tb = h - d - t - hr + 2 * d + 3 * t + 4 * hr;
+  return fmt3(tb / ab);
+};
+const calcOPS = (o, s) => fmt3(parseFloat('0' + o) + parseFloat('0' + s));
+const calcERA = (er, ip) => {
+  const i = ipReal(ip);
+  return i ? (er * 9 / i).toFixed(2) : '0.00';
+};
+const calcWHIP = (bb, h, ip) => {
+  const i = ipReal(ip);
+  return i ? ((bb + h) / i).toFixed(2) : '0.00';
+};
+
+// ═══════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════
+const load = (k, fb) => {
+  try {
+    const v = localStorage.getItem(k);
+    return v ? JSON.parse(v) : fb;
+  } catch {
+    return fb;
+  }
+};
+const save = (k, v) => {
+  try {
+    localStorage.setItem(k, JSON.stringify(v));
+  } catch {}
+};
+
+// ═══════════════════════════════════
+// APP ROOT
+// ═══════════════════════════════════
+function App() {
+  const [view, setView] = useState('dashboard');
+  const [batters, setBatters] = useState(() => load('skt_b', SEED_BATTERS));
+  const [pitchers, setPitchers] = useState(() => load('skt_p', SEED_PITCHERS));
+  const [games, setGames] = useState(() => load('skt_g', SEED_GAMES));
+  useEffect(() => save('skt_b', batters), [batters]);
+  useEffect(() => save('skt_p', pitchers), [pitchers]);
+  useEffect(() => save('skt_g', games), [games]);
+  const wins = games.filter(g => g.result === 'W').length;
+  const losses = games.filter(g => g.result === 'L').length;
+  const runsFor = games.reduce((s, g) => s + (g.us || 0), 0);
+  const runsAgainst = games.reduce((s, g) => s + (g.them || 0), 0);
+  const battingWS = useMemo(() => batters.map(p => {
+    const AVG = calcAVG(p.H, p.AB),
+      OBP = calcOBP(p.H, p.BB, p.HBP, p.AB, p.SF),
+      SLG = calcSLG(p.H, p.D, p.T, p.HR, p.AB);
+    return {
+      ...p,
+      AVG,
+      OBP,
+      SLG,
+      OPS: calcOPS(OBP, SLG)
+    };
+  }), [batters]);
+  const pitchingWS = useMemo(() => pitchers.map(p => ({
+    ...p,
+    ERA: calcERA(p.ER, p.IP),
+    WHIP: calcWHIP(p.BB, p.H, p.IP)
+  })), [pitchers]);
+  const ctx = {
+    batters,
+    setBatters,
+    pitchers,
+    setPitchers,
+    games,
+    setGames,
+    battingWS,
+    pitchingWS,
+    wins,
+    losses,
+    runsFor,
+    runsAgainst,
+    setView
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Header, {
+    setView: setView
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "main"
+  }, view === 'dashboard' && /*#__PURE__*/React.createElement(Dashboard, {
+    ctx: ctx
+  }), view === 'roster' && /*#__PURE__*/React.createElement(Roster, {
+    ctx: ctx
+  }), view === 'log' && /*#__PURE__*/React.createElement(LogGame, {
+    ctx: ctx
+  }), view === 'standings' && /*#__PURE__*/React.createElement(Standings, {
+    ctx: ctx
+  }), view === 'batting' && /*#__PURE__*/React.createElement(BattingView, {
+    ctx: ctx
+  }), view === 'pitching' && /*#__PURE__*/React.createElement(PitchingView, {
+    ctx: ctx
+  }), view === 'gamelog' && /*#__PURE__*/React.createElement(GameLogView, {
+    ctx: ctx
+  })));
+}
+
+// ═══════════════════════════════════
+// HEADER
+// ═══════════════════════════════════
+function Header({
+  setView
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "header"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "pulse"
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "hdr-sub"
+  }, "Active \xB7 Online"), /*#__PURE__*/React.createElement("div", {
+    className: "hdr-title",
+    onClick: () => setView('dashboard')
+  }, "SKT Baseball \xB7 League Tracker")));
+}
+
+// ═══════════════════════════════════
+// GAME ROW
+// ═══════════════════════════════════
+function GameRow({
+  game,
+  onDelete
+}) {
+  const d = new Date(game.date + 'T12:00:00').toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric'
+  });
+  const scoreColor = game.result === 'W' ? 'var(--win)' : game.result === 'L' ? 'var(--loss)' : 'var(--muted)';
+  return /*#__PURE__*/React.createElement("div", {
+    className: "game-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: `game-result ${game.result}`
+  }, game.result), /*#__PURE__*/React.createElement("div", {
+    className: "game-score",
+    style: {
+      color: scoreColor
+    }
+  }, game.us, "\u2013", game.them), /*#__PURE__*/React.createElement("div", {
+    className: "game-vs"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "game-opp"
+  }, "vs ", game.opp), /*#__PURE__*/React.createElement("div", {
+    className: "game-meta"
+  }, d, " \xB7 ", game.ha === 'H' ? 'Home' : 'Away', " ", game.wp && `· WP: ${game.wp}`)), game.notes && /*#__PURE__*/React.createElement("div", {
+    className: "game-notes"
+  }, game.notes), /*#__PURE__*/React.createElement("div", {
+    className: "ha-badge"
+  }, game.ha === 'H' ? '🏠 Home' : '✈️ Away'), onDelete && /*#__PURE__*/React.createElement("button", {
+    onClick: () => onDelete(game.id),
+    style: {
+      background: 'none',
+      border: 'none',
+      color: 'var(--muted)',
+      cursor: 'pointer',
+      fontSize: 15,
+      padding: '2px 4px',
+      borderRadius: 4,
+      flexShrink: 0
+    },
+    title: "Delete"
+  }, "\uD83D\uDDD1"));
+}
+
+// ═══════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════
+function Dashboard({
+  ctx
+}) {
+  const {
+    wins,
+    losses,
+    runsFor,
+    runsAgainst,
+    games,
+    batters,
+    pitchers,
+    battingWS,
+    pitchingWS,
+    setView
+  } = ctx;
+  const pct = wins + losses > 0 ? (wins / (wins + losses)).toFixed(3) : '.000';
+  const totalPlayers = batters.length + pitchers.length;
+  const recentGames = [...games].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+  const topAVG = [...battingWS].sort((a, b) => parseFloat('0' + b.AVG) - parseFloat('0' + a.AVG))[0];
+  const topRBI = [...battingWS].sort((a, b) => b.RBI - a.RBI)[0];
+  const topERA = pitchingWS.filter(p => ipReal(p.IP) >= 5).sort((a, b) => parseFloat(a.ERA) - parseFloat(b.ERA))[0];
+  const topSO = [...pitchingWS].sort((a, b) => b.SO - a.SO)[0];
+  const topSB = [...battingWS].sort((a, b) => b.SB - a.SB)[0];
+  const topHR = [...battingWS].sort((a, b) => b.HR - a.HR)[0];
+  const sorted = [...games].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const streakR = sorted[0]?.result;
+  let streakN = 0;
+  for (const g of sorted) {
+    if (g.result === streakR) streakN++;else break;
+  }
+  const navCards = [{
+    key: 'roster',
+    label: 'Roster',
+    sub: `${totalPlayers} players`,
+    color: 'var(--roster)',
+    icon: '👥'
+  }, {
+    key: 'log',
+    label: 'Log Game',
+    sub: 'Record a result',
+    color: 'var(--log)',
+    icon: '➕'
+  }, {
+    key: 'standings',
+    label: 'Standings',
+    sub: 'Record & splits',
+    color: 'var(--standings)',
+    icon: '🏆'
+  }, {
+    key: 'batting',
+    label: 'Batting',
+    sub: 'Full hitting stats',
+    color: 'var(--batting)',
+    icon: '🎯'
+  }, {
+    key: 'pitching',
+    label: 'Pitching',
+    sub: 'Full pitching stats',
+    color: 'var(--pitching)',
+    icon: '⚡'
+  }, {
+    key: 'gamelog',
+    label: 'Game Log',
+    sub: `${games.length} games logged`,
+    color: 'var(--gamelog)',
+    icon: '📋'
+  }];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// Season Data"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-title"
+  }, "2026 Overview"), /*#__PURE__*/React.createElement("div", {
+    className: "stats-bar"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--win)'
+    }
+  }, wins), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Wins")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--loss)'
+    }
+  }, losses), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Losses")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--standings)'
+    }
+  }, pct), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Win %")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--batting)'
+    }
+  }, runsFor), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Runs For")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--loss)'
+    }
+  }, runsAgainst), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Runs Against")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--roster)'
+    }
+  }, totalPlayers), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Players")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--gamelog)',
+      fontSize: 22
+    }
+  }, streakR, streakN), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Streak"))), /*#__PURE__*/React.createElement("div", {
+    className: "leaders-grid"
+  }, topAVG && /*#__PURE__*/React.createElement(LeaderCard, {
+    label: "Batting Avg",
+    name: topAVG.name,
+    stat: topAVG.AVG,
+    sub: "AVG",
+    color: "var(--batting)"
+  }), topHR && /*#__PURE__*/React.createElement(LeaderCard, {
+    label: "Home Runs",
+    name: topHR.name,
+    stat: topHR.HR,
+    sub: "HR",
+    color: "var(--batting)"
+  }), topRBI && /*#__PURE__*/React.createElement(LeaderCard, {
+    label: "RBI Leader",
+    name: topRBI.name,
+    stat: topRBI.RBI,
+    sub: "RBI",
+    color: "var(--batting)"
+  }), topSB && /*#__PURE__*/React.createElement(LeaderCard, {
+    label: "Stolen Bases",
+    name: topSB.name,
+    stat: topSB.SB,
+    sub: "SB",
+    color: "var(--standings)"
+  }), topERA && /*#__PURE__*/React.createElement(LeaderCard, {
+    label: "ERA Leader",
+    name: topERA.name,
+    stat: topERA.ERA,
+    sub: "ERA",
+    color: "var(--pitching)"
+  }), topSO && /*#__PURE__*/React.createElement(LeaderCard, {
+    label: "Strikeouts",
+    name: topSO.name,
+    stat: topSO.SO,
+    sub: "SO",
+    color: "var(--pitching)"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "nav-grid"
+  }, navCards.map(c => /*#__PURE__*/React.createElement("div", {
+    key: c.key,
+    className: "nav-card",
+    style: {
+      color: c.color
+    },
+    onClick: () => setView(c.key),
+    onMouseEnter: e => e.currentTarget.style.borderColor = c.color,
+    onMouseLeave: e => e.currentTarget.style.borderColor = 'var(--border)'
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "nav-icon"
+  }, c.icon), /*#__PURE__*/React.createElement("div", {
+    className: "nav-title"
+  }, c.label), /*#__PURE__*/React.createElement("div", {
+    className: "nav-sub"
+  }, c.sub)))), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label",
+    style: {
+      marginBottom: 12
+    }
+  }, "// Recent Games"), recentGames.map(g => /*#__PURE__*/React.createElement(GameRow, {
+    key: g.id,
+    game: g
+  })));
+}
+function LeaderCard({
+  label,
+  name,
+  stat,
+  sub,
+  color
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "leader-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "leader-lbl"
+  }, label), /*#__PURE__*/React.createElement("div", {
+    className: "leader-name"
+  }, name), /*#__PURE__*/React.createElement("div", {
+    className: "leader-stat",
+    style: {
+      color
+    }
+  }, stat), /*#__PURE__*/React.createElement("div", {
+    className: "leader-sub"
+  }, sub));
+}
+
+// ═══════════════════════════════════
+// ROSTER
+// ═══════════════════════════════════
+function Roster({
+  ctx
+}) {
+  const {
+    batters,
+    setBatters,
+    pitchers,
+    setPitchers,
+    setView
+  } = ctx;
+  const [tab, setTab] = useState('batters');
+  const [editing, setEditing] = useState(null);
+  const [adding, setAdding] = useState(false);
+  const saveBatter = p => {
+    setBatters(prev => p.id ? prev.map(b => b.id === p.id ? p : b) : [...prev, {
+      ...p,
+      id: Date.now()
+    }]);
+    setEditing(null);
+    setAdding(false);
+  };
+  const savePitcher = p => {
+    setPitchers(prev => p.id ? prev.map(b => b.id === p.id ? p : b) : [...prev, {
+      ...p,
+      id: Date.now()
+    }]);
+    setEditing(null);
+    setAdding(false);
+  };
+  const delBatter = id => {
+    if (confirm('Remove player?')) setBatters(prev => prev.filter(p => p.id !== id));
+  };
+  const delPitcher = id => {
+    if (confirm('Remove player?')) setPitchers(prev => prev.filter(p => p.id !== id));
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    className: "back-btn",
+    onClick: () => setView('dashboard')
+  }, "\u2190 Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// Team"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sec-title",
+    style: {
+      marginBottom: 0
+    }
+  }, "Roster"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    onClick: () => setAdding(true)
+  }, "+ Add Player")), /*#__PURE__*/React.createElement("div", {
+    className: "tabs",
+    style: {
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: `tab ${tab === 'batters' ? 'active' : ''}`,
+    onClick: () => setTab('batters')
+  }, "Position Players (", batters.length, ")"), /*#__PURE__*/React.createElement("button", {
+    className: `tab ${tab === 'pitchers' ? 'active' : ''}`,
+    onClick: () => setTab('pitchers')
+  }, "Pitchers (", pitchers.length, ")")), tab === 'batters' && /*#__PURE__*/React.createElement("div", {
+    className: "roster-grid"
+  }, batters.map(p => {
+    const AVG = calcAVG(p.H, p.AB),
+      OBP = calcOBP(p.H, p.BB, p.HBP, p.AB, p.SF);
+    return /*#__PURE__*/React.createElement("div", {
+      key: p.id,
+      className: "player-card",
+      style: {
+        '--hc': 'var(--roster)'
+      },
+      onMouseEnter: e => e.currentTarget.style.borderColor = 'var(--roster)',
+      onMouseLeave: e => e.currentTarget.style.borderColor = 'var(--border)',
+      onClick: () => setEditing({
+        ...p,
+        _type: 'batter'
+      })
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "del-btn",
+      onClick: e => {
+        e.stopPropagation();
+        delBatter(p.id);
+      }
+    }, "\uD83D\uDDD1"), /*#__PURE__*/React.createElement("div", {
+      className: "pl-num"
+    }, "#", p.num), /*#__PURE__*/React.createElement("div", {
+      className: "pl-name"
+    }, p.name), /*#__PURE__*/React.createElement("div", {
+      className: "pl-pos",
+      style: {
+        color: 'var(--roster)'
+      }
+    }, p.pos), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stats"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v",
+      style: {
+        color: 'var(--batting)'
+      }
+    }, AVG), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "AVG")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v"
+    }, p.HR), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "HR")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v"
+    }, p.RBI), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "RBI")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v"
+    }, p.SB), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "SB"))));
+  })), tab === 'pitchers' && /*#__PURE__*/React.createElement("div", {
+    className: "roster-grid"
+  }, pitchers.map(p => {
+    const ERA = calcERA(p.ER, p.IP),
+      WHIP = calcWHIP(p.BB, p.H, p.IP);
+    return /*#__PURE__*/React.createElement("div", {
+      key: p.id,
+      className: "player-card",
+      onMouseEnter: e => e.currentTarget.style.borderColor = 'var(--pitching)',
+      onMouseLeave: e => e.currentTarget.style.borderColor = 'var(--border)',
+      onClick: () => setEditing({
+        ...p,
+        _type: 'pitcher'
+      })
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "del-btn",
+      onClick: e => {
+        e.stopPropagation();
+        delPitcher(p.id);
+      }
+    }, "\uD83D\uDDD1"), /*#__PURE__*/React.createElement("div", {
+      className: "pl-num"
+    }, "#", p.num), /*#__PURE__*/React.createElement("div", {
+      className: "pl-name"
+    }, p.name), /*#__PURE__*/React.createElement("div", {
+      className: "pl-pos",
+      style: {
+        color: 'var(--pitching)'
+      }
+    }, p.role), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stats"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v",
+      style: {
+        color: 'var(--pitching)'
+      }
+    }, ERA), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "ERA")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v"
+    }, p.W, "-", p.L), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "W-L")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v"
+    }, p.SO), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "K")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-v"
+    }, p.SV), /*#__PURE__*/React.createElement("div", {
+      className: "pl-stat-l"
+    }, "SV"))));
+  })), (editing || adding) && /*#__PURE__*/React.createElement(PlayerForm, {
+    player: editing,
+    defaultType: adding ? tab === 'batters' ? 'batter' : 'pitcher' : editing._type,
+    onSave: p => p._type === 'batter' ? saveBatter(p) : savePitcher(p),
+    onClose: () => {
+      setEditing(null);
+      setAdding(false);
+    }
+  }));
+}
+
+// ═══════════════════════════════════
+// PLAYER FORM
+// ═══════════════════════════════════
+function PlayerForm({
+  player,
+  defaultType,
+  onSave,
+  onClose
+}) {
+  const isBatter = defaultType === 'batter';
+  const emptyB = {
+    _type: 'batter',
+    num: '',
+    pos: 'C',
+    name: '',
+    G: 0,
+    AB: 0,
+    R: 0,
+    H: 0,
+    D: 0,
+    T: 0,
+    HR: 0,
+    RBI: 0,
+    BB: 0,
+    SO: 0,
+    SB: 0,
+    HBP: 0,
+    SF: 0
+  };
+  const emptyP = {
+    _type: 'pitcher',
+    num: '',
+    role: 'SP',
+    name: '',
+    G: 0,
+    GS: 0,
+    W: 0,
+    L: 0,
+    SV: 0,
+    IP: 0,
+    H: 0,
+    R: 0,
+    ER: 0,
+    BB: 0,
+    SO: 0,
+    HR: 0
+  };
+  const [f, setF] = useState(player || (isBatter ? emptyB : emptyP));
+  const set = (k, v) => setF(p => ({
+    ...p,
+    [k]: v === '' || isNaN(v) || typeof v === 'string' ? v : Number(v)
+  }));
+  const POSITIONS = ['C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'DH', 'OF', 'UTL'];
+  const bKeys = ['G', 'AB', 'R', 'H', 'D', 'T', 'HR', 'RBI', 'BB', 'SO', 'SB', 'HBP', 'SF'];
+  const pKeys = ['G', 'GS', 'W', 'L', 'SV', 'IP', 'H', 'R', 'ER', 'BB', 'SO', 'HR'];
+  const bLabel = {
+    D: '2B',
+    T: '3B'
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "overlay",
+    onClick: e => {
+      if (e.target === e.currentTarget) onClose();
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "form-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "form-title"
+  }, f.id ? `Edit — ${f.name}` : `Add ${isBatter ? 'Position Player' : 'Pitcher'}`), /*#__PURE__*/React.createElement("div", {
+    className: "form-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "fg full"
+  }, /*#__PURE__*/React.createElement("label", null, "Full Name"), /*#__PURE__*/React.createElement("input", {
+    value: f.name,
+    onChange: e => set('name', e.target.value),
+    placeholder: "First Last"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "#"), /*#__PURE__*/React.createElement("input", {
+    value: f.num,
+    onChange: e => set('num', e.target.value),
+    placeholder: "Jersey #"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, isBatter ? 'Position' : 'Role'), /*#__PURE__*/React.createElement("select", {
+    value: isBatter ? f.pos : f.role,
+    onChange: e => set(isBatter ? 'pos' : 'role', e.target.value)
+  }, (isBatter ? POSITIONS : ['SP', 'RP', 'CL']).map(v => /*#__PURE__*/React.createElement("option", {
+    key: v
+  }, v)))), (isBatter ? bKeys : pKeys).map(k => /*#__PURE__*/React.createElement("div", {
+    key: k,
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, bLabel[k] || k), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    min: "0",
+    step: k === 'IP' ? .1 : 1,
+    value: f[k] || 0,
+    onChange: e => set(k, e.target.value)
+  })))), /*#__PURE__*/React.createElement("div", {
+    className: "form-actions"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost",
+    onClick: onClose
+  }, "Cancel"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    onClick: () => {
+      if (!f.name.trim()) {
+        alert('Name required');
+        return;
+      }
+      onSave(f);
+    }
+  }, f.id ? 'Save Changes' : 'Add Player'))));
+}
+
+// ═══════════════════════════════════
+// LOG GAME
+// ═══════════════════════════════════
+function LogGame({
+  ctx
+}) {
+  const {
+    games,
+    setGames,
+    setView
+  } = ctx;
+  const empty = {
+    date: '',
+    opp: '',
+    ha: 'H',
+    us: '',
+    them: '',
+    wp: '',
+    lp: '',
+    notes: ''
+  };
+  const [f, setF] = useState(empty);
+  const [saved, setSaved] = useState(false);
+  const set = (k, v) => setF(p => ({
+    ...p,
+    [k]: v
+  }));
+  const handleSave = () => {
+    if (!f.date || !f.opp || f.us === '' || f.them === '') return alert('Date, opponent, and score are required.');
+    const us = parseInt(f.us),
+      them = parseInt(f.them);
+    const result = us > them ? 'W' : us < them ? 'L' : 'T';
+    setGames(prev => [...prev, {
+      ...f,
+      id: Date.now(),
+      us,
+      them,
+      result
+    }]);
+    setSaved(true);
+    setTimeout(() => {
+      setSaved(false);
+      setF(empty);
+    }, 1800);
+  };
+  const us = parseInt(f.us),
+    them = parseInt(f.them);
+  const hasScore = f.us !== '' && f.them !== '';
+  const result = hasScore ? us > them ? 'W' : us < them ? 'L' : 'T' : null;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    className: "back-btn",
+    onClick: () => setView('dashboard')
+  }, "\u2190 Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// Record"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-title"
+  }, "Log a Game"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: 16,
+      padding: 28,
+      maxWidth: 520
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "form-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "Date"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: f.date,
+    onChange: e => set('date', e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "Location"), /*#__PURE__*/React.createElement("select", {
+    value: f.ha,
+    onChange: e => set('ha', e.target.value)
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "H"
+  }, "\uD83C\uDFE0 Home"), /*#__PURE__*/React.createElement("option", {
+    value: "A"
+  }, "\u2708\uFE0F Away"))), /*#__PURE__*/React.createElement("div", {
+    className: "fg full"
+  }, /*#__PURE__*/React.createElement("label", null, "Opponent"), /*#__PURE__*/React.createElement("input", {
+    value: f.opp,
+    onChange: e => set('opp', e.target.value),
+    placeholder: "Opposing team name"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "Our Score"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    min: "0",
+    value: f.us,
+    onChange: e => set('us', e.target.value),
+    placeholder: "0"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "Their Score"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    min: "0",
+    value: f.them,
+    onChange: e => set('them', e.target.value),
+    placeholder: "0"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "Winning Pitcher"), /*#__PURE__*/React.createElement("input", {
+    value: f.wp,
+    onChange: e => set('wp', e.target.value),
+    placeholder: "Last name"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg"
+  }, /*#__PURE__*/React.createElement("label", null, "Losing Pitcher"), /*#__PURE__*/React.createElement("input", {
+    value: f.lp,
+    onChange: e => set('lp', e.target.value),
+    placeholder: "Last name"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "fg full"
+  }, /*#__PURE__*/React.createElement("label", null, "Game Notes"), /*#__PURE__*/React.createElement("input", {
+    value: f.notes,
+    onChange: e => set('notes', e.target.value),
+    placeholder: "Key plays, standout performers, extra innings..."
+  }))), hasScore && /*#__PURE__*/React.createElement("div", {
+    className: "preview"
+  }, "Result: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: result === 'W' ? 'var(--win)' : result === 'L' ? 'var(--loss)' : 'var(--muted)',
+      fontSize: 16
+    }
+  }, result, " ", us, "\u2013", them), f.opp && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--muted)'
+    }
+  }, " vs ", f.opp)), /*#__PURE__*/React.createElement("div", {
+    className: "form-actions"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost",
+    onClick: () => setView('dashboard')
+  }, "Cancel"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    style: {
+      background: saved ? 'var(--win)' : undefined
+    },
+    onClick: handleSave
+  }, saved ? '✓ Game Saved!' : 'Log Game'))));
+}
+
+// ═══════════════════════════════════
+// STANDINGS
+// ═══════════════════════════════════
+function Standings({
+  ctx
+}) {
+  const {
+    games,
+    wins,
+    losses,
+    runsFor,
+    runsAgainst,
+    setView
+  } = ctx;
+  const pct = wins + losses > 0 ? (wins / (wins + losses)).toFixed(3) : '.000';
+  const monthly = {};
+  games.forEach(g => {
+    const m = new Date(g.date + 'T12:00:00').toLocaleString('en-US', {
+      month: 'long'
+    });
+    if (!monthly[m]) monthly[m] = {
+      W: 0,
+      L: 0
+    };
+    monthly[m][g.result]++;
+  });
+  const vsMap = {};
+  games.forEach(g => {
+    if (!vsMap[g.opp]) vsMap[g.opp] = {
+      name: g.opp,
+      W: 0,
+      L: 0,
+      RF: 0,
+      RA: 0
+    };
+    if (g.result === 'W') vsMap[g.opp].W++;else vsMap[g.opp].L++;
+    vsMap[g.opp].RF += g.us;
+    vsMap[g.opp].RA += g.them;
+  });
+  const vsOpp = Object.values(vsMap).sort((a, b) => a.name.localeCompare(b.name));
+  const homeG = games.filter(g => g.ha === 'H'),
+    awayG = games.filter(g => g.ha === 'A');
+  const homeW = homeG.filter(g => g.result === 'W').length,
+    awayW = awayG.filter(g => g.result === 'W').length;
+  const sorted = [...games].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const streakR = sorted[0]?.result;
+  let streakN = 0;
+  for (const g of sorted) {
+    if (g.result === streakR) streakN++;else break;
+  }
+  const last10 = sorted.slice(0, 10);
+  const l10W = last10.filter(g => g.result === 'W').length;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    className: "back-btn",
+    onClick: () => setView('dashboard')
+  }, "\u2190 Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// 2026 Season"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-title"
+  }, "Standings"), /*#__PURE__*/React.createElement("div", {
+    className: "stats-bar",
+    style: {
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--win)'
+    }
+  }, wins), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Wins")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--loss)'
+    }
+  }, losses), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Losses")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--standings)'
+    }
+  }, pct), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "PCT")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--batting)'
+    }
+  }, runsFor), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Runs For")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--loss)'
+    }
+  }, runsAgainst), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Runs Agnst")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--gamelog)',
+      fontSize: 22
+    }
+  }, streakR, streakN), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Streak")), /*#__PURE__*/React.createElement("div", {
+    className: "stat-cell"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stat-val",
+    style: {
+      color: 'var(--roster)'
+    }
+  }, l10W, "-", 10 - l10W), /*#__PURE__*/React.createElement("div", {
+    className: "stat-lbl"
+  }, "Last 10"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 16,
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: 12,
+      padding: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sec-label",
+    style: {
+      marginBottom: 14
+    }
+  }, "// Home / Away Splits"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 32
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 26,
+      fontWeight: 800,
+      color: 'var(--win)'
+    }
+  }, homeW, "\u2013", homeG.length - homeW), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: 'var(--muted)',
+      textTransform: 'uppercase',
+      marginTop: 3
+    }
+  }, "\uD83C\uDFE0 Home")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 26,
+      fontWeight: 800,
+      color: 'var(--standings)'
+    }
+  }, awayW, "\u2013", awayG.length - awayW), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: 'var(--muted)',
+      textTransform: 'uppercase',
+      marginTop: 3
+    }
+  }, "\u2708\uFE0F Away")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: 12,
+      padding: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sec-label",
+    style: {
+      marginBottom: 14
+    }
+  }, "// By Month"), Object.entries(monthly).map(([m, r]) => /*#__PURE__*/React.createElement("div", {
+    key: m,
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13
+    }
+  }, m), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700,
+      color: r.W >= r.L ? 'var(--win)' : 'var(--loss)'
+    }
+  }, r.W, "\u2013", r.L))))), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label",
+    style: {
+      marginBottom: 12
+    }
+  }, "// Record vs Opponents"), /*#__PURE__*/React.createElement("div", {
+    className: "table-wrap"
+  }, /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Opponent"), /*#__PURE__*/React.createElement("th", null, "W"), /*#__PURE__*/React.createElement("th", null, "L"), /*#__PURE__*/React.createElement("th", null, "PCT"), /*#__PURE__*/React.createElement("th", null, "RF"), /*#__PURE__*/React.createElement("th", null, "RA"), /*#__PURE__*/React.createElement("th", null, "Diff"))), /*#__PURE__*/React.createElement("tbody", null, vsOpp.map(r => {
+    const p = r.W + r.L > 0 ? (r.W / (r.W + r.L)).toFixed(3) : '.000';
+    const diff = r.RF - r.RA;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: r.name
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 500
+      }
+    }, r.name), /*#__PURE__*/React.createElement("td", {
+      style: {
+        color: 'var(--win)',
+        fontWeight: 700
+      }
+    }, r.W), /*#__PURE__*/React.createElement("td", {
+      style: {
+        color: 'var(--loss)',
+        fontWeight: 700
+      }
+    }, r.L), /*#__PURE__*/React.createElement("td", null, p), /*#__PURE__*/React.createElement("td", null, r.RF), /*#__PURE__*/React.createElement("td", null, r.RA), /*#__PURE__*/React.createElement("td", {
+      style: {
+        color: diff > 0 ? 'var(--win)' : diff < 0 ? 'var(--loss)' : 'var(--muted)',
+        fontWeight: 600
+      }
+    }, diff > 0 ? '+' : '', diff));
+  })))));
+}
+
+// ═══════════════════════════════════
+// BATTING VIEW
+// ═══════════════════════════════════
+function BattingView({
+  ctx
+}) {
+  const {
+    battingWS,
+    setView
+  } = ctx;
+  const [sk, setSk] = useState('AVG');
+  const [sd, setSd] = useState(-1);
+  const cols = [{
+    k: 'name',
+    l: 'Player'
+  }, {
+    k: 'pos',
+    l: 'POS'
+  }, {
+    k: 'G',
+    l: 'G'
+  }, {
+    k: 'AB',
+    l: 'AB'
+  }, {
+    k: 'R',
+    l: 'R'
+  }, {
+    k: 'H',
+    l: 'H'
+  }, {
+    k: 'D',
+    l: '2B'
+  }, {
+    k: 'T',
+    l: '3B'
+  }, {
+    k: 'HR',
+    l: 'HR'
+  }, {
+    k: 'RBI',
+    l: 'RBI'
+  }, {
+    k: 'BB',
+    l: 'BB'
+  }, {
+    k: 'SO',
+    l: 'SO'
+  }, {
+    k: 'SB',
+    l: 'SB'
+  }, {
+    k: 'HBP',
+    l: 'HBP'
+  }, {
+    k: 'AVG',
+    l: 'AVG'
+  }, {
+    k: 'OBP',
+    l: 'OBP'
+  }, {
+    k: 'SLG',
+    l: 'SLG'
+  }, {
+    k: 'OPS',
+    l: 'OPS'
+  }];
+  const sorted = [...battingWS].sort((a, b) => {
+    const av = parseFloat(String(a[sk]).replace('.', '0.') || 0);
+    const bv = parseFloat(String(b[sk]).replace('.', '0.') || 0);
+    return isNaN(av - bv) ? String(a[sk]).localeCompare(String(b[sk])) : (av - bv) * sd;
+  });
+  const leaders = {};
+  ['HR', 'RBI', 'SB', 'R', 'H', 'AVG', 'OBP', 'SLG', 'OPS', 'BB'].forEach(k => {
+    const top = battingWS.reduce((best, p) => {
+      const pv = parseFloat('0' + String(p[k]));
+      return pv > parseFloat('0' + String(best[k])) ? p : best;
+    }, battingWS[0]);
+    if (top) leaders[k] = top.id;
+  });
+  const toggleSort = k => {
+    if (sk === k) setSd(d => -d);else {
+      setSk(k);
+      setSd(-1);
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    className: "back-btn",
+    onClick: () => setView('dashboard')
+  }, "\u2190 Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// Hitting"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-title"
+  }, "Batting Stats"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12,
+      color: 'var(--muted)',
+      marginBottom: 16
+    }
+  }, "Click any column to sort. \uD83C\uDFC5 marks the team leader."), /*#__PURE__*/React.createElement("div", {
+    className: "table-wrap"
+  }, /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, cols.map(c => /*#__PURE__*/React.createElement("th", {
+    key: c.k,
+    className: sk === c.k ? 'sorted' : '',
+    onClick: () => toggleSort(c.k)
+  }, c.l, sk === c.k ? sd < 0 ? ' ↓' : ' ↑' : '')))), /*#__PURE__*/React.createElement("tbody", null, sorted.map(p => /*#__PURE__*/React.createElement("tr", {
+    key: p.id
+  }, cols.map(c => {
+    const isL = leaders[c.k] === p.id;
+    return /*#__PURE__*/React.createElement("td", {
+      key: c.k,
+      style: {
+        color: isL ? 'var(--batting)' : c.k === 'name' ? 'var(--text)' : undefined,
+        fontWeight: isL ? 700 : undefined
+      }
+    }, p[c.k], isL ? ' 🏅' : '');
+  })))))));
+}
+
+// ═══════════════════════════════════
+// PITCHING VIEW
+// ═══════════════════════════════════
+function PitchingView({
+  ctx
+}) {
+  const {
+    pitchingWS,
+    setView
+  } = ctx;
+  const [sk, setSk] = useState('ERA');
+  const [sd, setSd] = useState(1);
+  const cols = [{
+    k: 'name',
+    l: 'Pitcher'
+  }, {
+    k: 'role',
+    l: 'Role'
+  }, {
+    k: 'G',
+    l: 'G'
+  }, {
+    k: 'GS',
+    l: 'GS'
+  }, {
+    k: 'W',
+    l: 'W'
+  }, {
+    k: 'L',
+    l: 'L'
+  }, {
+    k: 'SV',
+    l: 'SV'
+  }, {
+    k: 'IP',
+    l: 'IP'
+  }, {
+    k: 'H',
+    l: 'H'
+  }, {
+    k: 'R',
+    l: 'R'
+  }, {
+    k: 'ER',
+    l: 'ER'
+  }, {
+    k: 'BB',
+    l: 'BB'
+  }, {
+    k: 'SO',
+    l: 'K'
+  }, {
+    k: 'HR',
+    l: 'HR'
+  }, {
+    k: 'ERA',
+    l: 'ERA'
+  }, {
+    k: 'WHIP',
+    l: 'WHIP'
+  }];
+  const badStats = new Set(['ERA', 'WHIP', 'H', 'R', 'ER', 'BB', 'HR', 'L']);
+  const sorted = [...pitchingWS].sort((a, b) => {
+    const av = parseFloat(a[sk] || 0),
+      bv = parseFloat(b[sk] || 0);
+    return isNaN(av - bv) ? String(a[sk]).localeCompare(String(b[sk])) : (av - bv) * sd;
+  });
+  const qualP = pitchingWS.filter(p => ipReal(p.IP) >= 5);
+  const leaders = {};
+  leaders.ERA = qualP.length ? qualP.reduce((b, p) => parseFloat(p.ERA) < parseFloat(b.ERA) ? p : b, qualP[0])?.id : null;
+  leaders.WHIP = qualP.length ? qualP.reduce((b, p) => parseFloat(p.WHIP) < parseFloat(b.WHIP) ? p : b, qualP[0])?.id : null;
+  leaders.SO = pitchingWS.reduce((b, p) => p.SO > b.SO ? p : b, pitchingWS[0])?.id;
+  leaders.W = pitchingWS.reduce((b, p) => p.W > b.W ? p : b, pitchingWS[0])?.id;
+  leaders.SV = pitchingWS.reduce((b, p) => p.SV > b.SV ? p : b, pitchingWS[0])?.id;
+  const toggleSort = k => {
+    if (sk === k) setSd(d => -d);else {
+      setSk(k);
+      setSd(badStats.has(k) ? 1 : -1);
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    className: "back-btn",
+    onClick: () => setView('dashboard')
+  }, "\u2190 Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// Arms"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-title"
+  }, "Pitching Stats"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12,
+      color: 'var(--muted)',
+      marginBottom: 16
+    }
+  }, "Click any column to sort. \uD83C\uDFC5 marks the team leader. ERA/WHIP leaders require 5+ IP."), /*#__PURE__*/React.createElement("div", {
+    className: "table-wrap"
+  }, /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, cols.map(c => /*#__PURE__*/React.createElement("th", {
+    key: c.k,
+    className: sk === c.k ? 'sorted' : '',
+    onClick: () => toggleSort(c.k)
+  }, c.l, sk === c.k ? sd > 0 ? ' ↑' : ' ↓' : '')))), /*#__PURE__*/React.createElement("tbody", null, sorted.map(p => /*#__PURE__*/React.createElement("tr", {
+    key: p.id
+  }, cols.map(c => {
+    const isL = leaders[c.k] === p.id;
+    return /*#__PURE__*/React.createElement("td", {
+      key: c.k,
+      style: {
+        color: isL ? 'var(--pitching)' : c.k === 'name' ? 'var(--text)' : undefined,
+        fontWeight: isL ? 700 : undefined
+      }
+    }, p[c.k], isL ? ' 🏅' : '');
+  })))))));
+}
+
+// ═══════════════════════════════════
+// GAME LOG VIEW
+// ═══════════════════════════════════
+function GameLogView({
+  ctx
+}) {
+  const {
+    games,
+    setGames,
+    setView
+  } = ctx;
+  const sorted = [...games].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const wins = games.filter(g => g.result === 'W').length;
+  const losses = games.filter(g => g.result === 'L').length;
+  const pct = wins + losses > 0 ? (wins / (wins + losses)).toFixed(3) : '.000';
+  const delGame = id => {
+    if (confirm('Delete this game from the log?')) setGames(prev => prev.filter(g => g.id !== id));
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+    className: "back-btn",
+    onClick: () => setView('dashboard')
+  }, "\u2190 Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "sec-label"
+  }, "// History"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'baseline',
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sec-title",
+    style: {
+      marginBottom: 0
+    }
+  }, "Game Log"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: 'var(--muted)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--win)',
+      fontWeight: 700
+    }
+  }, wins, "W"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      margin: '0 6px'
+    }
+  }, "\u2013"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--loss)',
+      fontWeight: 700
+    }
+  }, losses, "L"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginLeft: 8,
+      color: 'var(--muted)'
+    }
+  }, pct, " PCT"))), /*#__PURE__*/React.createElement("div", {
+    className: "streak",
+    style: {
+      marginBottom: 20
+    }
+  }, sorted.slice(0, 10).reverse().map((g, i) => /*#__PURE__*/React.createElement("div", {
+    key: g.id,
+    className: `sb ${g.result}`,
+    title: `${g.result} ${g.us}-${g.them} vs ${g.opp}`
+  }, g.result)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: 'var(--muted)',
+      alignSelf: 'center',
+      marginLeft: 8
+    }
+  }, "\u2190 most recent")), games.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      padding: '48px 0',
+      color: 'var(--muted)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 32,
+      marginBottom: 12
+    }
+  }, "\uD83D\uDCCB"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      marginBottom: 16
+    }
+  }, "No games logged yet"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-primary",
+    onClick: () => setView('log')
+  }, "Log a Game")) : sorted.map(g => /*#__PURE__*/React.createElement(GameRow, {
+    key: g.id,
+    game: g,
+    onDelete: delGame
+  })));
+}
+
+// ═══════════════════════════════════
+// MOUNT
+// ═══════════════════════════════════
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(/*#__PURE__*/React.createElement(App, null));
+
+</script>
+</body>
+</html>
