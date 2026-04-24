@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — A-306 — Perimeter Skirting</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · A-306 — Perimeter Skirting</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="A-306 Perimeter Skirting Section">
+    <defs>
+      <pattern id="earth" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#6b5a3d" stroke-width="0.55"/>
+      </pattern>
+      <pattern id="steelXH" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="5" stroke="#2a2a2a" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="5" y2="0" stroke="#2a2a2a" stroke-width="0.5"/>
+      </pattern>
+      <pattern id="steelSolid" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+        <rect width="4" height="4" fill="#3a3a3a"/>
+      </pattern>
+      <pattern id="insul" patternUnits="userSpaceOnUse" width="18" height="12">
+        <path d="M 0 6 Q 4.5 0 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.7" fill="none"/>
+        <path d="M 0 6 Q 4.5 12 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.55"/>
+      </pattern>
+      <pattern id="eps" patternUnits="userSpaceOnUse" width="8" height="8">
+        <rect width="8" height="8" fill="#f5f0de"/>
+        <circle cx="2" cy="2" r="0.5" fill="#8a7a4d"/>
+        <circle cx="6" cy="6" r="0.4" fill="#8a7a4d"/>
+      </pattern>
+      <pattern id="osb" patternUnits="userSpaceOnUse" width="10" height="10">
+        <rect width="10" height="10" fill="#d6b56a" opacity="0.25"/>
+        <circle cx="2" cy="3" r="0.45" fill="#8a5a2b"/>
+        <circle cx="7" cy="7" r="0.4" fill="#8a5a2b"/>
+        <circle cx="5" cy="2" r="0.3" fill="#8a5a2b"/>
+        <circle cx="8" cy="4" r="0.3" fill="#8a5a2b"/>
+      </pattern>
+      <pattern id="wood" patternUnits="userSpaceOnUse" width="24" height="10">
+        <rect width="24" height="10" fill="#e9d9b0" opacity="0.4"/>
+        <path d="M 0 3 Q 6 2 12 3 T 24 3" stroke="#8a5a2b" stroke-width="0.4" fill="none"/>
+        <path d="M 0 7 Q 6 6 12 7 T 24 7" stroke="#8a5a2b" stroke-width="0.3" fill="none"/>
+      </pattern>
+      <pattern id="concrete" patternUnits="userSpaceOnUse" width="20" height="20">
+        <rect width="20" height="20" fill="#eaeaea"/>
+        <circle cx="4" cy="5" r="1" fill="#6b6b6b"/>
+        <circle cx="14" cy="12" r="0.8" fill="#6b6b6b"/>
+        <polygon points="9,16 12,16 10.5,13" fill="#6b6b6b"/>
+      </pattern>
+      <pattern id="gyp" patternUnits="userSpaceOnUse" width="5" height="5">
+        <rect width="5" height="5" fill="#fafafa"/>
+        <circle cx="1" cy="1" r="0.35" fill="#9a9a9a"/>
+        <circle cx="3.5" cy="3" r="0.3" fill="#9a9a9a"/>
+      </pattern>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+    </defs>
+
+    <!-- Outer frame -->
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Drawing area + grid -->
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)"/>
+    <rect x="30" y="40" width="530" height="520" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Drawing banner -->
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">SECTION A-A — PERIMETER SKIRTING</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1:10</text>
+
+    <!-- ============== DRAWING CONTENT ============== -->
+    <!-- Section through chassis edge downward to grade. Floor above (break), HSS chassis rim, skirting panel hanging from chassis, earth below. -->
+    <!-- Exterior at LEFT (x=60-200). Interior / crawlspace side at RIGHT (x=220-540). -->
+
+    <!-- ============== FLOOR / CHASSIS ABOVE ============== -->
+    <!-- Floor finish (LVP) -->
+    <rect x="200" y="140" width="340" height="4" fill="#b38a3d"/>
+    <rect x="200" y="140" width="340" height="4" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <!-- OSB subfloor -->
+    <rect x="200" y="144" width="340" height="10" fill="url(#osb)"/>
+    <rect x="200" y="144" width="340" height="10" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Joist (cut) -->
+    <rect x="230" y="154" width="310" height="40" fill="url(#wood)"/>
+    <rect x="230" y="154" width="310" height="40" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- HSS Chassis rim (at left edge of floor assembly) -->
+    <rect x="200" y="154" width="30" height="50" fill="url(#steelXH)"/>
+    <rect x="200" y="154" width="30" height="50" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+    <!-- HSS wall thickness indicator (hollow inside) -->
+    <rect x="204" y="158" width="22" height="42" fill="#fff"/>
+    <rect x="204" y="158" width="22" height="42" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+
+    <!-- Break line at top (floor assembly continues up, wall omitted for clarity) -->
+    <path d="M 200 132 L 230 132 L 238 126 L 252 138 L 266 126 L 280 138 L 294 126 L 308 138 L 322 126 L 336 138 L 350 132 L 540 132" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    <!-- Break line at right (chassis/floor continues to module centerline) -->
+    <path d="M 532 140 L 532 180 L 540 186 L 528 200 L 540 214 L 532 220" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+
+    <!-- ============== SKIRTING PANEL ============== -->
+    <!-- Attached to chassis; hangs down to grade. Exterior face plane at x=200 (aligned with chassis outer face). -->
+    <!-- Panel assembly -->
+    <!-- Ext finish (fibre-cement) -->
+    <rect x="186" y="204" width="8" height="230" fill="#cfc9b8"/>
+    <rect x="186" y="204" width="8" height="230" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Exterior OSB skin -->
+    <rect x="194" y="204" width="6" height="230" fill="url(#osb)"/>
+    <rect x="194" y="204" width="6" height="230" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- EPS core (R-15) -->
+    <rect x="200" y="204" width="60" height="230" fill="url(#eps)"/>
+    <rect x="200" y="204" width="60" height="230" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Interior OSB skin -->
+    <rect x="260" y="204" width="6" height="230" fill="url(#osb)"/>
+    <rect x="260" y="204" width="6" height="230" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Skirting panel heavy cut envelope -->
+    <line x1="186" y1="204" x2="186" y2="434" stroke="#1a1a1a" stroke-width="2.5"/>
+    <line x1="266" y1="204" x2="266" y2="434" stroke="#1a1a1a" stroke-width="1.5"/>
+    <line x1="186" y1="434" x2="266" y2="434" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- Attachment bracket at top (Z clip to chassis) -->
+    <path d="M 200 200 L 230 200 L 230 206 L 226 206 L 226 218 L 200 218 Z" fill="#7c7c7c"/>
+    <path d="M 200 200 L 230 200 L 230 206 L 226 206 L 226 218 L 200 218 Z" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+    <!-- Bolt through clip to HSS -->
+    <circle cx="218" cy="210" r="2" fill="#2a2a2a"/>
+    <line x1="212" y1="210" x2="224" y2="210" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- ============== TERMITE / FLASHING AT TOP OF PANEL ============== -->
+    <!-- Termite flashing (HDG steel band) lapped over top of skirting panel and up behind wall cladding above -->
+    <path d="M 180 200 L 180 194 L 235 194 L 235 200 L 190 200 L 190 204 L 180 204 Z" fill="#c0c6cb"/>
+    <path d="M 180 200 L 180 194 L 235 194 L 235 200 L 190 200 L 190 204 L 180 204 Z" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+
+    <!-- ============== WEEP / VENT LOUVER ============== -->
+    <!-- Cut in skirting: louvered vent panel (for crawl-space venting) - located mid-height -->
+    <rect x="208" y="310" width="52" height="40" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+    <!-- Louver slats -->
+    <line x1="210" y1="316" x2="258" y2="316" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="210" y1="322" x2="258" y2="322" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="210" y1="328" x2="258" y2="328" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="210" y1="334" x2="258" y2="334" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="210" y1="340" x2="258" y2="340" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="210" y1="346" x2="258" y2="346" stroke="#1a1a1a" stroke-width="0.8"/>
+    <!-- Insect screen inside (dashed) -->
+    <rect x="212" y="312" width="46" height="36" fill="none" stroke="#555" stroke-width="0.4" stroke-dasharray="2 1"/>
+
+    <!-- ============== GRADE + GROUND CLEARANCE ============== -->
+    <!-- Grade line sloped away from building (2% slope) -->
+    <path d="M 60 450 L 185 450 L 540 460" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+
+    <!-- Earth hatch below grade -->
+    <path d="M 60 450 L 185 450 L 540 460 L 540 550 L 60 550 Z" fill="url(#earth)"/>
+    <path d="M 60 450 L 185 450 L 540 460 L 540 550 L 60 550 Z" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Gravel bed under skirting bottom edge -->
+    <rect x="60" y="444" width="140" height="6" fill="#c8c0a8"/>
+    <circle cx="75" cy="447" r="1.2" fill="#6b6b6b"/>
+    <circle cx="95" cy="447" r="1.2" fill="#6b6b6b"/>
+    <circle cx="120" cy="447" r="1.2" fill="#6b6b6b"/>
+    <circle cx="145" cy="447" r="1.2" fill="#6b6b6b"/>
+    <circle cx="170" cy="447" r="1.2" fill="#6b6b6b"/>
+    <rect x="60" y="444" width="140" height="6" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Grade triangle symbol -->
+    <g transform="translate(95,450)">
+      <line x1="-30" y1="0" x2="0" y2="0" stroke="#1a1a1a" stroke-width="1.2"/>
+      <polygon points="0,0 -6,10 6,10" fill="#1a1a1a"/>
+      <rect x="12" y="-10" width="40" height="10" fill="#fff" stroke="none"/>
+      <text x="14" y="-2" font-family="Arial" font-size="9" font-weight="600">GRADE</text>
+    </g>
+
+    <!-- F.F. datum symbol at top of subfloor -->
+    <g transform="translate(450,144)">
+      <polygon points="0,0 -5,8 5,8" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+      <polygon points="0,0 -3,5 3,5" fill="#1a1a1a"/>
+      <line x1="-25" y1="0" x2="25" y2="0" stroke="#1a1a1a" stroke-width="1"/>
+      <rect x="12" y="-10" width="26" height="10" fill="#fff" stroke="none"/>
+      <text x="14" y="-2" font-family="Arial" font-size="9" font-weight="600">F.F.</text>
+    </g>
+
+    <!-- Weep screed at bottom of panel -->
+    <path d="M 186 430 L 184 442 L 196 442 L 196 434 L 186 434 Z" fill="#c0c6cb"/>
+    <path d="M 186 430 L 184 442 L 196 442 L 196 434 L 186 434 Z" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+    <!-- Weep holes (slots) -->
+    <line x1="188" y1="440" x2="193" y2="440" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Slope arrow (grade away) -->
+    <g transform="translate(420,445)">
+      <line x1="0" y1="0" x2="40" y2="3" stroke="#1a1a1a" stroke-width="0.5" marker-end="url(#arrow)"/>
+      <rect x="-5" y="-12" width="50" height="10" fill="#fff" stroke="none"/>
+      <text x="20" y="-4" text-anchor="middle" font-family="Arial" font-size="8" font-style="italic">2% min slope away</text>
+    </g>
+
+    <!-- ============== DIMENSIONS ============== -->
+    <!-- Ground clearance: from bottom of chassis to grade -->
+    <line x1="55" y1="204" x2="43" y2="204" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="55" y1="450" x2="43" y2="450" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="48" y1="204" x2="48" y2="450" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="32" y="320" width="16" height="14" fill="#fff" stroke="none"/>
+    <text x="40" y="327" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500" transform="rotate(-90, 40, 327)">CLEARANCE 450</text>
+
+    <!-- Skirting panel height (top to weep) -->
+    <line x1="280" y1="204" x2="292" y2="204" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="280" y1="434" x2="292" y2="434" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="286" y1="204" x2="286" y2="434" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="289" y="315" width="14" height="14" fill="#fff" stroke="none"/>
+    <text x="296" y="322" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500" transform="rotate(90, 296, 322)">PANEL 230</text>
+
+    <!-- Panel thickness -->
+    <line x1="186" y1="490" x2="186" y2="502" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="266" y1="490" x2="266" y2="502" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="186" y1="496" x2="266" y2="496" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="218" y="483" width="16" height="12" fill="#fff" stroke="none"/>
+    <text x="226" y="492" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500">80</text>
+
+    <!-- ============== KEYNOTE BUBBLES + LEADERS ============== -->
+    <!-- 1: Sealed insulated skirting panel -->
+    <line x1="425" y1="250" x2="267" y2="260" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="267" cy="260" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="434" cy="250" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="434" y="253.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text></g>
+
+    <!-- 2: Louver vent -->
+    <line x1="425" y1="320" x2="260" y2="328" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="260" cy="328" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="434" cy="320" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="434" y="323.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text></g>
+
+    <!-- 3: Termite flashing (endpoint on top edge) -->
+    <line x1="60" y1="150" x2="210" y2="194" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="210" cy="194" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="51" cy="150" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="51" y="153.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text></g>
+
+    <!-- 4: EPS insulation core (endpoint on edge of EPS rect) -->
+    <line x1="425" y1="395" x2="261" y2="400" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="261" cy="400" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="434" cy="395" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="434" y="398.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text></g>
+
+    <!-- 5: Chassis anchor bracket -->
+    <line x1="60" y1="210" x2="218" y2="212" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="218" cy="212" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="51" cy="210" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="51" y="213.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text></g>
+
+    <!-- 6: Weep screed + gravel bed -->
+    <line x1="60" y1="420" x2="188" y2="438" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="188" cy="438" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="51" cy="420" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="51" y="423.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text></g>
+
+    <!-- ============== KEYNOTE LEGEND ============== -->
+    <g transform="translate(340, 60)">
+      <text x="0" y="0" font-family="Arial" font-size="10" font-weight="700">KEYNOTES</text>
+      <line x1="0" y1="4" x2="205" y2="4" stroke="#1a1a1a" stroke-width="0.5"/>
+
+      <g transform="translate(0, 22)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">1</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">INSULATED SKIRTING PANEL</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">80 mm: fibre-cement / OSB / EPS R-15 / OSB</text>
+        <text x="22" y="20" font-family="Arial" font-size="8" fill="#555">U = 0.378 W/m&#178;&#183;K, sealed all edges</text>
+      </g>
+
+      <g transform="translate(0, 58)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">2</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">VENT LOUVER + INSECT SCREEN</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">Net free area per OBC 9.18.3 (1 / 500)</text>
+        <text x="22" y="20" font-family="Arial" font-size="8" fill="#555">SS mesh insect screen, closable in winter</text>
+      </g>
+
+      <g transform="translate(0, 94)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">3</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">TERMITE FLASHING</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">0.6 mm HDG steel, continuous, projects &#8805; 40 mm</text>
+        <text x="22" y="20" font-family="Arial" font-size="8" fill="#555">out and down, sealed to wall WRB above</text>
+      </g>
+
+      <g transform="translate(0, 130)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">4</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">EPS INSULATION CORE</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">Type 2 EPS, R-15 (R_SI = 2.64)</text>
+        <text x="22" y="20" font-family="Arial" font-size="8" fill="#555">continuous; closes crawlspace thermally</text>
+      </g>
+
+      <g transform="translate(0, 166)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">5</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">CHASSIS ANCHOR BRACKET</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">HDG Z-clip bolted to HSS rim, M10 bolts</text>
+        <text x="22" y="20" font-family="Arial" font-size="8" fill="#555">600 mm o.c. max; gasket between clip &amp; steel</text>
+      </g>
+
+      <g transform="translate(0, 202)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">6</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">WEEP SCREED + GRAVEL BED</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">Bottom edge screed; 150 mm drainage gravel,</text>
+        <text x="22" y="20" font-family="Arial" font-size="8" fill="#555">grade slopes &#8805; 2% away from building</text>
+      </g>
+    </g>
+
+    <!-- ============== SCALE BAR ============== -->
+    <g transform="translate(240, 555)">
+      <text x="50" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1:10</text>
+      <rect x="0"  y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="25" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="50" y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="75" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="47"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">500</text>
+      <text x="103" y="16" font-family="Arial" font-size="7.5">1000 mm</text>
+    </g>
+
+    <!-- ============== TITLE BLOCK ============== -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">DETAIL</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">PERIMETER SKIRTING</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Architectural · OBC 9.18 / 9.26.6</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="253" font-family="Arial" font-size="10" font-weight="bold">GENERAL NOTES</text>
+    <text x="600" y="270" font-family="Arial" font-size="9">1. Ground clearance &#8805; 450 mm chassis to finished grade.</text>
+    <text x="600" y="283" font-family="Arial" font-size="9">2. Grade slope &#8805; 2% away min 1.5 m from skirting.</text>
+    <text x="600" y="296" font-family="Arial" font-size="9">3. Vent area per OBC 9.18.3 — 1 / 500 of crawlspace floor.</text>
+    <text x="600" y="309" font-family="Arial" font-size="9">4. Termite flashing continuous, lapped over WRB above.</text>
+    <text x="600" y="322" font-family="Arial" font-size="9">5. Anchor spacing [TBD per Site Engineer].</text>
+
+    <line x1="590" y1="360" x2="870" y2="360" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="380" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="380" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="395" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="395" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="410" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="410" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="425" x2="870" y2="425" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="445" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="445" font-family="Arial" font-size="10">1:10</text>
+    <text x="600" y="462" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="462" font-family="Arial" font-size="10">A-306</text>
+    <text x="600" y="479" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="700" y="479" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="496" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="670" y="496" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="515" x2="870" y2="515" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="535" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes</text>
+    <text x="600" y="548" font-family="Arial" font-size="8" fill="#555">All dimensions in mm U.N.O.</text>
+    <text x="600" y="561" font-family="Arial" font-size="8" fill="#555">Do not scale from drawing</text>
+    <text x="600" y="574" font-family="Arial" font-size="8" fill="#555">Drop &amp; Go modular chassis</text>
+  </svg>
+
+  <details open>
+    <summary>A-306: Sealed insulated skirting panel, R-15 EPS, 450 mm ground clearance · Expand for full spec</summary>
+    <ul>
+      <li>Skirting panel: 80 mm sandwich — fibre-cement / OSB / Type 2 EPS (R-15) / OSB; factory-sealed edges.</li>
+      <li>Panel U-value: R_SI = 2.64 m&#178;&#183;K/W &#8594; U = 0.378 W/m&#178;&#183;K.</li>
+      <li>Ground clearance: &#8805; 450 mm from bottom of HSS chassis to finished grade.</li>
+      <li>Grade slope: &#8805; 2% away from building for min. 1.5 m beyond skirting.</li>
+      <li>Vent louvers: factory-cut in panel, net free area per OBC 9.18.3 (1 / 500 of crawlspace floor area); SS insect screen; closable winter inserts.</li>
+      <li>Termite flashing: 0.6 mm HDG steel continuous, projects &#8805; 40 mm, sealed to wall WRB above.</li>
+      <li>Attachment: HDG Z-clip brackets bolted to HSS rim, M10 bolts @ 600 mm o.c. max, neoprene gasket at steel interface.</li>
+      <li>Weep screed at bottom edge; 150 mm drainage gravel under bottom of panel.</li>
+      <li>Anchor spacing, lift limits, and soil class [TBD per Site Engineer].</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.18</code> — Crawl spaces (ventilation, access, ground cover).</li>
+      <li><code class="ref">OBC 9.18.3</code> — Ventilation of crawl spaces (1 / 500 floor area).</li>
+      <li><code class="ref">OBC 9.26.6</code> — Flashing at termination of wall cladding.</li>
+      <li><code class="ref">OBC 9.12.2.2</code> — Foundations below frost line (skirting not load-bearing; piers carry loads).</li>
+      <li><code class="ref">OBC 9.25.5</code> — Thermal insulation continuity.</li>
+      <li><code class="ref">OBC 9.36.2.6 / 9.36.2.8</code> — Effective thermal resistance, Climate Zone 6.</li>
+      <li>U-factor formula: <code class="ref">U [W/m²·K] = 1 / (R_imp × 0.1761)</code>; R-15 &#8594; R_SI = 2.64 &#8594; U = 0.378 W/m&#178;&#183;K.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

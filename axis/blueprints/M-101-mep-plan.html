@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — M-101 — MEP Coordination Plan</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · M-101 — MEP Coordination Plan (Ground Floor)</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="M-101 MEP Coordination Plan">
+    <defs>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="plumbArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f7a3a"/>
+      </marker>
+      <marker id="hvacArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1857a8"/>
+      </marker>
+    </defs>
+
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Drawing banner -->
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">MEP COORDINATION PLAN · GROUND FLOOR · 1 BDRM LAYOUT</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1 : 25</text>
+
+    <!-- ═══════════ GRID REFERENCE (perimeter ticks) ═══════════ -->
+    <g font-family="Arial" font-size="8" fill="#555">
+      <!-- Column grids A..D across the length -->
+      <text x="50"  y="52" text-anchor="middle" font-weight="700">A</text>
+      <text x="218" y="52" text-anchor="middle" font-weight="700">B</text>
+      <text x="386" y="52" text-anchor="middle" font-weight="700">C</text>
+      <text x="554" y="52" text-anchor="middle" font-weight="700">D</text>
+      <line x1="50"  y1="56" x2="50"  y2="230" stroke="#bfbfbf" stroke-width="0.4" stroke-dasharray="2 3"/>
+      <line x1="218" y1="56" x2="218" y2="230" stroke="#bfbfbf" stroke-width="0.4" stroke-dasharray="2 3"/>
+      <line x1="386" y1="56" x2="386" y2="230" stroke="#bfbfbf" stroke-width="0.4" stroke-dasharray="2 3"/>
+      <line x1="554" y1="56" x2="554" y2="230" stroke="#bfbfbf" stroke-width="0.4" stroke-dasharray="2 3"/>
+      <!-- Row grids 1,2 across the width -->
+      <text x="40" y="233" text-anchor="middle" font-weight="700">1</text>
+      <text x="40" y="377" text-anchor="middle" font-weight="700">2</text>
+    </g>
+
+    <!-- ═══════════ PLAN GEOMETRY — LIGHT walls (non-cut, MEP plan) ═══════════ -->
+    <!-- Outer SIP wall perimeter (light gray) -->
+    <rect x="50"  y="230" width="504" height="144" fill="none" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="58"  y="238" width="488" height="128" fill="none" stroke="#b0b0b0" stroke-width="0.6"/>
+
+    <!-- Interior partitions (light) -->
+    <rect x="312" y="238" width="4" height="128" fill="none" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="384" y="238" width="4" height="128" fill="none" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="316" y="300" width="68" height="4" fill="none" stroke="#b0b0b0" stroke-width="0.6"/>
+
+    <!-- Light openings (to keep register with A-101) -->
+    <rect x="122" y="366" width="36" height="8" fill="#fff" stroke="none"/>
+    <line x1="122" y1="370" x2="158" y2="370" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="254" y="230" width="60" height="8" fill="#f5f9fc" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="50"  y="296" width="8"  height="36" fill="#f5f9fc" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="450" y="230" width="48" height="8" fill="#f5f9fc" stroke="#b0b0b0" stroke-width="0.6"/>
+    <rect x="546" y="276" width="8"  height="48" fill="#f5f9fc" stroke="#b0b0b0" stroke-width="0.6"/>
+
+    <!-- Very faint fixtures (for context: WC, lav, shower, sink, range) -->
+    <g stroke="#c8c8c8" stroke-width="0.5" fill="none">
+      <ellipse cx="326" cy="316" rx="8" ry="10"/>
+      <rect x="318" y="308" width="16" height="6"/>
+      <rect x="344" y="307" width="34" height="18"/>
+      <rect x="316" y="346" width="68" height="18"/>
+      <rect x="58"  y="238" width="112" height="22"/>
+      <rect x="76"  y="242" width="24" height="14"/>
+      <rect x="108" y="242" width="22" height="14"/>
+      <rect x="138" y="240" width="28" height="20"/>
+      <rect x="392" y="246" width="40" height="30"/>
+    </g>
+
+    <!-- Room labels (subtle) -->
+    <g font-family="Arial" text-anchor="middle" fill="#999">
+      <text x="180" y="392" font-size="8" font-weight="600">LIVING / KITCHEN</text>
+      <text x="350" y="392" font-size="8" font-weight="600">BATH</text>
+      <text x="470" y="392" font-size="8" font-weight="600">BEDROOM</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PLUMBING (green, solid 1.3 stroke)
+         Water service entry at S-end; cold/hot manifold in bath;
+         PEX home-runs; ABS DWV stack from bath + kitchen; vent up.
+    ═══════════════════════════════════════════════════════════════ -->
+    <g stroke="#1f7a3a" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Water service entry (south wall near bath, x≈340, y=374 enters) -->
+      <line x1="340" y1="386" x2="340" y2="330" stroke-width="1.5"/>
+      <circle cx="340" cy="386" r="3" fill="#1f7a3a" stroke="none"/>
+      <!-- Manifold at bath (x≈340, y=330) -->
+      <rect x="333" y="324" width="14" height="10" fill="#fff" stroke="#1f7a3a" stroke-width="1.3"/>
+      <!-- Hot/cold PEX home-runs (thin parallel) -->
+      <!-- to kitchen sink (x≈88, y≈249) -->
+      <path d="M 333 329 L 220 329 L 220 250 L 90 250" stroke-width="1.1"/>
+      <!-- to lav (x≈361, y≈316) -->
+      <path d="M 347 329 L 361 329 L 361 320" stroke-width="1.1"/>
+      <!-- to WC (cold only) -->
+      <path d="M 340 324 L 340 320 L 330 320 L 330 315" stroke-width="1.1"/>
+      <!-- to shower (x≈340, y=346) -->
+      <path d="M 340 334 L 340 344" stroke-width="1.1"/>
+      <!-- DWV stack at bath — vent up (dashed riser symbol) -->
+      <circle cx="370" cy="355" r="4" fill="#fff" stroke="#1f7a3a" stroke-width="1.3"/>
+      <line x1="370" y1="351" x2="370" y2="359" stroke-width="1.0"/>
+      <line x1="366" y1="355" x2="374" y2="355" stroke-width="1.0"/>
+      <!-- DWV horizontal run from kitchen sink trap to stack -->
+      <path d="M 90 254 L 90 262 L 370 262 L 370 351" stroke-width="1.3"/>
+      <!-- DWV from shower/lav/WC into stack (short stubs) -->
+      <path d="M 350 355 L 366 355" stroke-width="1.1"/>
+      <path d="M 361 322 L 361 345 L 366 355" stroke-width="1.1"/>
+      <path d="M 334 316 L 366 316 L 366 352" stroke-width="1.1"/>
+    </g>
+    <!-- Plumbing fixture shut-off symbols (small green squares) -->
+    <g fill="#1f7a3a" stroke="none">
+      <rect x="88"  y="248" width="4" height="4"/>
+      <rect x="358" y="318" width="4" height="4"/>
+      <rect x="328" y="313" width="4" height="4"/>
+      <rect x="338" y="342" width="4" height="4"/>
+    </g>
+    <!-- Plumbing labels -->
+    <g font-family="Arial" font-size="6.5" fill="#1f7a3a">
+      <rect x="300" y="382" width="80" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="340" y="389" text-anchor="middle" font-weight="700">WATER SERVICE (S)</text>
+      <rect x="385" y="350" width="40" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="405" y="357" text-anchor="middle" font-weight="700">VTR</text>
+      <rect x="180" y="256" width="80" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="220" y="263" text-anchor="middle" font-weight="600">PEX HOME-RUN</text>
+      <rect x="260" y="266" width="50" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="285" y="273" text-anchor="middle" font-weight="600">ABS DWV</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         HVAC (blue, DASHED) — mini-split line set + HRV ducts
+    ═══════════════════════════════════════════════════════════════ -->
+    <g stroke="#1857a8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Mini-split indoor HEAD on interior partition near bath (x≈304, y≈250) -->
+      <rect x="276" y="244" width="36" height="10" fill="#e4edf7" stroke="#1857a8" stroke-width="1.3"/>
+      <line x1="280" y1="252" x2="308" y2="252" stroke-width="0.6"/>
+      <!-- Refrigerant line set: head -> ceiling chase -> bedroom -> out NE corner (exterior condenser) -->
+      <path d="M 294 244 L 294 220 L 560 220 L 560 215" stroke-width="1.2" stroke-dasharray="6 4"/>
+      <!-- Exterior condenser (NE corner, outside building at x≈575, y≈210) -->
+      <rect x="562" y="198" width="22" height="18" fill="#e4edf7" stroke="#1857a8" stroke-width="1.3"/>
+      <line x1="566" y1="202" x2="580" y2="202" stroke-width="0.5"/>
+      <line x1="566" y1="208" x2="580" y2="208" stroke-width="0.5"/>
+      <line x1="566" y1="212" x2="580" y2="212" stroke-width="0.5"/>
+
+      <!-- HRV UNIT in bedroom closet (x≈412, y≈258) -->
+      <rect x="396" y="252" width="32" height="18" fill="#e4edf7" stroke="#1857a8" stroke-width="1.3"/>
+      <!-- Supply duct: HRV -> Living Room (long run west) and HRV -> Bedroom -->
+      <!-- Supply to LR (dashed blue) -->
+      <path d="M 396 261 L 300 261 L 300 340 L 180 340" stroke-width="1.3" stroke-dasharray="6 3"/>
+      <!-- Supply to Bedroom (short run) -->
+      <path d="M 428 261 L 470 261 L 470 310" stroke-width="1.3" stroke-dasharray="6 3"/>
+      <!-- Return from Kitchen (dashed blue, different dash to show direction) -->
+      <path d="M 396 266 L 240 266 L 240 252 L 180 252" stroke-width="1.3" stroke-dasharray="3 3"/>
+      <!-- Return from Bath -->
+      <path d="M 412 270 L 412 285 L 365 285" stroke-width="1.3" stroke-dasharray="3 3"/>
+      <!-- HRV intake/exhaust through parapet (to NE) -->
+      <path d="M 420 252 L 420 210" stroke-width="1.1" stroke-dasharray="4 2"/>
+    </g>
+    <!-- HVAC markers: diffusers as small blue squares with X -->
+    <g stroke="#1857a8" stroke-width="0.9" fill="#fff">
+      <rect x="176" y="336" width="8" height="8"/>
+      <line x1="176" y1="336" x2="184" y2="344"/>
+      <line x1="184" y1="336" x2="176" y2="344"/>
+
+      <rect x="466" y="306" width="8" height="8"/>
+      <line x1="466" y1="306" x2="474" y2="314"/>
+      <line x1="474" y1="306" x2="466" y2="314"/>
+
+      <rect x="176" y="248" width="8" height="8"/>
+      <line x1="176" y1="248" x2="184" y2="256"/>
+      <line x1="184" y1="248" x2="176" y2="256"/>
+
+      <rect x="361" y="281" width="8" height="8"/>
+      <line x1="361" y1="281" x2="369" y2="289"/>
+      <line x1="369" y1="281" x2="361" y2="289"/>
+    </g>
+    <!-- HVAC labels -->
+    <g font-family="Arial" font-size="6.5" fill="#1857a8">
+      <rect x="270" y="234" width="48" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="294" y="241" text-anchor="middle" font-weight="700">MINI-SPLIT HEAD</text>
+      <rect x="555" y="186" width="38" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="574" y="193" text-anchor="middle" font-weight="700">CONDENSER</text>
+      <rect x="396" y="273" width="32" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="412" y="280" text-anchor="middle" font-weight="700">HRV</text>
+      <rect x="188" y="334" width="40" height="8" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="208" y="340" text-anchor="middle">SUPPLY LR</text>
+      <rect x="478" y="304" width="40" height="8" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="498" y="310" text-anchor="middle">SUPPLY BR</text>
+      <rect x="186" y="258" width="40" height="8" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="206" y="264" text-anchor="middle">RETURN K</text>
+      <rect x="336" y="287" width="32" height="8" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="352" y="293" text-anchor="middle">RETURN B</text>
+    </g>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         ELECTRICAL (orange, DASHED) — panel, circuits, devices
+    ═══════════════════════════════════════════════════════════════ -->
+    <!-- Combination service panel "P" in bedroom closet -->
+    <g>
+      <rect x="398" y="276" width="14" height="20" fill="#fff" stroke="#c94a14" stroke-width="1.4"/>
+      <text x="405" y="289" text-anchor="middle" font-family="Arial" font-size="9" font-weight="700" fill="#c94a14">P</text>
+      <text x="405" y="302" text-anchor="middle" font-family="Arial" font-size="6" font-weight="700" fill="#c94a14">200A</text>
+    </g>
+
+    <!-- Circuits (dashed orange) -->
+    <g stroke="#c94a14" fill="none" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Kitchen small-appliance circuits -->
+      <path d="M 405 276 L 405 225 L 105 225 L 105 240" stroke-width="1.1"/>
+      <path d="M 405 276 L 405 222 L 150 222 L 150 240" stroke-width="1.1"/>
+      <!-- Bath GFCI -->
+      <path d="M 398 286 L 378 286 L 378 306" stroke-width="1.1"/>
+      <!-- Living room receptacles -->
+      <path d="M 398 296 L 300 296 L 300 360 L 120 360" stroke-width="1.1"/>
+      <!-- West living wall receptacle -->
+      <path d="M 300 360 L 60 360" stroke-width="1.1"/>
+      <!-- Bedroom receptacles -->
+      <path d="M 412 290 L 540 290 L 540 268" stroke-width="1.1"/>
+      <path d="M 412 290 L 500 290 L 500 352" stroke-width="1.1"/>
+      <!-- Lighting circuit (entry + 3 zones) -->
+      <path d="M 398 280 L 270 280 L 270 336 L 140 336" stroke-width="1.0"/>
+      <path d="M 270 336 L 210 336" stroke-width="1.0"/>
+      <!-- Smoke/CO interconnect -->
+      <path d="M 412 282 L 440 282 L 440 245 L 470 245" stroke-width="1.0"/>
+      <path d="M 412 282 L 240 282 L 240 325 L 140 325 L 140 300" stroke-width="1.0"/>
+      <path d="M 240 325 L 240 348" stroke-width="1.0"/>
+    </g>
+
+    <!-- Electrical device symbols -->
+    <!-- Receptacle: circle + 2 parallel tick marks -->
+    <g font-family="Arial" font-size="6" font-weight="700" fill="#c94a14">
+      <!-- LR west wall recept -->
+      <g><circle cx="60" cy="360" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <line x1="58" y1="358" x2="58" y2="362" stroke="#c94a14" stroke-width="1"/>
+         <line x1="62" y1="358" x2="62" y2="362" stroke="#c94a14" stroke-width="1"/></g>
+      <!-- LR south wall recept -->
+      <g><circle cx="120" cy="360" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <line x1="118" y1="358" x2="118" y2="362" stroke="#c94a14" stroke-width="1"/>
+         <line x1="122" y1="358" x2="122" y2="362" stroke="#c94a14" stroke-width="1"/></g>
+      <!-- LR couch recept -->
+      <g><circle cx="210" cy="336" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <line x1="208" y1="334" x2="208" y2="338" stroke="#c94a14" stroke-width="1"/>
+         <line x1="212" y1="334" x2="212" y2="338" stroke="#c94a14" stroke-width="1"/></g>
+      <!-- Kitchen counter GFCI A -->
+      <g><circle cx="105" cy="240" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <text x="105" y="242" text-anchor="middle">G</text></g>
+      <!-- Kitchen counter GFCI B -->
+      <g><circle cx="150" cy="240" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <text x="150" y="242" text-anchor="middle">G</text></g>
+      <!-- Bath GFCI -->
+      <g><circle cx="378" cy="306" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <text x="378" y="308" text-anchor="middle">G</text></g>
+      <!-- Bedroom NE recept -->
+      <g><circle cx="540" cy="268" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <line x1="538" y1="266" x2="538" y2="270" stroke="#c94a14" stroke-width="1"/>
+         <line x1="542" y1="266" x2="542" y2="270" stroke="#c94a14" stroke-width="1"/></g>
+      <!-- Bedroom SW recept -->
+      <g><circle cx="500" cy="352" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+         <line x1="498" y1="350" x2="498" y2="354" stroke="#c94a14" stroke-width="1"/>
+         <line x1="502" y1="350" x2="502" y2="354" stroke="#c94a14" stroke-width="1"/></g>
+    </g>
+
+    <!-- Switches "S" -->
+    <g font-family="Arial" font-size="7" font-weight="700" fill="#c94a14">
+      <!-- Entry switch -->
+      <circle cx="162" cy="360" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="162" y="363" text-anchor="middle">S</text>
+      <!-- Bath switch -->
+      <circle cx="350" cy="368" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="350" y="371" text-anchor="middle">S</text>
+      <!-- Bedroom switch -->
+      <circle cx="395" cy="368" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="395" y="371" text-anchor="middle">S</text>
+      <!-- Kitchen switch -->
+      <circle cx="200" cy="258" r="4.5" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="200" y="261" text-anchor="middle">S</text>
+    </g>
+
+    <!-- Smoke Alarm + CO -->
+    <g font-family="Arial" font-size="5.5" font-weight="700" fill="#c94a14">
+      <!-- Kitchen SA -->
+      <circle cx="140" cy="300" r="6" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="140" y="302.5" text-anchor="middle">SA</text>
+      <!-- Hall SA/CO combined area between bath and bedroom corridor -->
+      <circle cx="240" cy="348" r="6" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="240" y="350.5" text-anchor="middle">SA</text>
+      <!-- Bedroom SA -->
+      <circle cx="470" cy="245" r="6" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="470" y="247.5" text-anchor="middle">SA</text>
+      <!-- CO alarm (near bedroom/hall) -->
+      <circle cx="260" cy="348" r="6" fill="#fff" stroke="#c94a14" stroke-width="1.1"/>
+      <text x="260" y="350.5" text-anchor="middle">CO</text>
+    </g>
+
+    <!-- ═══════════ NORTH ARROW (top-right of drawing area) ═══════════ -->
+    <g transform="translate(535, 60)">
+      <circle cx="0" cy="0" r="16" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <polygon points="0,-12 -5,8 0,4 5,8" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="0.6"/>
+      <text x="0" y="-18" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">N</text>
+    </g>
+
+    <!-- ═══════════ KEYNOTE BUBBLES on plan ═══════════ -->
+    <!-- 1 · Combination service panel -->
+    <g>
+      <circle cx="460" cy="450" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="460" y="454" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text>
+    </g>
+    <line x1="451" y1="450" x2="412" y2="290" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="412" cy="290" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 2 · GFCI receptacles -->
+    <g>
+      <circle cx="130" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="130" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text>
+    </g>
+    <line x1="130" y1="209" x2="150" y2="236" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="150" cy="236" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 3 · Smoke + CO -->
+    <g>
+      <circle cx="250" cy="440" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="250" y="444" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text>
+    </g>
+    <line x1="250" y1="431" x2="250" y2="354" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="250" cy="354" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 4 · Mini-split head -->
+    <g>
+      <circle cx="260" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="260" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text>
+    </g>
+    <line x1="269" y1="205" x2="294" y2="244" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="294" cy="244" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 5 · Mini-split line set -->
+    <g>
+      <circle cx="420" cy="160" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="420" y="164" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text>
+    </g>
+    <line x1="429" y1="164" x2="500" y2="220" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="500" cy="220" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 6 · HRV Unit -->
+    <g>
+      <circle cx="380" cy="450" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="380" y="454" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text>
+    </g>
+    <line x1="380" y1="441" x2="412" y2="270" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="412" cy="270" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 7 · HRV duct -->
+    <g>
+      <circle cx="310" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="310" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">7</text>
+    </g>
+    <line x1="310" y1="209" x2="300" y2="261" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="300" cy="261" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 8 · PEX water supply -->
+    <g>
+      <circle cx="175" cy="450" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="175" y="454" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">8</text>
+    </g>
+    <line x1="184" y1="450" x2="220" y2="256" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="220" cy="256" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 9 · ABS DWV -->
+    <g>
+      <circle cx="310" cy="450" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="310" y="454" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">9</text>
+    </g>
+    <line x1="319" y1="450" x2="370" y2="360" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="370" cy="360" r="1.5" fill="#1a1a1a"/>
+
+    <!-- ═══════════ LEGEND BOX (bottom-center under drawing) ═══════════ -->
+    <g transform="translate(60, 490)">
+      <rect x="0" y="0" width="440" height="44" fill="#fff" stroke="#1a1a1a" stroke-width="0.8"/>
+      <text x="10" y="14" font-family="Arial" font-size="9" font-weight="700">LEGEND — SYSTEMS</text>
+      <line x1="10" y1="18" x2="430" y2="18" stroke="#1a1a1a" stroke-width="0.4"/>
+
+      <!-- Plumbing: solid green -->
+      <line x1="18" y1="30" x2="58" y2="30" stroke="#1f7a3a" stroke-width="1.6"/>
+      <text x="66" y="33" font-family="Arial" font-size="8.5" font-weight="600">PLUMBING</text>
+      <text x="66" y="42" font-family="Arial" font-size="7.5" fill="#555">solid green · PEX + ABS DWV</text>
+
+      <!-- HVAC: dashed blue -->
+      <line x1="168" y1="30" x2="208" y2="30" stroke="#1857a8" stroke-width="1.6" stroke-dasharray="6 3"/>
+      <text x="216" y="33" font-family="Arial" font-size="8.5" font-weight="600">HVAC</text>
+      <text x="216" y="42" font-family="Arial" font-size="7.5" fill="#555">dashed blue · refrigerant + HRV ducts</text>
+
+      <!-- Electrical: dashed orange -->
+      <line x1="318" y1="30" x2="358" y2="30" stroke="#c94a14" stroke-width="1.6" stroke-dasharray="5 3"/>
+      <text x="366" y="33" font-family="Arial" font-size="8.5" font-weight="600">ELECTRICAL</text>
+      <text x="366" y="42" font-family="Arial" font-size="7.5" fill="#555">dashed orange · branch circuits</text>
+    </g>
+
+    <!-- ═══════════ SCALE BAR ═══════════ -->
+    <g transform="translate(205, 555)">
+      <text x="75" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1 : 25</text>
+      <rect x="0"   y="0" width="30" height="5" fill="#1a1a1a"/>
+      <rect x="30"  y="0" width="30" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="60"  y="0" width="30" height="5" fill="#1a1a1a"/>
+      <rect x="90"  y="0" width="30" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="120" y="0" width="30" height="5" fill="#1a1a1a"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="60"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">1500</text>
+      <text x="150" y="16" font-family="Arial" font-size="7.5" text-anchor="middle">3000 mm</text>
+    </g>
+
+    <!-- ═══════════ TITLE BLOCK (right sidebar) ═══════════ -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+
+    <!-- ISSUED FOR stamp -->
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">SHEET TITLE</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">MEP COORDINATION PLAN</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Mechanical / Electrical / Plumbing · OBC Part 9</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="249" font-family="Arial" font-size="10" font-weight="bold">KEYNOTES</text>
+    <g font-family="Arial" font-size="8">
+      <g transform="translate(600, 265)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">1</text>
+        <text x="20" y="0" font-weight="600">COMBINATION SERVICE PANEL</text>
+        <text x="20" y="10" fill="#555">200 A, bedroom closet (CSA C22.1)</text>
+      </g>
+      <g transform="translate(600, 289)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">2</text>
+        <text x="20" y="0" font-weight="600">GFCI RECEPTACLE</text>
+        <text x="20" y="10" fill="#555">kitchen counter + bath (OBC 9.34; CSA C22.1)</text>
+      </g>
+      <g transform="translate(600, 313)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">3</text>
+        <text x="20" y="0" font-weight="600">SMOKE + CO ALARM</text>
+        <text x="20" y="10" fill="#555">interconnected, hardwired w/ battery (OBC 9.10.19)</text>
+      </g>
+      <g transform="translate(600, 337)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">4</text>
+        <text x="20" y="0" font-weight="600">MINI-SPLIT HEAD</text>
+        <text x="20" y="10" fill="#555">wall-mounted, interior partition; see M-601</text>
+      </g>
+      <g transform="translate(600, 361)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">5</text>
+        <text x="20" y="0" font-weight="600">MINI-SPLIT LINE SET</text>
+        <text x="20" y="10" fill="#555">insulated Cu, to exterior condenser (chased)</text>
+      </g>
+      <g transform="translate(600, 385)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">6</text>
+        <text x="20" y="0" font-weight="600">HRV UNIT</text>
+        <text x="20" y="10" fill="#555">in closet; see M-602 for airflow schematic</text>
+      </g>
+      <g transform="translate(600, 409)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">7</text>
+        <text x="20" y="0" font-weight="600">HRV DUCT — 150 mm INS.</text>
+        <text x="20" y="10" fill="#555">supply to LR+BR; return from kitchen+bath</text>
+      </g>
+      <g transform="translate(600, 433)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">8</text>
+        <text x="20" y="0" font-weight="600">PEX WATER SUPPLY</text>
+        <text x="20" y="10" fill="#555">home-run from manifold (CSA B137.5)</text>
+      </g>
+      <g transform="translate(600, 457)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="7.5" font-weight="700">9</text>
+        <text x="20" y="0" font-weight="600">ABS DWV</text>
+        <text x="20" y="10" fill="#555">vent through roof; see A-102 (CSA B181.1)</text>
+      </g>
+    </g>
+
+    <line x1="590" y1="478" x2="870" y2="478" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="495" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="495" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="510" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="510" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="525" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="525" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="535" x2="870" y2="535" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="550" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="550" font-family="Arial" font-size="10">1 : 25</text>
+    <text x="600" y="563" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="563" font-family="Arial" font-size="10">M-101</text>
+    <text x="740" y="550" font-family="Arial" font-size="10" font-weight="bold">PROJ.</text>
+    <text x="790" y="550" font-family="Arial" font-size="10">2026-042</text>
+    <text x="740" y="563" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="790" y="563" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <text x="600" y="580" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes · All dims mm U.N.O. · Do not scale</text>
+  </svg>
+
+  <details open>
+    <summary>M-101: MEP coordination — 200 A service · ≈9000 BTU/h mini-split · HRV · PEX + ABS DWV · Expand for full spec</summary>
+    <ul>
+      <li>Electrical service: 200 A combination panel in bedroom closet (CSA C22.1); grid-connected single-phase 120/240 V.</li>
+      <li>Branch circuits: 2 × 20 A GFCI kitchen small-appliance; 1 × 20 A bath GFCI; 1 × 15 A lighting (entry + 3 zones, 3-way at entry); 4 × 15 A general receptacles per OBC 9.34 (≈1 per 3.6 m of usable wall); dedicated 15 A HRV; 15 A mini-split indoor; 20 A/240 V mini-split condenser.</li>
+      <li>Life safety: interconnected hardwired smoke alarms in bedroom, hall, and kitchen-adjacent living zone; CO alarm in hall within 5 m of bedroom door; battery backup per OBC 9.10.19.</li>
+      <li>HVAC — heating/cooling: wall-mounted ductless mini-split head ≈ 9 000 BTU/h (2.6 kW) nominal cooling / 12 000 BTU/h heating @ -15 °C; HSPF ≥ 10, SEER ≥ 20; insulated Cu refrigerant line set in interior ceiling chase to NE-corner exterior condenser.</li>
+      <li>HVAC — ventilation: HRV unit ≈ 60 L/s (≈ 125 cfm) continuous, balanced; 150 mm insulated flex/rigid supply ducts to LR + BR; 150 mm returns from kitchen (grease-screened) + bath; intake/exhaust through parapet with 1 m minimum separation per OBC 9.32.3.</li>
+      <li>Plumbing — water: 20 mm PEX cold/hot main from south-end service entry to bath manifold; 13 mm PEX home-runs to each fixture with ¼-turn shut-offs; water-heater type: electric storage tank (40 gal) or heat-pump water-heater — see P-501.</li>
+      <li>Plumbing — DWV: 75 mm ABS stack from bath group (WC, lav, shower) + kitchen sink; 50 mm trap arms; vent-through-roof at bath stack (see A-102 roof plan).</li>
+      <li>Chases: all horizontal refrigerant, duct, and branch circuits routed above ceiling in service cavity; vertical risers in interior partitions only (no SIP penetrations except intake/exhaust + VTR).</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.32</code> — Mechanical ventilation for dwelling units.</li>
+      <li><code class="ref">OBC 9.32.3</code> — HRV separation of intake/exhaust terminations; see M-602.</li>
+      <li><code class="ref">OBC 9.33</code> — Heating and air-conditioning systems.</li>
+      <li><code class="ref">OBC 9.34</code> — Electrical facilities; receptacle spacing and GFCI protection.</li>
+      <li><code class="ref">OBC 9.31</code> — Plumbing services and fixture roughing.</li>
+      <li><code class="ref">OBC 9.10.19</code> — Smoke and CO alarms, interconnection, hardwired with battery backup.</li>
+      <li><code class="ref">CSA C22.1</code> — Canadian Electrical Code, Part I.</li>
+      <li><code class="ref">CSA B137.5</code> — PEX cross-linked polyethylene tubing systems.</li>
+      <li><code class="ref">CSA B181.1</code> — ABS drain, waste, and vent pipe and fittings.</li>
+      <li><code class="ref">CSA B52</code> — Mechanical refrigeration code (mini-split line set).</li>
+      <li><code class="ref">CSA F326</code> — HRV installation and airflow verification.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

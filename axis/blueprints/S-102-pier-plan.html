@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — S-102 — Pier Layout Plan</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · S-102 — Pier Layout Plan</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="S-102 Pier Layout Plan">
+    <defs>
+      <pattern id="earth" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#6b5a3d" stroke-width="0.55"/>
+      </pattern>
+      <pattern id="steelXH" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="5" stroke="#2a2a2a" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="5" y2="0" stroke="#2a2a2a" stroke-width="0.5"/>
+      </pattern>
+      <pattern id="steelSolid" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+        <rect width="4" height="4" fill="#3a3a3a"/>
+      </pattern>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+    </defs>
+
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Drawing banner -->
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">PIER LAYOUT PLAN · 8 HELICAL PIERS · 4 × 2 GRID</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1 : 50</text>
+
+    <!-- ═══════════ PLAN GEOMETRY ═══════════
+         Scale mapping: 12800 mm / 480 dwg units → ~26.67 mm per unit (1:50 nominal).
+         Building outline (below plan): 12800 × 3658 mm → 480 × 137 units
+         Placed: x = 60..540, y = 210..347 (centered)
+         Piers at bldg-x = 400, 3600, 6800, 10000 mm from west end (4 piers per row)
+           → bldg-x offsets 400/3200/3200/3200/400 = 12800 ✓
+           → dwg-x = 60 + (bldg-x / 12800) * 480 = 75, 195, 315, 435
+         Rows at bldg-y = 914 and 2743 mm from north edge (short axis)
+           → dwg-y = 210 + (bldg-y / 3658) * 137 = 244, 312.5 ≈ 313
+    -->
+
+    <!-- ── Building outline (light dashed — below plan view) -->
+    <rect x="60" y="210" width="480" height="137" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-dasharray="5 2"/>
+    <rect x="62" y="212" width="476" height="133" fill="none" stroke="#1a1a1a" stroke-width="0.4" stroke-dasharray="3 2" opacity="0.6"/>
+    <text x="300" y="203" text-anchor="middle" font-family="Arial" font-size="8" fill="#555" font-style="italic">BUILDING OUTLINE ABOVE (DASHED)</text>
+
+    <!-- ── HSS long-axis chassis beams (heavy cut weight, connecting pier rows) -->
+    <!-- Row 1 (north) at y=244, Row 2 (south) at y=313 -->
+    <rect x="75" y="241" width="360" height="6" fill="url(#steelSolid)" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="75" y="310" width="360" height="6" fill="url(#steelSolid)" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- ── HSS cross beams at 1/4-points (end connectors + mid bay crosses) -->
+    <!-- End cross beams at x=75 and x=435 -->
+    <rect x="72" y="244" width="6" height="69" fill="url(#steelSolid)" stroke="#1a1a1a" stroke-width="1.8"/>
+    <rect x="432" y="244" width="6" height="69" fill="url(#steelSolid)" stroke="#1a1a1a" stroke-width="1.8"/>
+    <!-- Intermediate cross beams (at pier centers) -->
+    <rect x="192" y="244" width="6" height="69" fill="url(#steelSolid)" stroke="#1a1a1a" stroke-width="1.8"/>
+    <rect x="312" y="244" width="6" height="69" fill="url(#steelSolid)" stroke="#1a1a1a" stroke-width="1.8"/>
+
+    <!-- ── HELICAL PIERS (8 total, 4 × 2 grid) — drawn at 2× shaft scale for legibility -->
+    <!-- Pier symbol: outer ring (bracket plan) + dark filled shaft core + center tick -->
+    <g id="pier-row-1">
+      <!-- A-1 -->
+      <circle cx="75" cy="244" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="75" cy="244" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="70" y1="244" x2="80" y2="244" stroke="#fff" stroke-width="0.8"/>
+      <line x1="75" y1="239" x2="75" y2="249" stroke="#fff" stroke-width="0.8"/>
+      <!-- B-1 -->
+      <circle cx="195" cy="244" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="195" cy="244" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="190" y1="244" x2="200" y2="244" stroke="#fff" stroke-width="0.8"/>
+      <line x1="195" y1="239" x2="195" y2="249" stroke="#fff" stroke-width="0.8"/>
+      <!-- C-1 -->
+      <circle cx="315" cy="244" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="315" cy="244" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="310" y1="244" x2="320" y2="244" stroke="#fff" stroke-width="0.8"/>
+      <line x1="315" y1="239" x2="315" y2="249" stroke="#fff" stroke-width="0.8"/>
+      <!-- D-1 -->
+      <circle cx="435" cy="244" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="435" cy="244" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="430" y1="244" x2="440" y2="244" stroke="#fff" stroke-width="0.8"/>
+      <line x1="435" y1="239" x2="435" y2="249" stroke="#fff" stroke-width="0.8"/>
+    </g>
+
+    <g id="pier-row-2">
+      <!-- A-2 -->
+      <circle cx="75" cy="313" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="75" cy="313" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="70" y1="313" x2="80" y2="313" stroke="#fff" stroke-width="0.8"/>
+      <line x1="75" y1="308" x2="75" y2="318" stroke="#fff" stroke-width="0.8"/>
+      <!-- B-2 -->
+      <circle cx="195" cy="313" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="195" cy="313" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="190" y1="313" x2="200" y2="313" stroke="#fff" stroke-width="0.8"/>
+      <line x1="195" y1="308" x2="195" y2="318" stroke="#fff" stroke-width="0.8"/>
+      <!-- C-2 -->
+      <circle cx="315" cy="313" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="315" cy="313" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="310" y1="313" x2="320" y2="313" stroke="#fff" stroke-width="0.8"/>
+      <line x1="315" y1="308" x2="315" y2="318" stroke="#fff" stroke-width="0.8"/>
+      <!-- D-2 -->
+      <circle cx="435" cy="313" r="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <circle cx="435" cy="313" r="6.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.2"/>
+      <line x1="430" y1="313" x2="440" y2="313" stroke="#fff" stroke-width="0.8"/>
+      <line x1="435" y1="308" x2="435" y2="318" stroke="#fff" stroke-width="0.8"/>
+    </g>
+
+    <!-- ═══════════ COLUMN GRID BUBBLES (A-D long axis, 1-2 short axis) ═══════════ -->
+    <!-- Column letters A..D at top, tick at each pier x -->
+    <g font-family="Arial" font-weight="700">
+      <!-- A -->
+      <line x1="75" y1="244" x2="75" y2="178" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="8 2 2 2"/>
+      <circle cx="75" cy="168" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <text x="75" y="172" text-anchor="middle" font-size="10">A</text>
+      <!-- B -->
+      <line x1="195" y1="244" x2="195" y2="178" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="8 2 2 2"/>
+      <circle cx="195" cy="168" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <text x="195" y="172" text-anchor="middle" font-size="10">B</text>
+      <!-- C -->
+      <line x1="315" y1="244" x2="315" y2="178" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="8 2 2 2"/>
+      <circle cx="315" cy="168" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <text x="315" y="172" text-anchor="middle" font-size="10">C</text>
+      <!-- D -->
+      <line x1="435" y1="244" x2="435" y2="178" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="8 2 2 2"/>
+      <circle cx="435" cy="168" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <text x="435" y="172" text-anchor="middle" font-size="10">D</text>
+
+      <!-- Row bubbles (1, 2) -->
+      <line x1="75" y1="244" x2="42" y2="244" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="8 2 2 2"/>
+      <circle cx="42" cy="244" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <text x="42" y="248" text-anchor="middle" font-size="10">1</text>
+      <line x1="75" y1="313" x2="42" y2="313" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="8 2 2 2"/>
+      <circle cx="42" cy="313" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <text x="42" y="317" text-anchor="middle" font-size="10">2</text>
+    </g>
+
+    <!-- Pier tag labels next to each pier (e.g., A-1, B-1, ...) -->
+    <g font-family="Arial" font-size="7" fill="#555">
+      <text x="75"  y="232" text-anchor="middle">A-1</text>
+      <text x="195" y="232" text-anchor="middle">B-1</text>
+      <text x="315" y="232" text-anchor="middle">C-1</text>
+      <text x="435" y="232" text-anchor="middle">D-1</text>
+      <text x="75"  y="331" text-anchor="middle">A-2</text>
+      <text x="195" y="331" text-anchor="middle">B-2</text>
+      <text x="315" y="331" text-anchor="middle">C-2</text>
+      <text x="435" y="331" text-anchor="middle">D-2</text>
+    </g>
+
+    <!-- ═══════════ SERVICE PENETRATION ZONE (centered bay 2-3) ═══════════ -->
+    <rect x="198" y="261" width="115" height="33" fill="none" stroke="#0b3d91" stroke-width="0.7" stroke-dasharray="4 2"/>
+    <text x="255" y="281" text-anchor="middle" font-family="Arial" font-size="7.5" fill="#0b3d91" font-weight="600">SERVICE</text>
+    <text x="255" y="290" text-anchor="middle" font-family="Arial" font-size="7" fill="#0b3d91">PENETRATION ZONE</text>
+
+    <!-- ═══════════ NORTH ARROW (top-right of drawing area) ═══════════ -->
+    <g transform="translate(530, 65)">
+      <circle cx="0" cy="0" r="16" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <polygon points="0,-12 -5,8 0,4 5,8" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="0.6"/>
+      <text x="0" y="-18" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">N</text>
+    </g>
+
+    <!-- ═══════════ DIMENSION STRINGS ═══════════ -->
+    <!-- Overall long-axis dim (below plan) -->
+    <line x1="75" y1="378" x2="435" y2="378" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="75"  y1="350" x2="75"  y2="384" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="435" y1="350" x2="435" y2="384" stroke="#1a1a1a" stroke-width="0.4"/>
+    <rect x="232" y="367" width="46" height="12" fill="#fff" stroke="none"/>
+    <text x="255" y="375" text-anchor="middle" font-family="Arial" font-size="10" font-weight="600">9600 o.c.</text>
+
+    <!-- Bay dims at 3200 each -->
+    <g stroke="#1a1a1a" stroke-width="0.4">
+      <line x1="75"  y1="398" x2="195" y2="398" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="195" y1="398" x2="315" y2="398" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="315" y1="398" x2="435" y2="398" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="195" y1="384" x2="195" y2="402"/>
+      <line x1="315" y1="384" x2="315" y2="402"/>
+    </g>
+    <rect x="118" y="390" width="34" height="10" fill="#fff" stroke="none"/>
+    <text x="135" y="397" text-anchor="middle" font-family="Arial" font-size="9">3200</text>
+    <rect x="238" y="390" width="34" height="10" fill="#fff" stroke="none"/>
+    <text x="255" y="397" text-anchor="middle" font-family="Arial" font-size="9">3200</text>
+    <rect x="358" y="390" width="34" height="10" fill="#fff" stroke="none"/>
+    <text x="375" y="397" text-anchor="middle" font-family="Arial" font-size="9">3200</text>
+
+    <!-- End overhang dims (400 mm each end from building edge) -->
+    <g stroke="#1a1a1a" stroke-width="0.4">
+      <line x1="60"  y1="418" x2="75"  y2="418" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="435" y1="418" x2="540" y2="418" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="60"  y1="402" x2="60"  y2="422"/>
+      <line x1="540" y1="402" x2="540" y2="422"/>
+    </g>
+    <rect x="55" y="410" width="24" height="10" fill="#fff" stroke="none"/>
+    <text x="67" y="417" text-anchor="middle" font-family="Arial" font-size="8">400</text>
+    <rect x="475" y="410" width="30" height="10" fill="#fff" stroke="none"/>
+    <text x="487" y="417" text-anchor="middle" font-family="Arial" font-size="8">2800</text>
+
+    <!-- Short-axis dim (left side of plan) -->
+    <line x1="26" y1="244" x2="26" y2="313" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="20" y1="244" x2="32" y2="244" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="20" y1="313" x2="32" y2="313" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="18" y="282" text-anchor="middle" font-family="Arial" font-size="10" font-weight="600" transform="rotate(-90 18 282)">1830 o.c.</text>
+
+    <!-- Short-axis edge/center dims (914 + 1830 + 914 = 3658) -->
+    <g stroke="#1a1a1a" stroke-width="0.4">
+      <line x1="480" y1="210" x2="480" y2="244" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="480" y1="244" x2="480" y2="313" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="480" y1="313" x2="480" y2="347" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="470" y1="210" x2="488" y2="210"/>
+      <line x1="470" y1="347" x2="488" y2="347"/>
+    </g>
+    <rect x="485" y="224" width="32" height="10" fill="#fff" stroke="none"/>
+    <text x="501" y="231" text-anchor="middle" font-family="Arial" font-size="8">914</text>
+    <rect x="485" y="274" width="36" height="10" fill="#fff" stroke="none"/>
+    <text x="503" y="281" text-anchor="middle" font-family="Arial" font-size="8">1830</text>
+    <rect x="485" y="324" width="32" height="10" fill="#fff" stroke="none"/>
+    <text x="501" y="331" text-anchor="middle" font-family="Arial" font-size="8">914</text>
+
+    <!-- Overall building-outline long dim (above plan) -->
+    <line x1="60" y1="195" x2="540" y2="195" stroke="#1a1a1a" stroke-width="0.4" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="60"  y1="188" x2="60"  y2="210" stroke="#1a1a1a" stroke-width="0.3"/>
+    <line x1="540" y1="188" x2="540" y2="210" stroke="#1a1a1a" stroke-width="0.3"/>
+    <rect x="262" y="186" width="86" height="12" fill="#fff" stroke="none"/>
+    <text x="305" y="194" text-anchor="middle" font-family="Arial" font-size="9" fill="#555">12800 (42'-0") BLDG</text>
+
+    <!-- ═══════════ KEYNOTE BUBBLES ═══════════ -->
+    <!-- 1 · Helical Pier (leader to A-1) -->
+    <g>
+      <circle cx="90" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="90" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text>
+    </g>
+    <line x1="86" y1="451" x2="78" y2="254" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="78" cy="254" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 2 · HSS long-axis chassis beam (leader to row 1 beam) -->
+    <g>
+      <circle cx="150" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="150" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text>
+    </g>
+    <line x1="150" y1="451" x2="140" y2="247" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="140" cy="247" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 3 · HSS cross beam (leader to mid cross beam at x=315 y=270) -->
+    <g>
+      <circle cx="360" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="360" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text>
+    </g>
+    <line x1="356" y1="451" x2="318" y2="278" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="318" cy="278" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 4 · Pier bracket (leader to C-1 ring) -->
+    <g>
+      <circle cx="300" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="300" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text>
+    </g>
+    <line x1="300" y1="451" x2="325" y2="254" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="325" cy="254" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 5 · Pier embedment (leader to D-2) -->
+    <g>
+      <circle cx="430" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="430" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text>
+    </g>
+    <line x1="430" y1="451" x2="435" y2="323" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="435" cy="323" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 6 · Column grid (leader to grid bubble at A) -->
+    <g>
+      <circle cx="225" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="225" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text>
+    </g>
+    <line x1="221" y1="451" x2="52" y2="172" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="52" cy="172" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 7 · Service penetration zone (leader to service zone box) -->
+    <g>
+      <circle cx="490" cy="460" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="490" y="464" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">7</text>
+    </g>
+    <line x1="481" y1="460" x2="313" y2="294" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="313" cy="294" r="1.5" fill="#1a1a1a"/>
+
+    <!-- Keynote legend box (bottom of drawing area) -->
+    <g transform="translate(60, 490)" font-family="Arial">
+      <text x="0" y="0" font-size="10" font-weight="700">KEYNOTES</text>
+      <line x1="0" y1="4" x2="470" y2="4" stroke="#1a1a1a" stroke-width="0.5"/>
+      <g transform="translate(0, 20)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">1</text>
+        <text x="22" y="0" font-size="9" font-weight="600">HELICAL PIER</text>
+        <text x="110" y="0" font-size="8.5" fill="#555">168 mm OD; see S-101 (CCMC 13193-R)</text>
+      </g>
+      <g transform="translate(0, 36)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">2</text>
+        <text x="22" y="0" font-size="9" font-weight="600">HSS LONG-AXIS CHASSIS BEAM</text>
+        <text x="180" y="0" font-size="8.5" fill="#555">HSS 150 × 100 × 6.4; see S-301</text>
+      </g>
+      <g transform="translate(0, 52)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">3</text>
+        <text x="22" y="0" font-size="9" font-weight="600">HSS CROSS BEAM</text>
+        <text x="120" y="0" font-size="8.5" fill="#555">HSS 100 × 100 × 6.4, welded to long-axis beam</text>
+      </g>
+      <g transform="translate(0, 68)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">4</text>
+        <text x="22" y="0" font-size="9" font-weight="600">PIER BRACKET</text>
+        <text x="110" y="0" font-size="8.5" fill="#555">Fixed to HSS — bolted/welded per CSA W47.1 / W59</text>
+      </g>
+      <g transform="translate(240, 20)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">5</text>
+        <text x="22" y="0" font-size="9" font-weight="600">PIER EMBEDMENT</text>
+        <text x="125" y="0" font-size="8.5" fill="#555">2400 mm min. to frost line (OBC 9.12.2.2)</text>
+      </g>
+      <g transform="translate(240, 36)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">6</text>
+        <text x="22" y="0" font-size="9" font-weight="600">COLUMN GRID</text>
+        <text x="110" y="0" font-size="8.5" fill="#555">A–D long axis @ 3200 o.c.; Rows 1–2 @ 1830 o.c.</text>
+      </g>
+      <g transform="translate(240, 52)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-size="8" font-weight="700">7</text>
+        <text x="22" y="0" font-size="9" font-weight="600">SERVICE PENETRATION ZONE</text>
+        <text x="175" y="0" font-size="8.5" fill="#555">Bay B–C: HDPE water · ABS waste · conduit</text>
+      </g>
+    </g>
+
+    <!-- ═══════════ SCALE BAR (bottom-left of drawing area) ═══════════ -->
+    <g transform="translate(60, 575)">
+      <text x="75" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1 : 50</text>
+      <rect x="0"   y="0" width="30" height="5" fill="#1a1a1a"/>
+      <rect x="30"  y="0" width="30" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="60"  y="0" width="30" height="5" fill="#1a1a1a"/>
+      <rect x="90"  y="0" width="30" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="120" y="0" width="30" height="5" fill="#1a1a1a"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="60"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">2500</text>
+      <text x="150" y="16" font-family="Arial" font-size="7.5" text-anchor="middle">5000 mm</text>
+    </g>
+
+    <!-- ═══════════ TITLE BLOCK (right sidebar) ═══════════ -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+
+    <!-- ISSUED FOR stamp -->
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">SHEET TITLE</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">PIER LAYOUT PLAN</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Structural · OBC Part 9 — foundation plan</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="250" font-family="Arial" font-size="10" font-weight="bold">KEYNOTES</text>
+    <g font-family="Arial" font-size="8.5">
+      <g transform="translate(600, 266)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">1</text>
+        <text x="20" y="0" font-weight="600">HELICAL PIER</text>
+        <text x="20" y="10" fill="#555">168 mm OD; see S-101 (CCMC 13193-R)</text>
+      </g>
+      <g transform="translate(600, 288)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">2</text>
+        <text x="20" y="0" font-weight="600">HSS LONG-AXIS CHASSIS BEAM</text>
+        <text x="20" y="10" fill="#555">150 × 100 × 6.4; see S-301</text>
+      </g>
+      <g transform="translate(600, 310)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">3</text>
+        <text x="20" y="0" font-weight="600">HSS CROSS BEAM</text>
+        <text x="20" y="10" fill="#555">100 × 100 × 6.4, welded to long-axis</text>
+      </g>
+      <g transform="translate(600, 332)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">4</text>
+        <text x="20" y="0" font-weight="600">PIER BRACKET</text>
+        <text x="20" y="10" fill="#555">Bolted/welded, CSA W47.1 / W59</text>
+      </g>
+      <g transform="translate(600, 354)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">5</text>
+        <text x="20" y="0" font-weight="600">PIER EMBEDMENT</text>
+        <text x="20" y="10" fill="#555">2400 mm min. to frost line (OBC 9.12.2.2)</text>
+      </g>
+      <g transform="translate(600, 376)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">6</text>
+        <text x="20" y="0" font-weight="600">COLUMN GRID</text>
+        <text x="20" y="10" fill="#555">A–D @ 3200 o.c.; Rows 1–2</text>
+      </g>
+      <g transform="translate(600, 398)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">7</text>
+        <text x="20" y="0" font-weight="600">SERVICE PENETRATION ZONE</text>
+        <text x="20" y="10" fill="#555">Bay B–C: HDPE · ABS · conduit</text>
+      </g>
+    </g>
+
+    <line x1="590" y1="420" x2="870" y2="420" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="437" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="437" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="452" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="452" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="467" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="467" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="480" x2="870" y2="480" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="497" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="497" font-family="Arial" font-size="10">1 : 50</text>
+    <text x="600" y="512" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="512" font-family="Arial" font-size="10">S-102</text>
+    <text x="600" y="527" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="700" y="527" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="542" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="670" y="542" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="555" x2="870" y2="555" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="570" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes · All dims mm U.N.O.</text>
+    <text x="600" y="582" font-family="Arial" font-size="8" fill="#555">Do not scale · Drop &amp; Go modular chassis</text>
+  </svg>
+
+  <details open>
+    <summary>S-102: Pier layout — 8 helical piers in 4 × 2 grid; 3200 o.c. long-axis, 1830 o.c. short-axis · Expand for full spec</summary>
+    <ul>
+      <li>Pier count: 8 total, arranged in 4 columns (A–D) × 2 rows (1–2) beneath the 12800 × 3658 mm modular footprint.</li>
+      <li>Spacing: 3200 mm o.c. long-axis (3 interior bays at 3200 + 400 mm end overhang west / 2800 mm overhang east to module ends); 1830 mm o.c. short-axis with 914 mm symmetric edge offset.</li>
+      <li>Helical pier: 168 mm OD shaft, single helix plate per <code class="ref">CCMC 13193-R</code> evaluation; allowable axial capacity &#8805; 30 kN each (pier-level design to be verified by engineer of record).</li>
+      <li>Embedment: 2400 mm minimum to frost line (<code class="ref">OBC 9.12.2.2</code>); Ontario frost depth 1200–1500 mm typical — site-confirm per <code class="ref">OBC 9.12.2.2</code> Table.</li>
+      <li>Chassis: HSS 150 × 100 × 6.4 long-axis beams along both pier rows (see S-301); HSS 100 × 100 × 6.4 cross beams at each bay division (1/4-points and ends).</li>
+      <li>Installation: torque-tested to minimum 2 500 ft-lb at final seat; Kt (torque-to-capacity) factor per <code class="ref">CCMC 13193-R</code> listed pile evaluation — confirm active listing and site geotechnical report.</li>
+      <li>Service penetration zone: centered between bays B and C (row midline) — accommodates HDPE water supply, ABS waste/vent stack, and electrical conduit rise.</li>
+      <li>Steel grade: <code class="ref">CSA G40.21 350W</code>; hot-dip galvanized per <code class="ref">CSA G164</code>; welding qualifications to <code class="ref">CSA W47.1</code> / <code class="ref">CSA W59</code>.</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.12.2.2</code> — Foundation/pier embedment below frost line; site frost depth per Table 9.12.2.2 (verify per local climate-zone data); minimum 2400 mm to underside of frost-susceptible strata.</li>
+      <li><code class="ref">OBC 9.15.1.3</code> — Alternative/engineered foundations; helical piles on engineered design by P.Eng.</li>
+      <li><code class="ref">OBC 9.23.6</code> — Anchorage of the building to foundation (pier bracket to HSS chassis).</li>
+      <li><code class="ref">CCMC 13193-R</code> — Helical pier evaluation listing (verify active status before specifying).</li>
+      <li><code class="ref">CSA G40.21 350W</code> — Structural steel grade for HSS chassis and pier brackets.</li>
+      <li><code class="ref">CSA G164</code> — Hot-dip galvanizing of irregularly shaped articles (piers, brackets, HSS).</li>
+      <li><code class="ref">CSA W47.1</code> / <code class="ref">CSA W59</code> — Fabrication, welding qualification and weld procedures.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

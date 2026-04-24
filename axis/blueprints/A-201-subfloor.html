@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — A-201 — Subfloor Assembly</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · A-201 — Subfloor Assembly</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="A-201 Subfloor Assembly">
+    <defs>
+      <pattern id="earth" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#6b5a3d" stroke-width="0.55"/>
+      </pattern>
+      <pattern id="steelXH" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="5" stroke="#2a2a2a" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="5" y2="0" stroke="#2a2a2a" stroke-width="0.5"/>
+      </pattern>
+      <pattern id="steelSolid" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+        <rect width="4" height="4" fill="#3a3a3a"/>
+      </pattern>
+      <pattern id="insul" patternUnits="userSpaceOnUse" width="18" height="12">
+        <path d="M 0 6 Q 4.5 0 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.7" fill="none"/>
+        <path d="M 0 6 Q 4.5 12 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.55"/>
+      </pattern>
+      <pattern id="eps" patternUnits="userSpaceOnUse" width="8" height="8">
+        <rect width="8" height="8" fill="#f5f0de"/>
+        <circle cx="2" cy="2" r="0.5" fill="#8a7a4d"/>
+        <circle cx="6" cy="6" r="0.4" fill="#8a7a4d"/>
+      </pattern>
+      <pattern id="osb" patternUnits="userSpaceOnUse" width="10" height="10">
+        <rect width="10" height="10" fill="#d6b56a" opacity="0.25"/>
+        <circle cx="2" cy="3" r="0.45" fill="#8a5a2b"/>
+        <circle cx="7" cy="7" r="0.4" fill="#8a5a2b"/>
+        <circle cx="5" cy="2" r="0.3" fill="#8a5a2b"/>
+        <circle cx="8" cy="4" r="0.3" fill="#8a5a2b"/>
+      </pattern>
+      <pattern id="wood" patternUnits="userSpaceOnUse" width="24" height="10">
+        <rect width="24" height="10" fill="#e9d9b0" opacity="0.4"/>
+        <path d="M 0 3 Q 6 2 12 3 T 24 3" stroke="#8a5a2b" stroke-width="0.4" fill="none"/>
+        <path d="M 0 7 Q 6 6 12 7 T 24 7" stroke="#8a5a2b" stroke-width="0.3" fill="none"/>
+      </pattern>
+      <pattern id="concrete" patternUnits="userSpaceOnUse" width="20" height="20">
+        <rect width="20" height="20" fill="#eaeaea"/>
+        <circle cx="4" cy="5" r="1" fill="#6b6b6b"/>
+        <circle cx="14" cy="12" r="0.8" fill="#6b6b6b"/>
+        <polygon points="9,16 12,16 10.5,13" fill="#6b6b6b"/>
+      </pattern>
+      <pattern id="gyp" patternUnits="userSpaceOnUse" width="5" height="5">
+        <rect width="5" height="5" fill="#fafafa"/>
+        <circle cx="1" cy="1" r="0.35" fill="#9a9a9a"/>
+        <circle cx="3.5" cy="3" r="0.3" fill="#9a9a9a"/>
+      </pattern>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+    </defs>
+
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">SECTION C-C — SUBFLOOR ASSEMBLY STACKUP</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1 : 5</text>
+
+    <!-- F.F. symbol at top -->
+    <g transform="translate(80,80)">
+      <polygon points="0,0 -5,8 5,8" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+      <polygon points="0,0 -3,5 3,5" fill="#1a1a1a"/>
+      <line x1="-25" y1="0" x2="25" y2="0" stroke="#1a1a1a" stroke-width="1"/>
+      <text x="14" y="-4" font-family="Arial" font-size="9" font-weight="600">F.F.</text>
+    </g>
+
+    <!-- Stackup: from top down, centered x 150-480 -->
+    <!-- 1. LVP finish (top) -->
+    <rect x="150" y="85" width="330" height="12" fill="#d4c8ae" stroke="#1a1a1a" stroke-width="2.5"/>
+    <g stroke="#8a5a2b" stroke-width="0.3">
+      <line x1="180" y1="85" x2="180" y2="97"/>
+      <line x1="230" y1="85" x2="230" y2="97"/>
+      <line x1="280" y1="85" x2="280" y2="97"/>
+      <line x1="330" y1="85" x2="330" y2="97"/>
+      <line x1="380" y1="85" x2="380" y2="97"/>
+      <line x1="430" y1="85" x2="430" y2="97"/>
+    </g>
+
+    <!-- 2. OSB T&G subfloor -->
+    <rect x="150" y="97" width="330" height="24" fill="url(#osb)" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- 3. Poly VB (thin line at top of joist cavity) -->
+    <rect x="150" y="121" width="330" height="3" fill="#b1c7e0" stroke="#0b3d91" stroke-width="1"/>
+
+    <!-- 4. Joist cavity with I-joist profile -->
+    <!-- Top flange -->
+    <rect x="150" y="124" width="330" height="14" fill="url(#wood)" stroke="#1a1a1a" stroke-width="2.5"/>
+    <!-- Cavity -->
+    <rect x="150" y="138" width="330" height="240" fill="url(#insul)" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- I-joist web (centered vertical element) -->
+    <rect x="310" y="138" width="10" height="240" fill="url(#osb)" stroke="#1a1a1a" stroke-width="2"/>
+    <!-- Bottom flange -->
+    <rect x="150" y="378" width="330" height="14" fill="url(#wood)" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- 5. Vapour-open membrane under joist (thin) -->
+    <rect x="150" y="392" width="330" height="3" fill="#e8d9b1" stroke="#8a7a4d" stroke-width="0.8"/>
+
+    <!-- 6. Gyp soffit / sheathing -->
+    <rect x="150" y="395" width="330" height="14" fill="url(#gyp)" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- Labels alongside each layer (inside drawing, left side) -->
+    <g font-family="Arial" font-size="8" fill="#555">
+      <text x="145" y="93" text-anchor="end">LVP 5 mm</text>
+      <text x="145" y="112" text-anchor="end">OSB T&amp;G 18 mm</text>
+      <text x="145" y="124" text-anchor="end">6 mil poly VB</text>
+      <text x="145" y="260" text-anchor="end">I-joist 302 mm</text>
+      <text x="145" y="272" text-anchor="end">+ batt R-24 SI</text>
+      <text x="145" y="394" text-anchor="end">vapour-open mbr.</text>
+      <text x="145" y="407" text-anchor="end">gyp 16 mm (soffit)</text>
+    </g>
+
+    <!-- Break line on right (module continues) -->
+    <rect x="478" y="75" width="30" height="345" fill="#fff" stroke="none"/>
+    <path d="M 478 85 L 483 85 L 486 79 L 491 91 L 496 79 L 499 85 L 504 85"
+          stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M 478 405 L 483 405 L 486 399 L 491 411 L 496 399 L 499 405 L 504 405"
+          stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- Total assembly dimension (right side of section) -->
+    <line x1="520" y1="85" x2="520" y2="409" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="504" y1="85" x2="526" y2="85" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="504" y1="409" x2="526" y2="409" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="530" y="247" font-family="Arial" font-size="11" font-weight="600">360</text>
+    <text x="530" y="260" font-family="Arial" font-size="8" fill="#555">total</text>
+
+    <!-- Sub-dim: subfloor block -->
+    <line x1="135" y1="85" x2="135" y2="124" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="130" y1="85" x2="140" y2="85" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="130" y1="124" x2="140" y2="124" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="128" y="108" text-anchor="end" font-family="Arial" font-size="9">39</text>
+
+    <!-- Sub-dim: joist depth -->
+    <line x1="135" y1="124" x2="135" y2="392" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="130" y1="392" x2="140" y2="392" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="128" y="260" text-anchor="end" font-family="Arial" font-size="9">302</text>
+
+    <!-- Sub-dim: soffit -->
+    <line x1="135" y1="392" x2="135" y2="409" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="130" y1="409" x2="140" y2="409" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="128" y="405" text-anchor="end" font-family="Arial" font-size="9">19</text>
+
+    <!-- R-value / U-value performance panel (inside drawing area, bottom) -->
+    <g transform="translate(45, 445)">
+      <rect x="0" y="0" width="495" height="105" fill="#fafafa" stroke="#1a1a1a" stroke-width="0.6"/>
+      <text x="10" y="16" font-family="Arial" font-size="10" font-weight="700">THERMAL PERFORMANCE — FLOOR ASSEMBLY (OBC 9.36.2.6, Zone 6)</text>
+      <line x1="10" y1="22" x2="485" y2="22" stroke="#1a1a1a" stroke-width="0.4"/>
+
+      <text x="10" y="40" font-family="Arial" font-size="9" font-weight="600">Cavity: mineral-fibre batt</text>
+      <text x="210" y="40" font-family="Arial" font-size="9">R-24 (imperial)</text>
+      <text x="10" y="55" font-family="Arial" font-size="9" font-weight="600">R_SI = R_imp × 0.1761</text>
+      <text x="210" y="55" font-family="Arial" font-size="9">R_SI ≈ 4.23 m²·K/W</text>
+      <text x="10" y="70" font-family="Arial" font-size="9" font-weight="600">U = 1 / R_SI</text>
+      <text x="210" y="70" font-family="Arial" font-size="9" font-weight="700" fill="#0b3d91">U ≈ 0.237 W/m²·K</text>
+
+      <text x="10" y="90" font-family="Arial" font-size="8" fill="#555">Vapour barrier 6-mil polyethylene on warm-in-winter (upper) side per OBC 9.25.4.</text>
+      <text x="10" y="102" font-family="Arial" font-size="8" fill="#555">Air barrier: continuous seal at subfloor + rim per OBC 9.25.3.</text>
+    </g>
+
+    <!-- Keynote bubbles -->
+    <!-- 1 LVP -->
+    <g>
+      <circle cx="60" cy="92" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="60" y="96" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text>
+    </g>
+    <line x1="69" y1="92" x2="150" y2="92" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="150" cy="92" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 2 OSB subfloor -->
+    <g>
+      <circle cx="60" cy="155" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="60" y="159" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text>
+    </g>
+    <line x1="69" y1="155" x2="150" y2="108" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="150" cy="108" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 3 Poly VB -->
+    <g>
+      <circle cx="60" cy="210" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="60" y="214" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text>
+    </g>
+    <line x1="69" y1="210" x2="150" y2="122" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="150" cy="122" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 4 Joist -->
+    <g>
+      <circle cx="60" cy="310" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="60" y="314" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text>
+    </g>
+    <line x1="69" y1="310" x2="310" y2="310" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="310" cy="310" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 5 Mineral batt -->
+    <g>
+      <circle cx="60" cy="370" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="60" y="374" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text>
+    </g>
+    <line x1="69" y1="370" x2="235" y2="310" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="235" cy="310" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 6 Gyp soffit -->
+    <g>
+      <circle cx="60" cy="420" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="60" y="424" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text>
+    </g>
+    <line x1="69" y1="420" x2="150" y2="402" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="150" cy="402" r="1.5" fill="#1a1a1a"/>
+
+    <!-- Scale bar -->
+    <g transform="translate(230, 575)">
+      <text x="50" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1 : 5</text>
+      <rect x="0"  y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="25" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="50" y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="75" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="47"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">250</text>
+      <text x="103" y="16" font-family="Arial" font-size="7.5">500 mm</text>
+    </g>
+
+    <!-- TITLE BLOCK -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">DETAIL</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">SUBFLOOR ASSEMBLY</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Architectural · OBC 9.25 / 9.36.2.6</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="250" font-family="Arial" font-size="10" font-weight="bold">KEYNOTES</text>
+    <g font-family="Arial" font-size="8.5">
+      <g transform="translate(600, 268)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">1</text>
+        <text x="20" y="0" font-weight="600">LVP FLOOR FINISH</text>
+        <text x="20" y="10" fill="#555">5 mm click-lock luxury vinyl plank on foam</text>
+      </g>
+      <g transform="translate(600, 294)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">2</text>
+        <text x="20" y="0" font-weight="600">OSB T&amp;G SUBFLOOR</text>
+        <text x="20" y="10" fill="#555">18 mm, glued &amp; screwed, per CSA O437</text>
+      </g>
+      <g transform="translate(600, 320)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">3</text>
+        <text x="20" y="0" font-weight="600">POLY VAPOUR BARRIER</text>
+        <text x="20" y="10" fill="#555">6-mil polyethylene, warm side (OBC 9.25.4)</text>
+      </g>
+      <g transform="translate(600, 346)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">4</text>
+        <text x="20" y="0" font-weight="600">I-JOIST</text>
+        <text x="20" y="10" fill="#555">302 mm engineered I-joist @ 406 o.c.</text>
+      </g>
+      <g transform="translate(600, 372)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">5</text>
+        <text x="20" y="0" font-weight="600">MINERAL-FIBRE BATT</text>
+        <text x="20" y="10" fill="#555">R-24, R_SI 4.23; U ≈ 0.237 W/m²·K</text>
+      </g>
+      <g transform="translate(600, 398)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">6</text>
+        <text x="20" y="0" font-weight="600">GYP SOFFIT / SHEATHING</text>
+        <text x="20" y="10" fill="#555">16 mm gypsum board, taped &amp; sealed</text>
+      </g>
+    </g>
+
+    <line x1="590" y1="420" x2="870" y2="420" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="437" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="437" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="452" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="452" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="467" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="467" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="480" x2="870" y2="480" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="497" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="497" font-family="Arial" font-size="10">1 : 5</text>
+    <text x="600" y="512" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="512" font-family="Arial" font-size="10">A-201</text>
+    <text x="600" y="527" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="700" y="527" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="542" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="670" y="542" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="555" x2="870" y2="555" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="570" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes · All dims mm U.N.O.</text>
+    <text x="600" y="582" font-family="Arial" font-size="8" fill="#555">Do not scale · Drop &amp; Go modular chassis</text>
+  </svg>
+
+  <details open>
+    <summary>A-201: Subfloor assembly — 360 mm total depth, R-24 cavity, U ≈ 0.237 W/m²·K · Expand for full spec</summary>
+    <ul>
+      <li>Finish: 5 mm click-lock luxury vinyl plank on 1 mm IXPE foam underlay; Class I abrasion; floating installation.</li>
+      <li>Subfloor: 18 mm OSB T&amp;G panel, glued &amp; screwed to joist top flange; fastener schedule 150 mm at edges / 300 mm in field per <code class="ref">CSA O437</code>.</li>
+      <li>Vapour barrier: 6-mil polyethylene, continuous, sealed at all penetrations on the warm-in-winter side per <code class="ref">OBC 9.25.4</code>.</li>
+      <li>Structure: 302 mm engineered wood I-joist @ 406 mm o.c.; mineral-fibre batt R-24 friction-fit in cavity.</li>
+      <li>Thermal: R_SI = R-24 × 0.1761 ≈ 4.23 m²·K/W; <strong>U ≈ 0.237 W/m²·K</strong> (meets <code class="ref">OBC 9.36.2.6</code> Climate Zone 6 min. for floors over unheated spaces).</li>
+      <li>Soffit: 16 mm gypsum board on under-joist sheathing; taped and sealed at perimeter to form continuous air barrier per <code class="ref">OBC 9.25.3</code>.</li>
+      <li>Assembly depth total: 360 mm from F.F. to soffit underside.</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.25.3</code> — Air barrier systems (continuity at floor/wall junctions).</li>
+      <li><code class="ref">OBC 9.25.4</code> — Vapour barriers on warm-in-winter side.</li>
+      <li><code class="ref">OBC 9.25.5</code> — Thermal insulation continuity.</li>
+      <li><code class="ref">OBC 9.36.2.6</code> — Effective thermal resistance of floor assemblies, Climate Zone 6.</li>
+      <li><code class="ref">CSA O437</code> — OSB sheathing grade for subfloor application.</li>
+      <li>U-value derivation: U [W/m²·K] = 1 / (R_imp × 0.1761).</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — A-305 — Parapet + Coping</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · A-305 — Parapet + Coping</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="A-305 Parapet Cap + Coping Section">
+    <defs>
+      <pattern id="earth" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#6b5a3d" stroke-width="0.55"/>
+      </pattern>
+      <pattern id="steelXH" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="5" stroke="#2a2a2a" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="5" y2="0" stroke="#2a2a2a" stroke-width="0.5"/>
+      </pattern>
+      <pattern id="steelSolid" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+        <rect width="4" height="4" fill="#3a3a3a"/>
+      </pattern>
+      <pattern id="insul" patternUnits="userSpaceOnUse" width="18" height="12">
+        <path d="M 0 6 Q 4.5 0 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.7" fill="none"/>
+        <path d="M 0 6 Q 4.5 12 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.55"/>
+      </pattern>
+      <pattern id="eps" patternUnits="userSpaceOnUse" width="8" height="8">
+        <rect width="8" height="8" fill="#f5f0de"/>
+        <circle cx="2" cy="2" r="0.5" fill="#8a7a4d"/>
+        <circle cx="6" cy="6" r="0.4" fill="#8a7a4d"/>
+      </pattern>
+      <pattern id="osb" patternUnits="userSpaceOnUse" width="10" height="10">
+        <rect width="10" height="10" fill="#d6b56a" opacity="0.25"/>
+        <circle cx="2" cy="3" r="0.45" fill="#8a5a2b"/>
+        <circle cx="7" cy="7" r="0.4" fill="#8a5a2b"/>
+        <circle cx="5" cy="2" r="0.3" fill="#8a5a2b"/>
+        <circle cx="8" cy="4" r="0.3" fill="#8a5a2b"/>
+      </pattern>
+      <pattern id="wood" patternUnits="userSpaceOnUse" width="24" height="10">
+        <rect width="24" height="10" fill="#e9d9b0" opacity="0.4"/>
+        <path d="M 0 3 Q 6 2 12 3 T 24 3" stroke="#8a5a2b" stroke-width="0.4" fill="none"/>
+        <path d="M 0 7 Q 6 6 12 7 T 24 7" stroke="#8a5a2b" stroke-width="0.3" fill="none"/>
+      </pattern>
+      <pattern id="concrete" patternUnits="userSpaceOnUse" width="20" height="20">
+        <rect width="20" height="20" fill="#eaeaea"/>
+        <circle cx="4" cy="5" r="1" fill="#6b6b6b"/>
+        <circle cx="14" cy="12" r="0.8" fill="#6b6b6b"/>
+        <polygon points="9,16 12,16 10.5,13" fill="#6b6b6b"/>
+      </pattern>
+      <pattern id="gyp" patternUnits="userSpaceOnUse" width="5" height="5">
+        <rect width="5" height="5" fill="#fafafa"/>
+        <circle cx="1" cy="1" r="0.35" fill="#9a9a9a"/>
+        <circle cx="3.5" cy="3" r="0.3" fill="#9a9a9a"/>
+      </pattern>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+    </defs>
+
+    <!-- Outer frame -->
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Drawing area + grid -->
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)"/>
+    <rect x="30" y="40" width="530" height="520" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Drawing banner -->
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">SECTION A-A — PARAPET + COPING</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1:5</text>
+
+    <!-- ============== DRAWING CONTENT ============== -->
+    <!-- Section thru parapet: wall SIP terminates at parapet. Roof SIP is horizontal, meets wall. Parapet rises above roof. Coping caps parapet. -->
+    <!-- Exterior at LEFT (x=60). Interior (inside building) at RIGHT (x=250+). Roof membrane turns up the parapet. -->
+
+    <!-- WALL SIP (vertical, extends from bottom break through parapet top) -->
+    <!-- Cladding -->
+    <rect x="140" y="200" width="12" height="340" fill="#cfc9b8"/>
+    <rect x="140" y="200" width="12" height="340" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- rain screen -->
+    <rect x="152" y="200" width="6" height="340" fill="#fff"/>
+    <line x1="152" y1="200" x2="152" y2="540" stroke="#1a1a1a" stroke-width="0.5"/>
+    <line x1="158" y1="200" x2="158" y2="540" stroke="#1a1a1a" stroke-width="0.5"/>
+    <!-- WRB -->
+    <line x1="158" y1="200" x2="158" y2="540" stroke="#0b3d91" stroke-width="0.9"/>
+    <!-- OSB ext -->
+    <rect x="158" y="200" width="10" height="340" fill="url(#osb)"/>
+    <rect x="158" y="200" width="10" height="340" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- EPS core -->
+    <rect x="168" y="200" width="140" height="340" fill="url(#eps)"/>
+    <rect x="168" y="200" width="140" height="340" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- OSB int (below roof line) -->
+    <rect x="308" y="350" width="10" height="190" fill="url(#osb)"/>
+    <rect x="308" y="350" width="10" height="190" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Gyp int (below roof line) -->
+    <rect x="318" y="350" width="13" height="190" fill="url(#gyp)"/>
+    <rect x="318" y="350" width="13" height="190" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Wall silhouette heavy cut -->
+    <line x1="140" y1="200" x2="140" y2="540" stroke="#1a1a1a" stroke-width="1.8"/>
+    <!-- Parapet outer edge continues up to cap: already drawn -->
+
+    <!-- Top of parapet - wood blocking/cant -->
+    <!-- Wood top blocking (across parapet top) -->
+    <rect x="140" y="186" width="178" height="14" fill="url(#wood)"/>
+    <rect x="140" y="186" width="178" height="14" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- ROOF SIP (horizontal, meets wall at interior side of parapet) -->
+    <!-- Roof SIP runs from x=318 to x=520 (continues right). Top OSB skin at y=310, core y=310-358, bottom OSB at y=358-362 -->
+    <!-- Actually position roof lower such that top of roof membrane aligns with parapet return height -->
+    <!-- Roof top skin -->
+    <path d="M 318 330 L 540 328 L 540 334 L 318 336 Z" fill="url(#osb)"/>
+    <path d="M 318 330 L 540 328 L 540 334 L 318 336 Z" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Roof EPS core -->
+    <path d="M 318 336 L 540 334 L 540 378 L 318 382 Z" fill="url(#eps)"/>
+    <path d="M 318 336 L 540 334 L 540 378 L 318 382 Z" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Roof bottom skin -->
+    <path d="M 318 382 L 540 378 L 540 386 L 318 390 Z" fill="url(#osb)"/>
+    <path d="M 318 382 L 540 378 L 540 386 L 318 390 Z" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Cant strip (tapered wood at roof-parapet inside corner) -->
+    <path d="M 308 330 L 340 330 L 308 298 Z" fill="url(#wood)"/>
+    <path d="M 308 330 L 340 330 L 308 298 Z" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+
+    <!-- Tapered polyiso above roof top OSB skin -->
+    <path d="M 340 330 L 540 326 L 540 328 L 340 330 Z" fill="url(#insul)"/>
+    <path d="M 340 330 L 540 326 L 540 328 L 340 330 Z" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Cover board -->
+    <path d="M 340 326 L 540 322 L 540 326 L 340 330 Z" fill="#d8d4c3"/>
+    <path d="M 340 326 L 540 322 L 540 326 L 340 330 Z" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- ROOFING MEMBRANE TURN-UP (continuous waterproofing) -->
+    <!-- Horizontal portion -->
+    <path d="M 340 322 L 540 318 L 540 322 L 340 326 Z" fill="#3a3a3a"/>
+    <!-- Up the cant strip -->
+    <path d="M 308 298 L 340 322 L 340 326 L 305 300 Z" fill="#3a3a3a"/>
+    <!-- Up the parapet inner face, past top of blocking, over top, down outer face behind WRB -->
+    <path d="M 305 300 L 308 300 L 308 200 L 320 200 L 320 300 L 310 300 Z" fill="#3a3a3a"/>
+    <!-- The membrane goes up the parapet interior to top -->
+    <path d="M 308 200 L 318 200 L 318 300 L 308 300 Z" fill="#3a3a3a"/>
+    <!-- Outline -->
+    <path d="M 540 318 L 340 322 L 308 300 L 308 200 L 318 200" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Break line right edge of roof (continues) -->
+    <path d="M 540 330 L 530 330 L 525 324 L 540 318 L 530 312 L 525 306" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    <path d="M 540 385 L 530 385 L 525 380 L 540 374 L 530 368 L 525 362" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+
+    <!-- Break line bottom of wall -->
+    <path d="M 140 530 L 175 530 L 182 524 L 195 536 L 208 524 L 221 536 L 234 524 L 247 536 L 260 524 L 273 536 L 286 524 L 299 536 L 312 530 L 331 530" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+
+    <!-- ============== COPING (metal cap flashing on parapet top) ============== -->
+    <!-- Coping profile: wraps over wood blocking, slopes interior, has hemmed edges both sides -->
+    <!-- Exterior hem (down) -->
+    <path d="M 132 190 L 132 176 L 140 172 L 318 168 L 330 172 L 330 188 L 328 190 L 328 174 L 320 170 L 140 174 L 134 178 L 134 190 Z" fill="#c0c6cb"/>
+    <path d="M 132 190 L 132 176 L 140 172 L 318 168 L 330 172 L 330 188 L 328 190 L 328 174 L 320 170 L 140 174 L 134 178 L 134 190 Z" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <!-- Slope indicator line (2% toward interior) -->
+    <line x1="140" y1="173" x2="320" y2="171" stroke="#1a1a1a" stroke-width="0.3" stroke-dasharray="2 1"/>
+
+    <!-- Cleat (continuous HDG retaining clip on exterior) -->
+    <path d="M 134 186 L 134 182 L 136 178 L 138 178 L 138 186 Z" fill="#7c7c7c" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Fastener through coping into blocking (symbolic, interior side) -->
+    <line x1="300" y1="171" x2="300" y2="198" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="300" y1="171" x2="303" y2="169" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="300" y1="171" x2="297" y2="169" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Backer rod + sealant at coping/cladding joint (exterior) -->
+    <circle cx="136" cy="192" r="2" fill="#6b6b6b"/>
+    <rect x="132" y="192" width="8" height="3" fill="#4a4a4a"/>
+
+    <!-- Drip edge at exterior hem -->
+    <line x1="132" y1="190" x2="130" y2="196" stroke="#1a1a1a" stroke-width="1.2"/>
+
+    <!-- Dimensions -->
+    <!-- Parapet height above roof -->
+    <line x1="555" y1="168" x2="572" y2="168" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="555" y1="320" x2="572" y2="320" stroke="#1a1a1a" stroke-width="0.4"/>
+    <!-- Wait - those coords are inside title block. Move dim inside drawing area left side. -->
+
+    <!-- Parapet height above roof (inner) -->
+    <line x1="65" y1="200" x2="55" y2="200" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="65" y1="320" x2="55" y2="320" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="60" y1="200" x2="60" y2="320" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="36" y="253" width="24" height="14" fill="#fff" stroke="none"/>
+    <text x="48" y="260" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500" transform="rotate(-90, 48, 260)">PARAPET 600</text>
+
+    <!-- Wall thickness -->
+    <line x1="140" y1="552" x2="140" y2="564" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="331" y1="552" x2="331" y2="564" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="140" y1="558" x2="331" y2="558" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="222" y="545" width="26" height="12" fill="#fff" stroke="none"/>
+    <text x="235" y="554" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500">191</text>
+
+    <!-- ============== KEYNOTE BUBBLES + LEADERS ============== -->
+    <!-- 1: Wood blocking at parapet top (endpoint on top edge of blocking) -->
+    <line x1="420" y1="100" x2="260" y2="186" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="260" cy="186" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="100" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="103.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text></g>
+
+    <!-- 2: Membrane turn-up (endpoint on right edge of turn-up) -->
+    <line x1="420" y1="140" x2="320" y2="240" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="320" cy="240" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="140" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="143.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text></g>
+
+    <!-- 3: Coping / cap flashing -->
+    <line x1="60" y1="130" x2="225" y2="170" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="225" cy="170" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="51" cy="130" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="51" y="133.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text></g>
+
+    <!-- 4: Fastener into blocking (endpoint on fastener head at top of blocking) -->
+    <line x1="440" y1="175" x2="301" y2="172" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="301" cy="172" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="449" cy="175" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="449" y="178.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text></g>
+
+    <!-- 5: Backer rod + sealant (exterior) -->
+    <line x1="60" y1="250" x2="136" y2="194" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="136" cy="194" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="51" cy="250" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="51" y="253.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text></g>
+
+    <!-- 6: Drip edge + cant strip (combined callout to cant area) -->
+    <line x1="430" y1="275" x2="325" y2="308" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="325" cy="308" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="439" cy="275" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="439" y="278.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text></g>
+
+    <!-- ============== KEYNOTE LEGEND ============== -->
+    <g transform="translate(350, 395)">
+      <text x="0" y="0" font-family="Arial" font-size="10" font-weight="700">KEYNOTES</text>
+      <line x1="0" y1="4" x2="195" y2="4" stroke="#1a1a1a" stroke-width="0.5"/>
+
+      <g transform="translate(0, 22)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">1</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">PARAPET TOP BLOCKING</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">2 ply PT softwood, sloped 2% inward</text>
+      </g>
+
+      <g transform="translate(0, 50)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">2</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">MEMBRANE TURN-UP</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">Continuous 60 mil TPO, 200 mm min up inside face</text>
+      </g>
+
+      <g transform="translate(0, 78)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">3</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">METAL COPING / CAP FLASHING</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">HDG steel, hemmed both edges, joint splice plates</text>
+      </g>
+
+      <g transform="translate(0, 106)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">4</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">CONCEALED FASTENER / CLEAT</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">Continuous cleat ext; fasten interior, 600 o.c. max</text>
+      </g>
+
+      <g transform="translate(0, 134)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">5</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">BACKER ROD + SEALANT</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">Closed-cell backer + low-mod polyurethane bead</text>
+      </g>
+
+      <g transform="translate(0, 162)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">6</text>
+        <text x="22" y="0" font-family="Arial" font-size="9" font-weight="600">CANT STRIP + DRIP HEM</text>
+        <text x="22" y="10" font-family="Arial" font-size="8" fill="#555">45&#176; wood cant at inside corner; hemmed drip at coping</text>
+      </g>
+    </g>
+
+    <!-- ============== SCALE BAR ============== -->
+    <g transform="translate(80, 555)">
+      <text x="50" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1:5</text>
+      <rect x="0"  y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="25" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="50" y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="75" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="47"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">250</text>
+      <text x="103" y="16" font-family="Arial" font-size="7.5">500 mm</text>
+    </g>
+
+    <!-- ============== TITLE BLOCK ============== -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">DETAIL</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">PARAPET + COPING</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Architectural · OBC 9.26.6</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="253" font-family="Arial" font-size="10" font-weight="bold">GENERAL NOTES</text>
+    <text x="600" y="270" font-family="Arial" font-size="9">1. Coping slopes &#8805; 2% toward interior (roof) side.</text>
+    <text x="600" y="283" font-family="Arial" font-size="9">2. Membrane turn-up &#8805; 200 mm above finished roof.</text>
+    <text x="600" y="296" font-family="Arial" font-size="9">3. Cant strip at all parapet/roof junctions.</text>
+    <text x="600" y="309" font-family="Arial" font-size="9">4. Continuous exterior cleat; concealed fasteners only.</text>
+    <text x="600" y="322" font-family="Arial" font-size="9">5. Coping gauge &amp; joint cover [TBD per Site Engineer].</text>
+
+    <line x1="590" y1="360" x2="870" y2="360" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="380" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="380" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="395" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="395" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="410" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="410" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="425" x2="870" y2="425" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="445" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="445" font-family="Arial" font-size="10">1:5</text>
+    <text x="600" y="462" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="462" font-family="Arial" font-size="10">A-305</text>
+    <text x="600" y="479" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="700" y="479" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="496" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="670" y="496" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="515" x2="870" y2="515" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="535" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes</text>
+    <text x="600" y="548" font-family="Arial" font-size="8" fill="#555">All dimensions in mm U.N.O.</text>
+    <text x="600" y="561" font-family="Arial" font-size="8" fill="#555">Do not scale from drawing</text>
+    <text x="600" y="574" font-family="Arial" font-size="8" fill="#555">Drop &amp; Go modular chassis</text>
+  </svg>
+
+  <details open>
+    <summary>A-305: Parapet with continuous membrane turn-up &amp; HDG metal coping · Expand for full spec</summary>
+    <ul>
+      <li>Wall SIP extends up past roof line to form parapet; min. 600 mm above finished roof membrane.</li>
+      <li>Inside-corner cant strip (45&#176; PT wood) eliminates 90&#176; bend of membrane at roof-to-parapet junction.</li>
+      <li>Roofing membrane continuous: horizontal run &#8594; cant &#8594; up parapet inside face &#8594; over top &#8594; down exterior behind metal coping.</li>
+      <li>Parapet top blocking: 2-ply PT softwood, sloped 2% toward interior to shed water onto roof.</li>
+      <li>Metal coping: HDG steel, hemmed drip on both edges, spliced joints with backup splice plates and butyl tape.</li>
+      <li>Concealed fasteners only: continuous HDG cleat on exterior face; screw-and-neoprene washers on interior face at 600 mm o.c. max.</li>
+      <li>Backer rod + low-modulus PU sealant at coping/cladding interface.</li>
+      <li>Min. 200 mm vertical leg of membrane above finished roof per industry practice; termination bar optional.</li>
+      <li>Coping gauge, joint cover, and colour/finish [TBD per Site Engineer].</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.26.1</code> — Roofing materials.</li>
+      <li><code class="ref">OBC 9.26.4</code> — Low-slope roofing.</li>
+      <li><code class="ref">OBC 9.26.6</code> — Flashing (required at parapet/wall/roof interfaces).</li>
+      <li><code class="ref">OBC 9.25.3</code> — Air barrier continuity.</li>
+      <li><code class="ref">OBC 9.25.4</code> — Vapour barrier.</li>
+      <li><code class="ref">OBC 9.36.2.6 / 9.36.2.8</code> — Effective thermal resistance, Climate Zone 6.</li>
+      <li>U-factor formula: <code class="ref">U [W/m²·K] = 1 / (R_imp × 0.1761)</code>.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

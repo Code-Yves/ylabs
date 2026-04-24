@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — M-602 — HRV Airflow Schematic</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · M-602 — HRV Airflow Schematic</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="M-602 HRV Airflow Schematic">
+    <defs>
+      <pattern id="earth" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#6b5a3d" stroke-width="0.55"/>
+      </pattern>
+      <pattern id="steelXH" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="5" stroke="#2a2a2a" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="5" y2="0" stroke="#2a2a2a" stroke-width="0.5"/>
+      </pattern>
+      <pattern id="insul" patternUnits="userSpaceOnUse" width="18" height="12">
+        <path d="M 0 6 Q 4.5 0 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.7" fill="none"/>
+        <path d="M 0 6 Q 4.5 12 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.55"/>
+      </pattern>
+      <pattern id="eps" patternUnits="userSpaceOnUse" width="8" height="8">
+        <rect width="8" height="8" fill="#f5f0de"/>
+        <circle cx="2" cy="2" r="0.5" fill="#8a7a4d"/>
+        <circle cx="6" cy="6" r="0.4" fill="#8a7a4d"/>
+      </pattern>
+      <pattern id="osb" patternUnits="userSpaceOnUse" width="10" height="10">
+        <rect width="10" height="10" fill="#d6b56a" opacity="0.25"/>
+        <circle cx="2" cy="3" r="0.45" fill="#8a5a2b"/>
+        <circle cx="7" cy="7" r="0.4" fill="#8a5a2b"/>
+      </pattern>
+      <pattern id="wood" patternUnits="userSpaceOnUse" width="24" height="10">
+        <rect width="24" height="10" fill="#e9d9b0" opacity="0.4"/>
+        <path d="M 0 3 Q 6 2 12 3 T 24 3" stroke="#8a5a2b" stroke-width="0.4" fill="none"/>
+      </pattern>
+      <pattern id="concrete" patternUnits="userSpaceOnUse" width="20" height="20">
+        <rect width="20" height="20" fill="#eaeaea"/>
+        <circle cx="4" cy="5" r="1" fill="#6b6b6b"/>
+      </pattern>
+      <pattern id="gyp" patternUnits="userSpaceOnUse" width="5" height="5">
+        <rect width="5" height="5" fill="#fafafa"/>
+        <circle cx="1" cy="1" r="0.35" fill="#9a9a9a"/>
+      </pattern>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="flow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b3d91"/>
+      </marker>
+      <marker id="flowR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#9c2a2a"/>
+      </marker>
+    </defs>
+
+    <rect x="8" y="8" width="884" height="604" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40" y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">PLAN — HRV AIRFLOW SCHEMATIC</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1 : 50</text>
+
+    <!-- North arrow (plan view) -->
+    <g transform="translate(55,65)">
+      <circle cx="0" cy="0" r="16" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+      <polygon points="0,-14 -5,4 0,0 5,4" fill="#1a1a1a"/>
+      <text x="0" y="-18" font-family="Arial" font-size="9" font-weight="700" text-anchor="middle">N</text>
+    </g>
+
+    <!-- Module footprint (42' x 12' = 12800 x 3660 mm) drawn with module outline -->
+    <!-- Using scale where 12800mm ≈ 440 px, 3660mm ≈ 126 px -->
+    <rect x="90" y="200" width="440" height="200" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- Interior partitions dividing: MECH closet | BATH | BEDROOM | LIVING/KITCHEN -->
+    <!-- Zones from left to right: Mech (90-160), Bath (160-240), Bedroom (240-340), Living/Kitchen (340-530) -->
+    <line x1="160" y1="200" x2="160" y2="400" stroke="#1a1a1a" stroke-width="1.8"/>
+    <line x1="240" y1="200" x2="240" y2="400" stroke="#1a1a1a" stroke-width="1.8"/>
+    <line x1="340" y1="200" x2="340" y2="400" stroke="#1a1a1a" stroke-width="1.8"/>
+
+    <!-- Room labels -->
+    <text x="125" y="230" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">MECH</text>
+    <text x="125" y="240" text-anchor="middle" font-family="Arial" font-size="7" fill="#555">closet</text>
+    <text x="200" y="230" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">BATH</text>
+    <text x="290" y="230" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">BEDROOM</text>
+    <text x="435" y="230" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">LIVING / KITCHEN</text>
+
+    <!-- HRV unit in mech closet -->
+    <rect x="100" y="300" width="50" height="65" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="106" y="306" width="38" height="10" fill="#eaeaea" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Core (cross-flow, drawn as crossing diagonals inside unit) -->
+    <rect x="108" y="322" width="34" height="28" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+    <line x1="108" y1="322" x2="142" y2="350" stroke="#1a1a1a" stroke-width="0.8"/>
+    <line x1="142" y1="322" x2="108" y2="350" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="125" y="340" text-anchor="middle" font-family="Arial" font-size="6" font-weight="700">CORE</text>
+    <!-- Filter indicator -->
+    <rect x="108" y="355" width="34" height="6" fill="#f4f4ee" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="125" y="360" text-anchor="middle" font-family="Arial" font-size="5.5">FILTER MERV 8</text>
+    <text x="125" y="380" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">HRV</text>
+
+    <!-- Exterior intake + exhaust on module end wall (left side) -->
+    <!-- Intake hood (outside air in) at top-left end wall -->
+    <g transform="translate(60,240)">
+      <rect x="0" y="0" width="22" height="14" fill="#fff" stroke="#0b3d91" stroke-width="1.5"/>
+      <line x1="2" y1="3" x2="20" y2="3" stroke="#0b3d91" stroke-width="0.6"/>
+      <line x1="2" y1="7" x2="20" y2="7" stroke="#0b3d91" stroke-width="0.6"/>
+      <line x1="2" y1="11" x2="20" y2="11" stroke="#0b3d91" stroke-width="0.6"/>
+      <text x="11" y="-4" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="#0b3d91">INTAKE</text>
+    </g>
+    <!-- Exhaust hood (stale air out) below intake, separated ≥ 1 m -->
+    <g transform="translate(60,360)">
+      <rect x="0" y="0" width="22" height="14" fill="#fff" stroke="#9c2a2a" stroke-width="1.5"/>
+      <line x1="2" y1="3" x2="20" y2="3" stroke="#9c2a2a" stroke-width="0.6"/>
+      <line x1="2" y1="7" x2="20" y2="7" stroke="#9c2a2a" stroke-width="0.6"/>
+      <line x1="2" y1="11" x2="20" y2="11" stroke="#9c2a2a" stroke-width="0.6"/>
+      <text x="11" y="-4" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="#9c2a2a">EXHAUST</text>
+    </g>
+    <!-- Separation dim (≥1000 mm) -->
+    <line x1="55" y1="254" x2="45" y2="254" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="55" y1="360" x2="45" y2="360" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="50" y1="254" x2="50" y2="360" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="35" y="310" font-family="Arial" font-size="9" font-weight="500" transform="rotate(-90 35 310)" text-anchor="middle">&#8805; 1000</text>
+
+    <!-- Intake duct from exterior to HRV -->
+    <path d="M 82 247 L 100 247 L 100 310" stroke="#0b3d91" stroke-width="2.5" fill="none" marker-end="url(#flow)"/>
+    <!-- Exhaust duct from HRV to exterior -->
+    <path d="M 100 355 L 100 367 L 82 367" stroke="#9c2a2a" stroke-width="2.5" fill="none" marker-end="url(#flowR)"/>
+
+    <!-- SUPPLY ducts from HRV to bedroom + living -->
+    <!-- Trunk supply runs from top of HRV rightward above partition line -->
+    <path d="M 125 300 L 125 215 L 290 215" stroke="#0b3d91" stroke-width="2.5" fill="none"/>
+    <!-- Branch to bedroom diffuser -->
+    <path d="M 290 215 L 290 260" stroke="#0b3d91" stroke-width="2.5" fill="none" marker-end="url(#flow)"/>
+    <!-- Continue trunk to living/kitchen -->
+    <path d="M 290 215 L 450 215" stroke="#0b3d91" stroke-width="2.5" fill="none"/>
+    <path d="M 450 215 L 450 260" stroke="#0b3d91" stroke-width="2.5" fill="none" marker-end="url(#flow)"/>
+
+    <!-- Supply diffusers (circular w/ 4 vanes) -->
+    <g transform="translate(290,270)">
+      <circle cx="0" cy="0" r="10" fill="#fff" stroke="#0b3d91" stroke-width="1.5"/>
+      <line x1="-7" y1="-7" x2="7" y2="7" stroke="#0b3d91" stroke-width="1"/>
+      <line x1="7" y1="-7" x2="-7" y2="7" stroke="#0b3d91" stroke-width="1"/>
+      <text x="0" y="22" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="#0b3d91">SUP 15 L/s</text>
+    </g>
+    <g transform="translate(450,270)">
+      <circle cx="0" cy="0" r="10" fill="#fff" stroke="#0b3d91" stroke-width="1.5"/>
+      <line x1="-7" y1="-7" x2="7" y2="7" stroke="#0b3d91" stroke-width="1"/>
+      <line x1="7" y1="-7" x2="-7" y2="7" stroke="#0b3d91" stroke-width="1"/>
+      <text x="0" y="22" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="#0b3d91">SUP 15 L/s</text>
+    </g>
+
+    <!-- EXHAUST/RETURN ducts from bath + kitchen back to HRV (routed low/below supply trunk) -->
+    <!-- Bath exhaust -->
+    <path d="M 200 385 L 200 355 L 150 355" stroke="#9c2a2a" stroke-width="2.5" fill="none" marker-start="url(#flowR)"/>
+    <!-- Kitchen range-area exhaust grille (not a range hood — general kitchen exhaust per OBC 9.32.3) -->
+    <path d="M 500 385 L 500 330 L 155 330 L 155 340" stroke="#9c2a2a" stroke-width="2.5" fill="none" marker-start="url(#flowR)"/>
+
+    <!-- Return/exhaust grilles -->
+    <g transform="translate(200,380)">
+      <rect x="-10" y="-6" width="20" height="12" fill="#fff" stroke="#9c2a2a" stroke-width="1.5"/>
+      <line x1="-8" y1="-2" x2="8" y2="-2" stroke="#9c2a2a" stroke-width="0.8"/>
+      <line x1="-8" y1="2" x2="8" y2="2" stroke="#9c2a2a" stroke-width="0.8"/>
+      <text x="0" y="-12" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="#9c2a2a">EXH 15 L/s</text>
+    </g>
+    <g transform="translate(500,380)">
+      <rect x="-10" y="-6" width="20" height="12" fill="#fff" stroke="#9c2a2a" stroke-width="1.5"/>
+      <line x1="-8" y1="-2" x2="8" y2="-2" stroke="#9c2a2a" stroke-width="0.8"/>
+      <line x1="-8" y1="2" x2="8" y2="2" stroke="#9c2a2a" stroke-width="0.8"/>
+      <text x="0" y="-12" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="#9c2a2a">EXH 15 L/s</text>
+    </g>
+
+    <!-- Balance dampers (D) -->
+    <g transform="translate(225,215)">
+      <circle cx="0" cy="0" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+      <line x1="-4" y1="-3" x2="4" y2="3" stroke="#1a1a1a" stroke-width="1"/>
+      <text x="0" y="2" text-anchor="middle" font-family="Arial" font-size="5.5" font-weight="700">D</text>
+    </g>
+    <g transform="translate(420,215)">
+      <circle cx="0" cy="0" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+      <line x1="-4" y1="-3" x2="4" y2="3" stroke="#1a1a1a" stroke-width="1"/>
+      <text x="0" y="2" text-anchor="middle" font-family="Arial" font-size="5.5" font-weight="700">D</text>
+    </g>
+    <g transform="translate(300,330)">
+      <circle cx="0" cy="0" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+      <line x1="-4" y1="-3" x2="4" y2="3" stroke="#1a1a1a" stroke-width="1"/>
+      <text x="0" y="2" text-anchor="middle" font-family="Arial" font-size="5.5" font-weight="700">D</text>
+    </g>
+
+    <!-- Balance totals -->
+    <g transform="translate(55, 430)">
+      <rect x="0" y="0" width="220" height="75" fill="#fff" stroke="#1a1a1a" stroke-width="0.8"/>
+      <text x="8" y="14" font-family="Arial" font-size="9" font-weight="700">AIRFLOW BALANCE (principal)</text>
+      <text x="8" y="28" font-family="Arial" font-size="8.5">Supply:  Bedroom 15 + Living 15 = <tspan font-weight="700">30 L/s</tspan></text>
+      <text x="8" y="41" font-family="Arial" font-size="8.5">Exhaust: Bath 15 + Kitchen 15 = <tspan font-weight="700">30 L/s</tspan></text>
+      <text x="8" y="54" font-family="Arial" font-size="8.5" fill="#0b3d91" font-weight="700">Balanced &#177; 10%, verified on commissioning</text>
+      <text x="8" y="67" font-family="Arial" font-size="8" fill="#555">Principal rate per OBC 9.32.3.3 / CSA F326</text>
+    </g>
+
+    <!-- Defrost + filter note -->
+    <g transform="translate(285, 430)">
+      <rect x="0" y="0" width="260" height="75" fill="#fff" stroke="#1a1a1a" stroke-width="0.8"/>
+      <text x="8" y="14" font-family="Arial" font-size="9" font-weight="700">DEFROST &amp; FILTER</text>
+      <text x="8" y="28" font-family="Arial" font-size="8.5">Defrost: recirculation-type; activates &#8804; &#8722;5 &#176;C OAT</text>
+      <text x="8" y="41" font-family="Arial" font-size="8.5">Filter: MERV 8 min both streams, accessible</text>
+      <text x="8" y="54" font-family="Arial" font-size="8.5">Ducts: rigid galvanized sheet metal, sealed &amp; insulated</text>
+      <text x="8" y="67" font-family="Arial" font-size="8" fill="#555">Flex duct &#8804; 1.5 m only at equipment connection</text>
+    </g>
+
+    <!-- Keynotes -->
+    <circle cx="70" cy="520" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="70" y="523.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text>
+    <line x1="79" y1="520" x2="125" y2="380" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="125" cy="380" r="1.5" fill="#1a1a1a"/>
+
+    <circle cx="120" cy="520" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="120" y="523.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text>
+    <line x1="120" y1="511" x2="290" y2="270" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="290" cy="270" r="1.5" fill="#1a1a1a"/>
+
+    <circle cx="170" cy="520" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="170" y="523.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text>
+    <line x1="170" y1="511" x2="200" y2="380" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="200" cy="380" r="1.5" fill="#1a1a1a"/>
+
+    <circle cx="220" cy="520" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="220" y="523.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text>
+    <line x1="220" y1="511" x2="72" y2="367" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="72" cy="367" r="1.5" fill="#1a1a1a"/>
+
+    <circle cx="270" cy="520" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="270" y="523.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text>
+    <line x1="270" y1="511" x2="72" y2="247" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="72" cy="247" r="1.5" fill="#1a1a1a"/>
+
+    <circle cx="320" cy="520" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="320" y="523.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text>
+    <line x1="320" y1="511" x2="420" y2="215" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="420" cy="215" r="1.5" fill="#1a1a1a"/>
+
+    <!-- Keynote legend -->
+    <g transform="translate(55, 540)">
+      <text x="0" y="0" font-family="Arial" font-size="9" font-weight="700">KEYNOTES:</text>
+      <text x="60" y="0" font-family="Arial" font-size="8">1. HRV w/ cross-flow core · 2. Supply (bedroom, living) · 3. Exhaust (bath, kitchen)</text>
+      <text x="60" y="11" font-family="Arial" font-size="8">4. Exterior exhaust hood · 5. Exterior intake hood · 6. Balance damper</text>
+    </g>
+
+    <!-- Legend for line colors -->
+    <g transform="translate(370, 85)">
+      <rect x="0" y="0" width="180" height="40" fill="#fff" stroke="#1a1a1a" stroke-width="0.8"/>
+      <line x1="8" y1="14" x2="40" y2="14" stroke="#0b3d91" stroke-width="2.5" marker-end="url(#flow)"/>
+      <text x="48" y="17" font-family="Arial" font-size="8">Supply / intake airflow</text>
+      <line x1="8" y1="30" x2="40" y2="30" stroke="#9c2a2a" stroke-width="2.5" marker-end="url(#flowR)"/>
+      <text x="48" y="33" font-family="Arial" font-size="8">Exhaust / return airflow</text>
+    </g>
+
+    <!-- Scale bar -->
+    <g transform="translate(420, 575)">
+      <text x="50" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1:50 (mm)</text>
+      <rect x="0" y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="25" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="50" y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="75" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="-3" y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="47" y="16" font-family="Arial" font-size="7.5" text-anchor="middle">2500</text>
+      <text x="103" y="16" font-family="Arial" font-size="7.5">5000 mm</text>
+    </g>
+
+    <!-- Title block -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">DETAIL</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">HRV Airflow Schematic</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Mechanical · OBC 9.32.3 · CSA F326</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="253" font-family="Arial" font-size="10" font-weight="bold">GENERAL NOTES</text>
+    <text x="600" y="270" font-family="Arial" font-size="9">1. Balanced supply / exhaust within &#177;10%.</text>
+    <text x="600" y="283" font-family="Arial" font-size="9">2. Rigid galv. sheet-metal ducts, sealed.</text>
+    <text x="600" y="296" font-family="Arial" font-size="9">3. Intake &amp; exhaust separated &#8805; 1000 mm.</text>
+    <text x="600" y="309" font-family="Arial" font-size="9">4. Filter MERV 8 both streams, accessible.</text>
+    <text x="600" y="322" font-family="Arial" font-size="9">5. Final L/s [TBD per Site Engineer]</text>
+
+    <line x1="590" y1="360" x2="870" y2="360" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="380" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="660" y="380" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="395" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="660" y="395" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="410" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="660" y="410" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="425" x2="870" y2="425" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="445" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="660" y="445" font-family="Arial" font-size="10">1 : 50</text>
+    <text x="600" y="462" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="660" y="462" font-family="Arial" font-size="10">M-602</text>
+    <text x="600" y="479" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="690" y="479" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="496" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="660" y="496" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="515" x2="870" y2="515" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="535" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes</text>
+    <text x="600" y="548" font-family="Arial" font-size="8" fill="#555">All dimensions in mm U.N.O.</text>
+    <text x="600" y="561" font-family="Arial" font-size="8" fill="#555">Do not scale from drawing</text>
+    <text x="600" y="574" font-family="Arial" font-size="8" fill="#555">Drop &amp; Go modular chassis</text>
+  </svg>
+
+  <details open>
+    <summary>M-602: HRV airflow · supply 30 L/s · exhaust 30 L/s · balanced &#177;10% · intake/exhaust &#8805;1 m apart · Expand for full spec</summary>
+    <ul>
+      <li>Single-module HRV in mech closet; cross-flow core; MERV 8 filter both streams.</li>
+      <li>Supply air to bedroom (15 L/s) and living/kitchen (15 L/s) = 30 L/s total.</li>
+      <li>Exhaust air from bathroom (15 L/s) and kitchen (15 L/s) = 30 L/s total.</li>
+      <li>Balance supply / exhaust within &#177; 10%, verified at commissioning per CSA F326.</li>
+      <li>Rigid galvanized sheet-metal ducts, sealed (UL 181) and insulated in unconditioned spaces.</li>
+      <li>Flex duct limited to &#8804; 1.5 m at equipment connection only.</li>
+      <li>Exterior intake and exhaust hoods separated &#8805; 1000 mm, screened, min 450 mm AFG.</li>
+      <li>Defrost: recirculation-type, activates &#8804; &#8722;5 &#176;C outdoor air temperature.</li>
+      <li>Balance dampers at each branch for commissioning.</li>
+      <li>Final airflow rates <strong>[TBD per Site Engineer]</strong> per principal/total rate calc.</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.32.3</code> — Mechanical ventilation for dwelling units (HRV / balanced).</li>
+      <li><code class="ref">OBC 9.33</code> — Heating and air-conditioning (interaction with ventilation).</li>
+      <li><code class="ref">CSA F326</code> — Residential mechanical ventilation; design and commissioning.</li>
+      <li><code class="ref">UL 181 / UL 181A</code> — Duct sealant tapes and mastic systems.</li>
+      <li>Principal/total ventilation rate, balance airflows, and defrost strategy <strong>[TBD per Site Engineer]</strong> based on certified HRV submittal.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — A-102 — Roof Plan</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · A-102 — Roof Plan (TPO Membrane + Parapet)</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="A-102 Roof Plan">
+    <defs>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <!-- TPO membrane field: subtle white/reflective -->
+      <pattern id="tpo" patternUnits="userSpaceOnUse" width="40" height="40">
+        <rect width="40" height="40" fill="#f7f9fa"/>
+        <line x1="0" y1="0" x2="0" y2="40" stroke="#cfd6dc" stroke-width="0.35"/>
+        <line x1="20" y1="0" x2="20" y2="40" stroke="#cfd6dc" stroke-width="0.2" stroke-dasharray="3 2"/>
+      </pattern>
+      <!-- Parapet rim hatch -->
+      <pattern id="parapet" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+        <rect width="6" height="6" fill="#e9e4d4"/>
+        <line x1="0" y1="0" x2="0" y2="6" stroke="#8a7a4d" stroke-width="0.5"/>
+      </pattern>
+      <!-- EPDM isolation pad -->
+      <pattern id="epdm" patternUnits="userSpaceOnUse" width="5" height="5">
+        <rect width="5" height="5" fill="#3a3a3a"/>
+        <circle cx="2.5" cy="2.5" r="0.5" fill="#666"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="slope" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+        <path d="M 0 1 L 9 5 L 0 9 z" fill="#0b3d91"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+    </defs>
+
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Drawing banner -->
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">ROOF PLAN · TPO MEMBRANE + PARAPET · PLAN VIEW</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1 : 25</text>
+
+    <!-- ═══════════  PLAN GEOMETRY ═══════════
+         Scale: 12 drawing-units per foot (identical to A-101).
+         Building: 42'-0" × 12'-0" → 504 × 144 SVG units
+         Outer parapet face: x = 50..554, y = 230..374
+         Parapet rim 305 mm ≈ 12 SVG units thick.
+         Inner membrane field: x = 62..542, y = 242..362 -->
+
+    <!-- Outer parapet face (heavy cut-line) -->
+    <rect x="50" y="230" width="504" height="144" fill="none" stroke="#1a1a1a" stroke-width="2.8"/>
+    <!-- Inner parapet face (secondary) -->
+    <rect x="62" y="242" width="480" height="120" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+    <!-- Parapet rim hatch (four strips) -->
+    <rect x="50" y="230" width="504" height="12" fill="url(#parapet)" stroke="none"/>
+    <rect x="50" y="362" width="504" height="12" fill="url(#parapet)" stroke="none"/>
+    <rect x="50" y="242" width="12"  height="120" fill="url(#parapet)" stroke="none"/>
+    <rect x="542" y="242" width="12" height="120" fill="url(#parapet)" stroke="none"/>
+
+    <!-- TPO membrane field (inside parapet) -->
+    <rect x="62" y="242" width="480" height="120" fill="url(#tpo)" stroke="none"/>
+
+    <!-- Module grid ticks along long axis at 1830 mm (6'-0" = 72 units) — 7 bays -->
+    <g stroke="#1a1a1a" stroke-width="0.4" stroke-dasharray="6 2 2 2">
+      <line x1="122" y1="230" x2="122" y2="374"/>
+      <line x1="194" y1="230" x2="194" y2="374"/>
+      <line x1="266" y1="230" x2="266" y2="374"/>
+      <line x1="338" y1="230" x2="338" y2="374"/>
+      <line x1="410" y1="230" x2="410" y2="374"/>
+      <line x1="482" y1="230" x2="482" y2="374"/>
+    </g>
+    <g font-family="Arial" font-size="7" fill="#555" text-anchor="middle">
+      <rect x="46" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="52" y="228">A</text>
+      <rect x="116" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="122" y="228">B</text>
+      <rect x="188" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="194" y="228">C</text>
+      <rect x="260" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="266" y="228">D</text>
+      <rect x="332" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="338" y="228">E</text>
+      <rect x="404" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="410" y="228">F</text>
+      <rect x="476" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="482" y="228">G</text>
+      <rect x="548" y="220" width="12" height="10" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="554" y="228">H</text>
+    </g>
+
+    <!-- ═══════════  DRAINAGE RIDGE + SLOPE ARROWS ═══════════
+         Drainage strategy: central ridge along long axis at y=302 (centerline);
+         slopes 1/4"/ft to north parapet (scupper 1) and south parapet (scupper 2). -->
+    <!-- Central drainage ridge (high point) -->
+    <line x1="62" y1="302" x2="542" y2="302" stroke="#9c2a2a" stroke-width="0.7" stroke-dasharray="8 3 2 3"/>
+    <rect x="250" y="296" width="72" height="10" fill="#fff" stroke="none" opacity="0.92"/>
+    <text x="286" y="304" text-anchor="middle" font-family="Arial" font-size="7.5" font-style="italic" fill="#9c2a2a">DRAINAGE RIDGE (H.P.)</text>
+
+    <!-- Slope arrows — north half (↑ up in SVG = toward north parapet) -->
+    <g stroke="#0b3d91" stroke-width="0.7" fill="none">
+      <line x1="110" y1="298" x2="110" y2="252" marker-end="url(#slope)"/>
+      <line x1="230" y1="298" x2="230" y2="252" marker-end="url(#slope)"/>
+      <line x1="400" y1="298" x2="400" y2="252" marker-end="url(#slope)"/>
+      <line x1="500" y1="298" x2="500" y2="252" marker-end="url(#slope)"/>
+    </g>
+    <!-- Slope arrows — south half (↓ toward south parapet) -->
+    <g stroke="#0b3d91" stroke-width="0.7" fill="none">
+      <line x1="110" y1="306" x2="110" y2="352" marker-end="url(#slope)"/>
+      <line x1="230" y1="306" x2="230" y2="352" marker-end="url(#slope)"/>
+      <line x1="400" y1="306" x2="400" y2="352" marker-end="url(#slope)"/>
+      <line x1="500" y1="306" x2="500" y2="352" marker-end="url(#slope)"/>
+    </g>
+    <!-- Slope labels -->
+    <g font-family="Arial" font-size="6.5" fill="#0b3d91" font-style="italic">
+      <rect x="94" y="270" width="32" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="110" y="277" text-anchor="middle">¼"/ft ↑</text>
+      <rect x="94" y="326" width="32" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="110" y="333" text-anchor="middle">¼"/ft ↓</text>
+      <rect x="384" y="270" width="32" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="400" y="277" text-anchor="middle">¼"/ft ↑</text>
+      <rect x="384" y="326" width="32" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="400" y="333" text-anchor="middle">¼"/ft ↓</text>
+    </g>
+
+    <!-- ═══════════  SCUPPERS (2 on long walls) ═══════════ -->
+    <!-- Scupper 1 — north parapet, bay C-D (x≈230, y=230..242 parapet face) -->
+    <g>
+      <rect x="222" y="230" width="16" height="12" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <line x1="222" y1="236" x2="238" y2="236" stroke="#1a1a1a" stroke-width="0.5"/>
+      <text x="230" y="246" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">SCUPPER</text>
+    </g>
+    <!-- Scupper 2 — south parapet, bay F-G (x≈430) -->
+    <g>
+      <rect x="422" y="362" width="16" height="12" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <line x1="422" y1="368" x2="438" y2="368" stroke="#1a1a1a" stroke-width="0.5"/>
+      <text x="430" y="358" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">SCUPPER</text>
+    </g>
+    <!-- Overflow scuppers (secondary, 50 mm above primary) -->
+    <g>
+      <rect x="244" y="230" width="14" height="10" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="2 1"/>
+      <text x="251" y="238" text-anchor="middle" font-family="Arial" font-size="4.5" fill="#888">OVF</text>
+    </g>
+    <g>
+      <rect x="402" y="364" width="14" height="10" fill="none" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="2 1"/>
+      <text x="409" y="372" text-anchor="middle" font-family="Arial" font-size="4.5" fill="#888">OVF</text>
+    </g>
+
+    <!-- ═══════════  SKYLIGHT (610 × 1220 mm curb-mounted, centered over living area) ═══════════
+         Living/Kitchen on A-101 spans x=58..312 (roughly). Center ≈ x=185, y=302.
+         Skylight: 610 mm (long-dim along X) × 1220 mm → 24 × 48 SVG units. Centered on ridge. -->
+    <g>
+      <!-- Insulated curb (150 mm outside skylight opening) — outer curb -->
+      <rect x="157" y="272" width="56" height="60" fill="#f0e9d5" stroke="#1a1a1a" stroke-width="1.5"/>
+      <!-- Skylight glazing (inner) -->
+      <rect x="161" y="276" width="48" height="52" fill="#cfe1f1" stroke="#1a1a1a" stroke-width="1"/>
+      <!-- Glazing cross -->
+      <line x1="161" y1="302" x2="209" y2="302" stroke="#1a1a1a" stroke-width="0.4"/>
+      <line x1="185" y1="276" x2="185" y2="328" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="168" y="298" width="34" height="9" fill="#fff" stroke="none" opacity="0.9"/>
+      <text x="185" y="305" text-anchor="middle" font-family="Arial" font-size="7" font-weight="600">SKYLIGHT</text>
+      <text x="185" y="314" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">610 × 1220</text>
+    </g>
+
+    <!-- ═══════════  VENT PENETRATIONS ═══════════ -->
+    <!-- Plumbing vent stack (75 mm ABS) — above bath core (x≈350, y≈315) -->
+    <g>
+      <circle cx="350" cy="315" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="1.3"/>
+      <circle cx="350" cy="315" r="2.2" fill="#1a1a1a"/>
+      <text x="350" y="326" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">P.V.</text>
+    </g>
+    <!-- HRV exhaust (150 mm insulated duct) — south of ridge near bath -->
+    <g>
+      <circle cx="370" cy="338" r="8" fill="#fff" stroke="#1a1a1a" stroke-width="1.3"/>
+      <text x="370" y="341" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="700">EX</text>
+      <text x="370" y="354" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">HRV EXH</text>
+    </g>
+    <!-- HRV intake (150 mm) — ≥3000 mm from exhaust. 3000 mm = 118 units. Place at x≈488 (=118 east of exhaust) -->
+    <g>
+      <circle cx="488" cy="266" r="8" fill="#fff" stroke="#1a1a1a" stroke-width="1.3"/>
+      <text x="488" y="269" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="700">IN</text>
+      <text x="488" y="253" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">HRV INT</text>
+    </g>
+    <!-- Intake-to-exhaust separation dim annotation -->
+    <line x1="370" y1="338" x2="488" y2="266" stroke="#9c2a2a" stroke-width="0.4" stroke-dasharray="3 2"/>
+    <rect x="400" y="296" width="56" height="10" fill="#fff" stroke="none" opacity="0.92"/>
+    <text x="428" y="304" text-anchor="middle" font-family="Arial" font-size="6.5" fill="#9c2a2a" font-style="italic">≥3000 mm sep.</text>
+
+    <!-- Range-hood exhaust (150 mm) — over kitchen counter north wall (x≈100) -->
+    <g>
+      <circle cx="100" cy="266" r="8" fill="#fff" stroke="#1a1a1a" stroke-width="1.3"/>
+      <text x="100" y="269" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="700">RH</text>
+      <text x="100" y="253" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#555">RANGE EX</text>
+    </g>
+
+    <!-- ═══════════  MINI-SPLIT CONDENSER PAD — NE corner on roof ═══════════
+         900 × 400 mm pad on 50 mm EPDM isolation. 900 mm = 35 units, 400 mm = 16 units.
+         NE corner = x high / y low. Place pad at x=494..529, y=250..266. -->
+    <g>
+      <!-- EPDM isolation (slightly larger than pad) -->
+      <rect x="490" y="334" width="40" height="22" fill="url(#epdm)" stroke="#1a1a1a" stroke-width="0.7"/>
+      <!-- Condenser pad -->
+      <rect x="493" y="337" width="34" height="16" fill="#e0e0e0" stroke="#1a1a1a" stroke-width="1.3"/>
+      <!-- Condenser fan outline -->
+      <circle cx="510" cy="345" r="6" fill="#fff" stroke="#1a1a1a" stroke-width="0.7"/>
+      <line x1="504" y1="345" x2="516" y2="345" stroke="#1a1a1a" stroke-width="0.4"/>
+      <line x1="510" y1="339" x2="510" y2="351" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="510" y="328" text-anchor="middle" font-family="Arial" font-size="6" fill="#555">COND. PAD</text>
+    </g>
+
+    <!-- ═══════════  LIGHTNING-PROTECTION AIR TERMINALS (optional) — parapet corners ═══════════ -->
+    <g fill="#9c2a2a" stroke="#1a1a1a" stroke-width="0.4">
+      <circle cx="56"  cy="236" r="2"/>
+      <circle cx="548" cy="236" r="2"/>
+      <circle cx="56"  cy="368" r="2"/>
+      <circle cx="548" cy="368" r="2"/>
+    </g>
+    <text x="540" y="218" text-anchor="end" font-family="Arial" font-size="5.5" fill="#9c2a2a" font-style="italic">air terminals (optional — see note)</text>
+
+    <!-- ═══════════  NORTH ARROW (top-right of drawing area — matches A-101 orientation) ═══════════ -->
+    <g transform="translate(535, 60)">
+      <circle cx="0" cy="0" r="16" fill="#fff" stroke="#1a1a1a" stroke-width="1.2"/>
+      <polygon points="0,-12 -5,8 0,4 5,8" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="0.6"/>
+      <text x="0" y="-18" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">N</text>
+    </g>
+
+    <!-- ═══════════  DIMENSION STRINGS ═══════════ -->
+    <!-- Overall length (bottom) -->
+    <line x1="50" y1="400" x2="554" y2="400" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="50" y1="374" x2="50" y2="406" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="554" y1="374" x2="554" y2="406" stroke="#1a1a1a" stroke-width="0.4"/>
+    <rect x="275" y="389" width="54" height="12" fill="#fff" stroke="none"/>
+    <text x="302" y="397" text-anchor="middle" font-family="Arial" font-size="10" font-weight="600">12800 (42'-0")</text>
+
+    <!-- 7-bay module dim string @ 1830 mm each -->
+    <g stroke="#1a1a1a" stroke-width="0.4">
+      <line x1="50"  y1="420" x2="122" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="122" y1="420" x2="194" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="194" y1="420" x2="266" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="266" y1="420" x2="338" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="338" y1="420" x2="410" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="410" y1="420" x2="482" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="482" y1="420" x2="554" y2="420" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <line x1="122" y1="406" x2="122" y2="424"/>
+      <line x1="194" y1="406" x2="194" y2="424"/>
+      <line x1="266" y1="406" x2="266" y2="424"/>
+      <line x1="338" y1="406" x2="338" y2="424"/>
+      <line x1="410" y1="406" x2="410" y2="424"/>
+      <line x1="482" y1="406" x2="482" y2="424"/>
+    </g>
+    <g font-family="Arial" font-size="7.5" text-anchor="middle">
+      <text x="86"  y="418">1830</text>
+      <text x="158" y="418">1830</text>
+      <text x="230" y="418">1830</text>
+      <text x="302" y="418">1830</text>
+      <text x="374" y="418">1830</text>
+      <text x="446" y="418">1830</text>
+      <text x="518" y="418">1830</text>
+    </g>
+
+    <!-- Overall width (left side) -->
+    <line x1="28" y1="230" x2="28" y2="374" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="22" y1="230" x2="34" y2="230" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="22" y1="374" x2="34" y2="374" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="20" y="306" text-anchor="middle" font-family="Arial" font-size="10" font-weight="600" transform="rotate(-90 20 306)">3658 (12'-0")</text>
+
+    <!-- Parapet rim thickness callout -->
+    <line x1="62" y1="452" x2="50" y2="452" stroke="#1a1a1a" stroke-width="0.4" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="50" y1="446" x2="50" y2="458" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="62" y1="446" x2="62" y2="458" stroke="#1a1a1a" stroke-width="0.4"/>
+    <text x="56" y="465" text-anchor="middle" font-family="Arial" font-size="7">305</text>
+
+    <!-- ═══════════  KEYNOTE BUBBLES (on drawing) ═══════════ -->
+    <!-- 1 · Parapet (leader to parapet rim hatch) -->
+    <g>
+      <circle cx="40" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="40" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text>
+    </g>
+    <line x1="49" y1="200" x2="56" y2="232" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="56" cy="232" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 2 · TPO membrane field (leader to field) -->
+    <g>
+      <circle cx="260" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="260" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text>
+    </g>
+    <line x1="260" y1="209" x2="260" y2="256" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="260" cy="256" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 3 · Roof drainage slope (leader to an arrow) -->
+    <g>
+      <circle cx="80" cy="470" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="80" y="474" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text>
+    </g>
+    <line x1="89" y1="468" x2="110" y2="330" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="110" cy="330" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 4 · Scupper / overflow (leader to south scupper) -->
+    <g>
+      <circle cx="430" cy="470" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="430" y="474" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text>
+    </g>
+    <line x1="430" y1="461" x2="430" y2="374" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="430" cy="374" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 5 · Skylight curb (leader to skylight) -->
+    <g>
+      <circle cx="180" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="180" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text>
+    </g>
+    <line x1="180" y1="209" x2="180" y2="272" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="180" cy="272" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 6 · HRV intake (leader to intake circle) -->
+    <g>
+      <circle cx="530" cy="200" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="530" y="204" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text>
+    </g>
+    <line x1="521" y1="206" x2="496" y2="266" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="496" cy="266" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 7 · HRV exhaust + plumbing vent (leader to exhaust) -->
+    <g>
+      <circle cx="250" cy="470" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="250" y="474" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">7</text>
+    </g>
+    <line x1="259" y1="468" x2="362" y2="338" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="362" cy="338" r="1.5" fill="#1a1a1a"/>
+
+    <!-- 8 · Condenser pad (leader to pad) -->
+    <g>
+      <circle cx="540" cy="470" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+      <text x="540" y="474" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">8</text>
+    </g>
+    <line x1="535" y1="462" x2="520" y2="356" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="520" cy="356" r="1.5" fill="#1a1a1a"/>
+
+    <!-- ═══════════  SCALE BAR ═══════════ -->
+    <g transform="translate(205, 540)">
+      <text x="75" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1 : 25</text>
+      <rect x="0"   y="0" width="30" height="5" fill="#1a1a1a"/>
+      <rect x="30"  y="0" width="30" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="60"  y="0" width="30" height="5" fill="#1a1a1a"/>
+      <rect x="90"  y="0" width="30" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="120" y="0" width="30" height="5" fill="#1a1a1a"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="60"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">1500</text>
+      <text x="150" y="16" font-family="Arial" font-size="7.5" text-anchor="middle">3000 mm</text>
+    </g>
+
+    <!-- ═══════════  TITLE BLOCK (right sidebar) ═══════════ -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+
+    <!-- ISSUED FOR stamp -->
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">SHEET TITLE</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">ROOF PLAN — TPO + PARAPET</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Architectural · OBC Part 9 — plan view</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="250" font-family="Arial" font-size="10" font-weight="bold">KEYNOTES</text>
+    <g font-family="Arial" font-size="8.5">
+      <g transform="translate(600, 266)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">1</text>
+        <text x="20" y="0" font-weight="600">PARAPET — 305 mm</text>
+        <text x="20" y="10" fill="#555">Continuous rim; see A-305 for section</text>
+      </g>
+      <g transform="translate(600, 290)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">2</text>
+        <text x="20" y="0" font-weight="600">TPO MEMBRANE — FULLY-ADHERED</text>
+        <text x="20" y="10" fill="#555">White, reflective (min. R-3 refl.); 1.5 mm</text>
+      </g>
+      <g transform="translate(600, 314)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">3</text>
+        <text x="20" y="0" font-weight="600">ROOF DRAINAGE SLOPE</text>
+        <text x="20" y="10" fill="#555">¼ in/ft min (OBC 9.26.14) toward scupper</text>
+      </g>
+      <g transform="translate(600, 338)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">4</text>
+        <text x="20" y="0" font-weight="600">SCUPPER / OVERFLOW</text>
+        <text x="20" y="10" fill="#555">100 × 75 mm primary; OVF 50 mm above</text>
+      </g>
+      <g transform="translate(600, 362)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">5</text>
+        <text x="20" y="0" font-weight="600">SKYLIGHT — CURB-MOUNTED</text>
+        <text x="20" y="10" fill="#555">610 × 1220 mm; 150 mm insul. curb (CSA A440.2)</text>
+      </g>
+      <g transform="translate(600, 386)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">6</text>
+        <text x="20" y="0" font-weight="600">HRV INTAKE — 150 mm</text>
+        <text x="20" y="10" fill="#555">≥3000 mm from exhaust per OBC 9.32.3.9</text>
+      </g>
+      <g transform="translate(600, 410)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">7</text>
+        <text x="20" y="0" font-weight="600">HRV EXHAUST + PLUMBING VENT</text>
+        <text x="20" y="10" fill="#555">150 mm insul. duct · 75 mm ABS stack</text>
+      </g>
+      <g transform="translate(600, 434)">
+        <circle cx="6" cy="-3" r="6.5" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="6" y="0" text-anchor="middle" font-size="8" font-weight="700">8</text>
+        <text x="20" y="0" font-weight="600">CONDENSER PAD — MINI-SPLIT</text>
+        <text x="20" y="10" fill="#555">900 × 400 mm; 50 mm EPDM isol.; see M-601</text>
+      </g>
+    </g>
+
+    <line x1="590" y1="450" x2="870" y2="450" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="467" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="467" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="482" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="482" font-family="Arial" font-size="10">LMB, Arch.</text>
+    <text x="600" y="497" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="497" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="508" x2="870" y2="508" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="524" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="524" font-family="Arial" font-size="10">1 : 25</text>
+    <text x="600" y="539" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="539" font-family="Arial" font-size="10">A-102</text>
+    <text x="600" y="554" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="700" y="554" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="569" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="670" y="569" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="578" x2="870" y2="578" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="588" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes · All dims mm U.N.O.</text>
+  </svg>
+
+  <details open>
+    <summary>A-102: Roof plan — 42'-0" × 12'-0" low-slope TPO over parapet · ¼ in/ft drainage to two scuppers · Expand for full spec</summary>
+    <ul>
+      <li>Roof assembly: 10.25" (260 mm) roof SIP panel, R-40 effective; continuous 305 mm wood-framed parapet rim on all four sides; see A-305 for parapet section, A-304 for field section.</li>
+      <li>Membrane: 1.5 mm fully-adhered TPO, white reflective surface (min. solar reflectance R-3 equivalent); heat-welded seams; bonding adhesive per manufacturer's written instructions; galvanized coping cap over parapet.</li>
+      <li>Drainage: central ridge high-point at module C.L.; ¼ in/ft (2%) min slope both directions per OBC 9.26.14; two primary scuppers (100 × 75 mm) on long walls plus two secondary overflow scuppers 50 mm above primary invert.</li>
+      <li>Drainage capacity: ~24 m² roof area; sized for 15-minute rainfall intensity per OBC Div. B Appendix C data (Ottawa/GTA range); confirm local rainfall intensity per site municipality.</li>
+      <li>Skylight: 610 × 1220 mm (2'×4') curb-mounted unit on 150 mm site-built insulated curb with self-adhered air barrier counterflashing; glazing per CSA A440.2; centred over living/kitchen on the drainage ridge.</li>
+      <li>Vents: 75 mm ABS plumbing vent stack above bath core; 150 mm HRV exhaust and 150 mm HRV intake separated ≥3000 mm horizontally per OBC 9.32.3.9; 150 mm range-hood exhaust over kitchen. All penetrations pre-manufactured TPO boots, heat-welded, with self-adhered air barrier flashing at the deck transition.</li>
+      <li>Mechanical: mini-split condenser pad 900 × 400 mm on 50 mm EPDM isolation layer, NE corner; line-set penetration through parapet with pitch pan; see M-601.</li>
+      <li>Lightning protection: Class I air terminals at each of the four parapet corners (optional per owner's election); bonded to building ground per CSA B72 where provided.</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.26</code> — Roofing materials and low-slope assemblies (general requirements).</li>
+      <li><code class="ref">OBC 9.26.14</code> — Roof drainage; ¼ in/ft (2%) minimum slope on low-slope roofs; primary and overflow drainage required.</li>
+      <li><code class="ref">OBC 9.26.4</code> — Low-slope roofing membrane systems (continuous, sealed, mechanically or fully adhered).</li>
+      <li><code class="ref">OBC 9.26.6</code> — Flashing at parapet, penetrations, scuppers, and terminations.</li>
+      <li><code class="ref">OBC 9.25</code> — Heat transfer, air leakage, condensation control; self-adhered air barrier continuity at roof/wall transition.</li>
+      <li><code class="ref">OBC 9.32.3.9</code> — HRV intake and exhaust separation (≥3000 mm horizontal; intake located to avoid contaminant sources).</li>
+      <li><code class="ref">OBC 9.10.19</code> — Smoke/CO alarms n/a on roof plane; noted for attic/ceiling assemblies per A-201.</li>
+      <li><code class="ref">CSA A440.2</code> — Fenestration energy performance (applies to skylight unit).</li>
+      <li>All penetration boots, scupper liners, and coping details to use continuous self-adhered air barrier + compatible TPO flashing; no brand-specified products listed — substitutions permitted per spec.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

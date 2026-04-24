@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Axis Modular — A-302 — Triple-Pane Window Detail</title>
+<style>
+  :root { --ink:#1a1a1a; --accent:#0b3d91; --stamp:#9c2a2a; --rule:#d0d0d0; --bg:#f4f4ee; --grid:#e8e8e2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; margin:0; padding:1.25rem; background:#e8ebee; color:var(--ink); }
+  .sheet-wrap { max-width:1100px; margin:0 auto; }
+  header.sheet-header { display:flex; justify-content:space-between; align-items:baseline; padding-bottom:.5rem; border-bottom:2px solid var(--ink); margin-bottom:.75rem; }
+  header.sheet-header h1 { margin:0; font-size:1rem; letter-spacing:.7px; text-transform:uppercase; }
+  header.sheet-header .meta { font-size:.75rem; color:#555; letter-spacing:.4px; }
+  svg.sheet { display:block; width:100%; height:auto; background:#fff; border:1px solid #888; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  details { margin:1rem 0 0; border:1px solid var(--rule); border-radius:6px; padding:.65rem 1rem; background:#fff; }
+  details summary { cursor:pointer; font-weight:600; color:var(--accent); }
+  details ul { margin:.5rem 0 0 1rem; }
+  details li { margin-bottom:.25rem; font-size:.9rem; }
+  .tech-note { margin-top:1rem; padding:.85rem 1rem; background:var(--bg); border-left:4px solid #9c7a00; font-size:.85rem; }
+  code.ref { background:#eaeaea; padding:1px 5px; border-radius:3px; font-size:.85em; font-family: "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<div class="sheet-wrap">
+  <header class="sheet-header">
+    <h1>Axis Modular SIP Series · A-302 — Triple-Pane Window Detail</h1>
+    <div class="meta">Rev. 02 · 2026-04-19 · <span style="color:var(--stamp);font-weight:600;">ISSUED FOR CONSTRUCTION</span></div>
+  </header>
+
+  <svg class="sheet" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" aria-label="A-302 Triple-Pane Window Jamb Section">
+    <defs>
+      <pattern id="earth" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#6b5a3d" stroke-width="0.55"/>
+      </pattern>
+      <pattern id="steelXH" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="5" stroke="#2a2a2a" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="5" y2="0" stroke="#2a2a2a" stroke-width="0.5"/>
+      </pattern>
+      <pattern id="steelSolid" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">
+        <rect width="4" height="4" fill="#3a3a3a"/>
+      </pattern>
+      <pattern id="insul" patternUnits="userSpaceOnUse" width="18" height="12">
+        <path d="M 0 6 Q 4.5 0 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.7" fill="none"/>
+        <path d="M 0 6 Q 4.5 12 9 6 T 18 6" stroke="#1a1a1a" stroke-width="0.4" fill="none" opacity="0.55"/>
+      </pattern>
+      <pattern id="eps" patternUnits="userSpaceOnUse" width="8" height="8">
+        <rect width="8" height="8" fill="#f5f0de"/>
+        <circle cx="2" cy="2" r="0.5" fill="#8a7a4d"/>
+        <circle cx="6" cy="6" r="0.4" fill="#8a7a4d"/>
+      </pattern>
+      <pattern id="osb" patternUnits="userSpaceOnUse" width="10" height="10">
+        <rect width="10" height="10" fill="#d6b56a" opacity="0.25"/>
+        <circle cx="2" cy="3" r="0.45" fill="#8a5a2b"/>
+        <circle cx="7" cy="7" r="0.4" fill="#8a5a2b"/>
+        <circle cx="5" cy="2" r="0.3" fill="#8a5a2b"/>
+        <circle cx="8" cy="4" r="0.3" fill="#8a5a2b"/>
+      </pattern>
+      <pattern id="wood" patternUnits="userSpaceOnUse" width="24" height="10">
+        <rect width="24" height="10" fill="#e9d9b0" opacity="0.4"/>
+        <path d="M 0 3 Q 6 2 12 3 T 24 3" stroke="#8a5a2b" stroke-width="0.4" fill="none"/>
+        <path d="M 0 7 Q 6 6 12 7 T 24 7" stroke="#8a5a2b" stroke-width="0.3" fill="none"/>
+      </pattern>
+      <pattern id="concrete" patternUnits="userSpaceOnUse" width="20" height="20">
+        <rect width="20" height="20" fill="#eaeaea"/>
+        <circle cx="4" cy="5" r="1" fill="#6b6b6b"/>
+        <circle cx="14" cy="12" r="0.8" fill="#6b6b6b"/>
+        <polygon points="9,16 12,16 10.5,13" fill="#6b6b6b"/>
+      </pattern>
+      <pattern id="gyp" patternUnits="userSpaceOnUse" width="5" height="5">
+        <rect width="5" height="5" fill="#fafafa"/>
+        <circle cx="1" cy="1" r="0.35" fill="#9a9a9a"/>
+        <circle cx="3.5" cy="3" r="0.3" fill="#9a9a9a"/>
+      </pattern>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="20" height="20">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e8e8e2" stroke-width="0.3"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1a1a"/>
+      </marker>
+      <marker id="leader" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 8 4 L 0 8 z" fill="#1a1a1a"/>
+      </marker>
+    </defs>
+
+    <!-- Outer frame -->
+    <rect x="8" y="8" width="884" height="604" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="14" y="14" width="872" height="592" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Drawing area + grid -->
+    <rect x="30" y="40" width="530" height="520" fill="url(#grid)"/>
+    <rect x="30" y="40" width="530" height="520" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+
+    <!-- Drawing banner -->
+    <rect x="30" y="24" width="530" height="14" fill="#1a1a1a"/>
+    <text x="40"  y="35" font-family="Arial" font-size="10" font-weight="700" fill="#fff">SECTION A-A — TRIPLE-PANE WINDOW JAMB (PLAN CUT)</text>
+    <text x="555" y="35" text-anchor="end" font-family="Arial" font-size="9" fill="#fff">SCALE 1:5</text>
+
+    <!-- ============== DRAWING CONTENT — JAMB, horizontal plan section ============== -->
+    <!-- Exterior at LEFT (x=60). Interior at RIGHT (x=250+ into window). Wall runs top-to-bottom. Window opening occupies mid-band (y=220–360). -->
+
+    <!-- Wall assembly (continues top & bottom with break lines) -->
+    <!-- Exterior cladding (fibre-cement, generic) -->
+    <rect x="60" y="100" width="12" height="400" fill="#cfc9b8"/>
+    <rect x="60" y="100" width="12" height="400" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Rain-screen cavity (vertical strapping) -->
+    <rect x="72" y="100" width="6" height="400" fill="#ffffff"/>
+    <line x1="72" y1="100" x2="72" y2="500" stroke="#1a1a1a" stroke-width="0.5"/>
+    <line x1="78" y1="100" x2="78" y2="500" stroke="#1a1a1a" stroke-width="0.5"/>
+    <!-- WRB (weather-resistive barrier) -->
+    <line x1="78" y1="100" x2="78" y2="500" stroke="#0b3d91" stroke-width="0.9"/>
+    <!-- OSB exterior skin -->
+    <rect x="78" y="100" width="10" height="400" fill="url(#osb)"/>
+    <rect x="78" y="100" width="10" height="400" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- EPS SIP core (split by window opening) -->
+    <rect x="88" y="100" width="140" height="120" fill="url(#eps)"/>
+    <rect x="88" y="100" width="140" height="120" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="88" y="360" width="140" height="140" fill="url(#eps)"/>
+    <rect x="88" y="360" width="140" height="140" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- OSB interior skin (split) -->
+    <rect x="228" y="100" width="10" height="120" fill="url(#osb)"/>
+    <rect x="228" y="100" width="10" height="120" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="228" y="360" width="10" height="140" fill="url(#osb)"/>
+    <rect x="228" y="360" width="10" height="140" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Gypsum interior finish -->
+    <rect x="238" y="100" width="13" height="120" fill="url(#gyp)"/>
+    <rect x="238" y="100" width="13" height="120" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <rect x="238" y="360" width="13" height="140" fill="url(#gyp)"/>
+    <rect x="238" y="360" width="13" height="140" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+
+    <!-- Heavy wall cut envelope (top & bottom block edges, wall silhouette) -->
+    <line x1="60" y1="100" x2="251" y2="100" stroke="#1a1a1a" stroke-width="2.8"/>
+    <line x1="60" y1="500" x2="251" y2="500" stroke="#1a1a1a" stroke-width="2.8"/>
+    <!-- Wall exterior silhouette -->
+    <line x1="60" y1="100" x2="60" y2="500" stroke="#1a1a1a" stroke-width="1.8"/>
+    <line x1="251" y1="100" x2="251" y2="500" stroke="#1a1a1a" stroke-width="1.8"/>
+
+    <!-- Break lines (top & bottom — wall continues above/below) -->
+    <path d="M 60 110 L 95 110 L 102 104 L 115 116 L 128 104 L 141 116 L 154 104 L 167 116 L 180 104 L 193 116 L 206 104 L 219 116 L 232 110 L 251 110" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    <path d="M 60 490 L 95 490 L 102 484 L 115 496 L 128 484 L 141 496 L 154 484 L 167 496 L 180 484 L 193 496 L 206 484 L 219 496 L 232 490 L 251 490" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+
+    <!-- ============== WINDOW OPENING (RO from y=220 to y=360) ============== -->
+    <!-- Top jamb buck (wood) -->
+    <rect x="88" y="220" width="140" height="22" fill="url(#wood)"/>
+    <rect x="88" y="220" width="140" height="22" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Bottom jamb buck -->
+    <rect x="88" y="338" width="140" height="22" fill="url(#wood)"/>
+    <rect x="88" y="338" width="140" height="22" fill="none" stroke="#1a1a1a" stroke-width="0.6"/>
+    <!-- Jamb buck silhouette -->
+    <rect x="88" y="220" width="140" height="22" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <rect x="88" y="338" width="140" height="22" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+
+    <!-- Low-expansion foam in shim gap -->
+    <rect x="88" y="242" width="140" height="8" fill="url(#insul)"/>
+    <rect x="88" y="242" width="140" height="8" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <rect x="88" y="330" width="140" height="8" fill="url(#insul)"/>
+    <rect x="88" y="330" width="140" height="8" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- PVC nailing flange - extends outward over WRB -->
+    <path d="M 74 250 L 74 330 L 88 330 L 88 250 Z" fill="#cfd6dd"/>
+    <path d="M 74 250 L 74 330 L 88 330 L 88 250 Z" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+
+    <!-- Window frame body -->
+    <rect x="88" y="250" width="115" height="80" fill="#e2e7ec"/>
+    <rect x="88" y="250" width="115" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+    <!-- Internal chamber walls -->
+    <line x1="118" y1="250" x2="118" y2="330" stroke="#1a1a1a" stroke-width="0.6"/>
+    <line x1="175" y1="250" x2="175" y2="330" stroke="#1a1a1a" stroke-width="0.6"/>
+    <line x1="88"  y1="278" x2="203" y2="278" stroke="#1a1a1a" stroke-width="0.5"/>
+    <line x1="88"  y1="302" x2="203" y2="302" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Thermal break (polyamide strip within frame) -->
+    <rect x="142" y="250" width="8" height="80" fill="#3d3d3d"/>
+    <rect x="142" y="250" width="8" height="80" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Glazing bead + IGU -->
+    <rect x="203" y="254" width="3" height="72" fill="#bfc6cb"/>
+    <rect x="203" y="254" width="3" height="72" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <!-- IGU panes with argon gaps -->
+    <!-- Outer pane -->
+    <rect x="206" y="258" width="4" height="64" fill="#c8e2ee" opacity="0.75"/>
+    <rect x="206" y="258" width="4" height="64" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <!-- Low-e surface #2 (tint on inner face of outer pane) -->
+    <line x1="210" y1="258" x2="210" y2="322" stroke="#7fa8c7" stroke-width="1.2"/>
+    <!-- Argon gap 1 -->
+    <rect x="210" y="258" width="14" height="64" fill="#f2f6f9" opacity="0.4"/>
+    <rect x="212" y="287" width="10" height="10" fill="#fff" stroke="none"/>
+    <text x="217" y="294" font-family="Arial" font-size="7" text-anchor="middle" fill="#555" font-style="italic">Ar</text>
+    <!-- Middle pane -->
+    <rect x="224" y="258" width="4" height="64" fill="#c8e2ee" opacity="0.75"/>
+    <rect x="224" y="258" width="4" height="64" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <!-- Argon gap 2 -->
+    <rect x="228" y="258" width="14" height="64" fill="#f2f6f9" opacity="0.4"/>
+    <rect x="230" y="287" width="10" height="10" fill="#fff" stroke="none"/>
+    <text x="235" y="294" font-family="Arial" font-size="7" text-anchor="middle" fill="#555" font-style="italic">Ar</text>
+    <!-- Low-e surface #5 (tint on outer face of inner pane) -->
+    <line x1="242" y1="258" x2="242" y2="322" stroke="#7fa8c7" stroke-width="1.2"/>
+    <!-- Inner pane -->
+    <rect x="242" y="258" width="4" height="64" fill="#c8e2ee" opacity="0.75"/>
+    <rect x="242" y="258" width="4" height="64" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- Warm-edge spacer at top and bottom of IGU -->
+    <rect x="206" y="254" width="40" height="4" fill="#5b5048"/>
+    <rect x="206" y="254" width="40" height="4" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+    <rect x="206" y="322" width="40" height="4" fill="#5b5048"/>
+    <rect x="206" y="322" width="40" height="4" fill="none" stroke="#1a1a1a" stroke-width="0.5"/>
+
+    <!-- IGU break line at right (pane continues into window interior) -->
+    <path d="M 246 258 L 260 258 L 265 253 L 270 263 L 275 258 L 290 258" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    <path d="M 246 326 L 260 326 L 265 321 L 270 331 L 275 326 L 290 326" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linejoin="round"/>
+
+    <!-- Exterior sealant at flange/cladding junction -->
+    <rect x="72" y="248" width="6" height="4" fill="#4a4a4a"/>
+    <rect x="72" y="328" width="6" height="4" fill="#4a4a4a"/>
+
+    <!-- Interior backer rod + sealant -->
+    <circle cx="212" cy="333" r="2" fill="#6b6b6b"/>
+    <rect x="205" y="334" width="14" height="3" fill="#4a4a4a"/>
+    <circle cx="212" cy="247" r="2" fill="#6b6b6b"/>
+    <rect x="205" y="243" width="14" height="3" fill="#4a4a4a"/>
+
+    <!-- Head flashing (above window - Z flashing extending behind WRB) -->
+    <path d="M 60 218 L 88 218 L 88 214 L 78 214 L 78 210 L 60 210 Z" fill="#c0c6cb" stroke="#1a1a1a" stroke-width="1.2"/>
+    <!-- drip hem -->
+    <line x1="60" y1="218" x2="58" y2="224" stroke="#1a1a1a" stroke-width="1.2"/>
+
+    <!-- Sill pan flashing (sloped outward with back-dam) -->
+    <path d="M 88 362 L 228 362 L 228 360 L 90 360 L 90 354 L 86 354 L 86 362 L 78 366 L 60 370 L 60 368 L 80 364 L 86 360 Z" fill="#c0c6cb" stroke="#1a1a1a" stroke-width="1.2"/>
+    <!-- end-dam tick symbol (sill pan return) -->
+    <line x1="88" y1="354" x2="88" y2="348" stroke="#1a1a1a" stroke-width="1.4"/>
+
+    <!-- ============== DIMENSIONS ============== -->
+    <!-- Wall thickness -->
+    <line x1="60"  y1="512" x2="60"  y2="524" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="251" y1="512" x2="251" y2="524" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="60"  y1="518" x2="251" y2="518" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="120" y="505" width="70" height="12" fill="#fff" stroke="none"/>
+    <text x="155" y="514" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500">191 mm WALL</text>
+
+    <!-- Window frame width -->
+    <line x1="88"  y1="528" x2="88"  y2="540" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="203" y1="528" x2="203" y2="540" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="88"  y1="534" x2="203" y2="534" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <rect x="118" y="521" width="54" height="12" fill="#fff" stroke="none"/>
+    <text x="145" y="530" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500">115 FRAME</text>
+
+    <!-- IGU thickness vertical dim -->
+    <line x1="295" y1="258" x2="307" y2="258" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="295" y1="326" x2="307" y2="326" stroke="#1a1a1a" stroke-width="0.4"/>
+    <line x1="301" y1="258" x2="301" y2="326" stroke="#1a1a1a" stroke-width="0.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="324" y="295" text-anchor="middle" font-family="Arial" font-size="10" font-weight="500">IGU 40</text>
+
+    <!-- ============== KEYNOTE BUBBLES + LEADERS ============== -->
+    <!-- 1: Triple-pane IGU -->
+    <line x1="420" y1="160" x2="228" y2="290" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="228" cy="290" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="160" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="163.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">1</text></g>
+
+    <!-- 2: Warm-edge spacer -->
+    <line x1="420" y1="210" x2="226" y2="256" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="226" cy="256" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="210" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="213.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">2</text></g>
+
+    <!-- 3: Thermal break -->
+    <line x1="420" y1="260" x2="150" y2="290" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="150" cy="290" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="260" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="263.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">3</text></g>
+
+    <!-- 4: PVC nailing flange / head flashing -->
+    <line x1="420" y1="310" x2="76" y2="290" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="76" cy="290" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="310" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="313.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">4</text></g>
+
+    <!-- 5: Sill pan flashing -->
+    <line x1="420" y1="360" x2="155" y2="362" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="155" cy="362" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="360" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="363.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">5</text></g>
+
+    <!-- 6: Sealant + backer rod -->
+    <line x1="420" y1="410" x2="218" y2="334" stroke="#1a1a1a" stroke-width="0.5"/>
+    <circle cx="218" cy="334" r="1.5" fill="#1a1a1a"/>
+    <g><circle cx="429" cy="410" r="9" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="429" y="413.5" text-anchor="middle" font-family="Arial" font-size="10" font-weight="700">6</text></g>
+
+    <!-- ============== KEYNOTE LEGEND ============== -->
+    <g transform="translate(445, 140)">
+      <text x="0" y="0" font-family="Arial" font-size="10" font-weight="700">KEYNOTES</text>
+      <line x1="0" y1="4" x2="105" y2="4" stroke="#1a1a1a" stroke-width="0.5"/>
+
+      <g transform="translate(0, 24)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">1</text>
+        <text x="22" y="0" font-family="Arial" font-size="9.5" font-weight="600">TRIPLE-PANE IGU</text>
+        <text x="22" y="10" font-family="Arial" font-size="8.5" fill="#555">4-16-4-16-4 mm, argon fill</text>
+        <text x="22" y="20" font-family="Arial" font-size="8.5" fill="#555">low-e srf #2 &amp; #5</text>
+        <text x="22" y="30" font-family="Arial" font-size="8.5" fill="#555">U = 0.90 W/m&#178;&#183;K</text>
+      </g>
+
+      <g transform="translate(0, 72)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">2</text>
+        <text x="22" y="0" font-family="Arial" font-size="9.5" font-weight="600">WARM-EDGE SPACER</text>
+        <text x="22" y="10" font-family="Arial" font-size="8.5" fill="#555">Non-metallic composite</text>
+        <text x="22" y="20" font-family="Arial" font-size="8.5" fill="#555">desiccant-filled</text>
+      </g>
+
+      <g transform="translate(0, 112)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">3</text>
+        <text x="22" y="0" font-family="Arial" font-size="9.5" font-weight="600">THERMAL BREAK</text>
+        <text x="22" y="10" font-family="Arial" font-size="8.5" fill="#555">Polyamide / glass-fibre</text>
+        <text x="22" y="20" font-family="Arial" font-size="8.5" fill="#555">strut in frame</text>
+      </g>
+
+      <g transform="translate(0, 152)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">4</text>
+        <text x="22" y="0" font-family="Arial" font-size="9.5" font-weight="600">PVC FLANGE + HEAD FLSH</text>
+        <text x="22" y="10" font-family="Arial" font-size="8.5" fill="#555">Flange lapped over WRB</text>
+        <text x="22" y="20" font-family="Arial" font-size="8.5" fill="#555">Z-flashing at head, drip hem</text>
+      </g>
+
+      <g transform="translate(0, 192)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">5</text>
+        <text x="22" y="0" font-family="Arial" font-size="9.5" font-weight="600">SILL PAN FLASHING</text>
+        <text x="22" y="10" font-family="Arial" font-size="8.5" fill="#555">Self-adhered membrane</text>
+        <text x="22" y="20" font-family="Arial" font-size="8.5" fill="#555">sloped out, back + end dams</text>
+      </g>
+
+      <g transform="translate(0, 232)">
+        <circle cx="8" cy="-3" r="7" fill="#fff" stroke="#1a1a1a" stroke-width="1"/>
+        <text x="8" y="0" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700">6</text>
+        <text x="22" y="0" font-family="Arial" font-size="9.5" font-weight="600">SEALANT + BACKER ROD</text>
+        <text x="22" y="10" font-family="Arial" font-size="8.5" fill="#555">Low-mod silicone over</text>
+        <text x="22" y="20" font-family="Arial" font-size="8.5" fill="#555">closed-cell backer rod</text>
+      </g>
+    </g>
+
+    <!-- ============== SCALE BAR ============== -->
+    <g transform="translate(240, 560)">
+      <text x="50" y="-4" font-family="Arial" font-size="9" text-anchor="middle" font-weight="600">SCALE 1:5</text>
+      <rect x="0"  y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="25" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <rect x="50" y="0" width="25" height="5" fill="#1a1a1a"/>
+      <rect x="75" y="0" width="25" height="5" fill="#fff" stroke="#1a1a1a" stroke-width="0.4"/>
+      <text x="-3"  y="16" font-family="Arial" font-size="7.5">0</text>
+      <text x="47"  y="16" font-family="Arial" font-size="7.5" text-anchor="middle">250</text>
+      <text x="103" y="16" font-family="Arial" font-size="7.5">500 mm</text>
+    </g>
+
+    <!-- ============== TITLE BLOCK ============== -->
+    <rect x="580" y="30" width="300" height="560" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <g transform="translate(592, 45)">
+      <rect x="0" y="0" width="150" height="40" fill="none" stroke="#9c2a2a" stroke-width="1.5"/>
+      <text x="75" y="17" font-family="Arial" font-size="10" font-weight="bold" fill="#9c2a2a" text-anchor="middle">ISSUED FOR</text>
+      <text x="75" y="32" font-family="Arial" font-size="12" font-weight="bold" fill="#9c2a2a" text-anchor="middle">CONSTRUCTION</text>
+    </g>
+    <text x="755" y="55" font-family="Arial" font-size="9">Rev: 02</text>
+    <text x="755" y="70" font-family="Arial" font-size="9">2026-04-19</text>
+
+    <line x1="590" y1="100" x2="870" y2="100" stroke="#1a1a1a" stroke-width="0.8"/>
+    <text x="600" y="124" font-family="Arial" font-size="10" font-weight="bold">PROJECT</text>
+    <text x="600" y="141" font-family="Arial" font-size="12">AXIS MODULAR — SIP SERIES</text>
+    <text x="600" y="155" font-family="Arial" font-size="9" fill="#555">42&#8242; &#215; 12&#8242; · ≈504 SF · 1 BDRM · Grid-Connected</text>
+
+    <line x1="590" y1="168" x2="870" y2="168" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="188" font-family="Arial" font-size="10" font-weight="bold">DETAIL</text>
+    <text x="600" y="205" font-family="Arial" font-size="12">TRIPLE-PANE WINDOW / JAMB</text>
+    <text x="600" y="219" font-family="Arial" font-size="10" fill="#555">Architectural · OBC 9.7 / CSA A440.2</text>
+
+    <line x1="590" y1="233" x2="870" y2="233" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="253" font-family="Arial" font-size="10" font-weight="bold">GENERAL NOTES</text>
+    <text x="600" y="270" font-family="Arial" font-size="9">1. IGU U &#8804; 0.90 W/m&#178;&#183;K per CSA A440.2.</text>
+    <text x="600" y="283" font-family="Arial" font-size="9">2. Flash openings per OBC 9.27.3; lap WRB shingle-fashion.</text>
+    <text x="600" y="296" font-family="Arial" font-size="9">3. Continuous air barrier per OBC 9.25.3; seal to WRB.</text>
+    <text x="600" y="309" font-family="Arial" font-size="9">4. Shim space foam-filled, window-rated low-expansion PU.</text>
+    <text x="600" y="322" font-family="Arial" font-size="9">5. Fastener schedule [TBD per Site Engineer].</text>
+
+    <line x1="590" y1="360" x2="870" y2="360" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="380" font-family="Arial" font-size="10" font-weight="bold">DRAWN</text>
+    <text x="670" y="380" font-family="Arial" font-size="10">AXIS — BIM</text>
+    <text x="600" y="395" font-family="Arial" font-size="10" font-weight="bold">CHECKED</text>
+    <text x="670" y="395" font-family="Arial" font-size="10">LMB, P.Eng.</text>
+    <text x="600" y="410" font-family="Arial" font-size="10" font-weight="bold">APPROVED</text>
+    <text x="670" y="410" font-family="Arial" font-size="10">[stamp required]</text>
+
+    <line x1="590" y1="425" x2="870" y2="425" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="445" font-family="Arial" font-size="10" font-weight="bold">SCALE</text>
+    <text x="670" y="445" font-family="Arial" font-size="10">1:5</text>
+    <text x="600" y="462" font-family="Arial" font-size="10" font-weight="bold">SHEET</text>
+    <text x="670" y="462" font-family="Arial" font-size="10">A-302</text>
+    <text x="600" y="479" font-family="Arial" font-size="10" font-weight="bold">PROJECT NO.</text>
+    <text x="700" y="479" font-family="Arial" font-size="10">2026-042</text>
+    <text x="600" y="496" font-family="Arial" font-size="10" font-weight="bold">REV</text>
+    <text x="670" y="496" font-family="Arial" font-size="10">02 — IFC</text>
+
+    <line x1="590" y1="515" x2="870" y2="515" stroke="#1a1a1a" stroke-width="0.5"/>
+    <text x="600" y="535" font-family="Arial" font-size="8" fill="#555">© 2026 Axis Modular Homes</text>
+    <text x="600" y="548" font-family="Arial" font-size="8" fill="#555">All dimensions in mm U.N.O.</text>
+    <text x="600" y="561" font-family="Arial" font-size="8" fill="#555">Do not scale from drawing</text>
+    <text x="600" y="574" font-family="Arial" font-size="8" fill="#555">Drop &amp; Go modular chassis</text>
+  </svg>
+
+  <details open>
+    <summary>A-302: Triple-pane argon IGU, U = 0.90 W/m&#178;&#183;K · Expand for full spec</summary>
+    <ul>
+      <li>IGU: 4-16-4-16-4 mm triple pane; argon fill both cavities; low-e coatings on surfaces #2 and #5.</li>
+      <li>Warm-edge non-metallic composite spacer, desiccant-filled, continuous bead top &amp; bottom.</li>
+      <li>Frame: multi-chamber extrusion with polyamide / glass-fibre thermal-break strut.</li>
+      <li>PVC nailing flange lapped over WRB; membrane tape sequenced sill &#8594; jambs &#8594; head.</li>
+      <li>Sill pan: self-adhered membrane, sloped outward &#8805; 6&#176;, with back-dam and end-dams.</li>
+      <li>Head flashing: Z-flashing with min. 6&#176; slope, hemmed drip edge projecting beyond cladding.</li>
+      <li>Interior air seal: low-mod silicone bead over closed-cell backer rod; continuous at all 4 sides.</li>
+      <li>Shim space: window-rated low-expansion PU foam; no solid shims in load path of frame.</li>
+      <li>Window U-factor per CSA A440.2; Energy Rating target &#8805; 34 for Climate Zone 6.</li>
+    </ul>
+  </details>
+
+  <section class="tech-note">
+    <h3 style="margin:0 0 .3rem;font-size:.9rem;">Technical Note — Code &amp; Reference</h3>
+    <ul style="margin:0 0 0 1rem;padding:0;">
+      <li><code class="ref">OBC 9.7</code> — Windows, doors and skylights.</li>
+      <li><code class="ref">OBC 9.27.3</code> — Flashing installation at openings.</li>
+      <li><code class="ref">OBC 9.25.3</code> — Air barrier systems; continuity to WRB required.</li>
+      <li><code class="ref">OBC 9.25.4</code> — Vapour barrier on warm-in-winter side.</li>
+      <li><code class="ref">OBC 9.36.2.6 / 9.36.2.8</code> — Effective thermal resistance, Climate Zone 6.</li>
+      <li><code class="ref">CSA A440.2</code> — Fenestration energy performance.</li>
+      <li>U-factor formula: <code class="ref">U [W/m²·K] = 1 / (R_imp × 0.1761)</code>.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
