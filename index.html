@@ -217,9 +217,10 @@ html, body {
 
 /* ───────────────── Project cards ───────────────── */
 .projects {
-  display: flex; gap: 12px;
-  flex-wrap: wrap; justify-content: center;
-  max-width: 700px; padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 200px);
+  gap: 12px;
+  padding: 0 20px;
   margin-top: 22vh;
 }
 
@@ -526,7 +527,7 @@ html, body {
       <div class="card-title">Axis Modular</div>
       <div class="card-desc">Web-based tool to visualize construction projects. Easy to use, built for clarity from concept to build.</div>
     </a>
-    <a href="https://claude.ai/public/artifacts/43000c9b-b397-4197-a566-d5a18d61fe9a" class="card c5" target="_blank" rel="noopener noreferrer">
+    <a href="https://ylabs.ca/baseball" class="card c5" target="_blank" rel="noopener noreferrer">
       <svg class="card-icon" viewBox="0 0 180 180" aria-hidden="true">
         <rect x="10" y="10" width="160" height="160" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
         <g transform="translate(90,90)" fill="none" stroke="white" stroke-width="1.58" stroke-linecap="round">
