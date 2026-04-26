@@ -1,1 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AxisBuild — Contractor Takeoff</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111a32;
+      --panel-2: #18223f;
+      --text: #e6edf7;
+      --muted: #9fb0cc;
+      --brand: #5ea6ff;
+      --line: #2a3a61;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top right, #16264a, #070b16 45%);
+      color: var(--text);
+      font: 14px/1.4 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #091127cc;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(6px);
+    }
+    h1 { margin: 0; font-size: 18px; }
+    .subtitle { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 64px);
+    }
+
+    .steps {
+      border-right: 1px solid var(--line);
+      background: #0b1327;
+      padding: 12px;
+    }
+    .step-btn {
+      width: 100%;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #121d39;
+      color: var(--text);
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .step-btn.active { border-color: var(--brand); background: #16325f; }
+
+    .content {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: #0b1530d9;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #cde0ff;
+    }
+
+    .hidden { display: none; }
+
+    label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+    input, select, textarea, button {
+      width: 100%;
+      border: 1px solid #31446f;
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 3px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    button { cursor: pointer; background: #255ec7; font-weight: 700; }
+    button.secondary { background: #293a5f; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    .viewer {
+      height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #050b1b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    iframe { width: 100%; height: 100%; border: 0; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid var(--line); padding: 6px; }
+    th { background: #162748; }
+
+    .pill { padding: 2px 8px; border-radius: 999px; font-size: 11px; }
+    .ok { background: #14532d; }
+    .warn { background: #78350f; }
+    .bad { background: #7f1d1d; }
+
+    #modelViewport {
+      width: 100%;
+      height: 480px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: #02060f;
+    }
+
+    .muted { color: var(--muted); font-size: 12px; }
+
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; }
+      .content { grid-template-columns: 1fr; }
+      .steps { border-right: none; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .step-btn { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AxisBuild — Estimator Workflow</h1>
+    <div class="subtitle">Cleaner flow + true interactive 3D model viewer (orbit / zoom / pan)</div>
+  </header>
+
+  <div class="app">
+    <aside class="steps" id="stepNav">
+      <button class="step-btn active" data-step="1">1) Project Setup</button>
+      <button class="step-btn" data-step="2">2) Upload + Sheets</button>
+      <button class="step-btn" data-step="3">3) Scale + Measure</button>
+      <button class="step-btn" data-step="4">4) AI Extraction Review</button>
+      <button class="step-btn" data-step="5">5) Takeoff + Notes</button>
+      <button class="step-btn" data-step="6">6) 3D + Export</button>
+    </aside>
+
+    <main class="content">
+      <section>
+        <div class="card step-panel" data-step="1">
+          <h2>Project dashboard</h2>
+          <div class="grid-2">
+            <label>Project name<input id="projectName" placeholder="Medical Office TI" /></label>
+            <label>Address<input id="projectAddress" placeholder="123 Main St" /></label>
+          </div>
+          <div class="grid-2">
+            <label>Project type
+              <select id="projectType"><option>Commercial</option><option>Residential</option><option>Mixed Use</option></select>
+            </label>
+            <label>Estimator<input id="projectEstimator" placeholder="Yves" /></label>
+          </div>
+          <button id="saveProject">Save Project</button>
+          <div id="projectSummary" class="muted">No project saved.</div>
+        </div>
+
+        <div class="card step-panel hidden" data-step="2">
+          <h2>PDF upload + sheet detection/classification</h2>
+          <input type="file" id="pdfUpload" multiple accept="application/pdf" />
+          <button id="detectSheets">Detect & Classify Sheets</button>
+          <ul id="sheetList"></ul>
+          <div class="viewer" id="pdfViewer"><span class="muted">Select an uploaded PDF to preview.</span></div>
+          <ul id="pdfList"></ul>
+        </div>
+
+        <div class="card step-panel hidden" data-step="3">
+          <h2>Scale confirmation + manual measurement</h2>
+          <div class="grid-2">
+            <label>Drawing inches<input id="drawingInches" type="number" value="1" step="0.01" /></label>
+            <label>Real feet<input id="realFeet" type="number" value="4" step="0.01" /></label>
+          </div>
+          <button id="confirmScale">Confirm Scale</button>
+          <div id="scaleOut" class="muted"></div>
+
+          <div class="grid-2" style="margin-top:8px;">
+            <label>Measurement name<input id="measureName" placeholder="W-101" /></label>
+            <label>Length (ft)<input id="measureLength" type="number" step="0.01" /></label>
+          </div>
+          <button id="addMeasurement" class="secondary">Add Measurement</button>
+          <ul id="measurementList"></ul>
+        </div>
+
+        <div class="card step-panel hidden" data-step="4">
+          <h2>AI-assisted extraction (rooms, dimensions, walls, doors, windows)</h2>
+          <button id="runExtraction">Run Extraction</button>
+          <div id="extractSummary" class="muted"></div>
+          <pre id="extractPreview" class="muted" style="white-space:pre-wrap"></pre>
+        </div>
+
+        <div class="card step-panel hidden" data-step="5">
+          <h2>Material takeoff by trade (editable)</h2>
+          <table>
+            <thead><tr><th>Trade</th><th>Item</th><th>Qty</th><th>Unit</th><th>Source</th></tr></thead>
+            <tbody id="takeoffBody"></tbody>
+          </table>
+
+          <h2 style="margin-top:12px;">Trade notes generator</h2>
+          <div class="grid-2">
+            <label>Trade
+              <select id="tradeType"><option>Framing</option><option>Drywall</option><option>Electrical</option><option>Plumbing</option><option>Openings</option></select>
+            </label>
+            <label>Tone
+              <select id="noteTone"><option>Field-ready</option><option>Concise</option><option>Detailed</option></select>
+            </label>
+          </div>
+          <button id="generateNotes" class="secondary">Generate Notes</button>
+          <textarea id="notesOut" rows="6"></textarea>
+
+          <h2 style="margin-top:12px;">Warnings / assumptions</h2>
+          <div class="grid-2">
+            <label>Type<select id="warningType"><option>warning</option><option>assumption</option><option>critical</option></select></label>
+            <label>Message<input id="warningMessage" placeholder="Ceiling height missing on A2.1" /></label>
+          </div>
+          <button id="addWarning" class="secondary">Add Warning</button>
+          <ul id="warningList"></ul>
+        </div>
+
+        <div class="card step-panel hidden" data-step="6">
+          <h2>Exports</h2>
+          <div class="grid-2">
+            <button id="exportExcel">Export Excel (CSV)</button>
+            <button id="exportPdf">Export PDF (Print)</button>
+          </div>
+          <div class="muted">Quantities exported are always the currently edited values from the takeoff table.</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="card">
+          <h2>Interactive 3D model</h2>
+          <div id="modelViewport"></div>
+          <div class="muted">Use mouse: rotate (left), pan (right), zoom (wheel). Generated from detected wall geometry.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/three@0.163.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.163.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    const state = {
+      project: null,
+      pdfs: [],
+      sheets: [],
+      measurements: [],
+      extraction: null,
+      warnings: [
+        { type: 'warning', msg: 'Scale assumed from title block on first architectural sheet.' },
+        { type: 'assumption', msg: 'Wall thickness defaulted to 4.5 inches where unspecified.' }
+      ],
+      wallGeometry: [],
+      takeoffRows: []
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    // Stepper
+    document.querySelectorAll('.step-btn').forEach((btn) => {
+      btn.onclick = () => {
+        const step = btn.dataset.step;
+        document.querySelectorAll('.step-btn').forEach((b) => b.classList.toggle('active', b === btn));
+        document.querySelectorAll('.step-panel').forEach((panel) => {
+          panel.classList.toggle('hidden', panel.dataset.step !== step);
+        });
+      };
+    });
+
+    // Project
+    $('saveProject').onclick = () => {
+      state.project = {
+        name: $('projectName').value || 'Untitled',
+        address: $('projectAddress').value || 'No address',
+        type: $('projectType').value,
+        estimator: $('projectEstimator').value || 'Unassigned'
+      };
+      $('projectSummary').textContent = `${state.project.name} • ${state.project.type} • ${state.project.address} • Estimator: ${state.project.estimator}`;
+    };
+
+    // Upload + viewer
+    $('pdfUpload').onchange = (e) => {
+      [...e.target.files].forEach((file) => {
+        state.pdfs.push({ name: file.name, url: URL.createObjectURL(file), size: file.size });
+      });
+      renderPdfList();
+    };
+
+    function renderPdfList() {
+      const list = $('pdfList');
+      list.innerHTML = '';
+      state.pdfs.forEach((pdf, idx) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<button class="secondary" style="width:auto; padding:4px 8px;" data-open="${idx}">View</button> ${pdf.name}`;
+        list.appendChild(li);
+      });
+      list.querySelectorAll('button[data-open]').forEach((btn) => {
+        btn.onclick = () => {
+          const f = state.pdfs[Number(btn.dataset.open)];
+          $('pdfViewer').innerHTML = `<iframe src="${f.url}"></iframe>`;
+        };
+      });
+    }
+
+    $('detectSheets').onclick = () => {
+      state.sheets = state.pdfs.map((pdf, idx) => ({
+        id: `S-${String(idx + 1).padStart(3, '0')}`,
+        name: pdf.name,
+        classification: classifySheet(pdf.name)
+      }));
+      renderSheets();
+      if (!state.sheets.length) {
+        state.warnings.push({ type: 'critical', msg: 'No PDF sheets uploaded. Detection could not run.' });
+      }
+      renderWarnings();
+    };
+
+    function classifySheet(name) {
+      const t = name.toLowerCase();
+      if (t.includes('a') || t.includes('arch')) return 'Architectural';
+      if (t.includes('e') || t.includes('elec')) return 'Electrical';
+      if (t.includes('p') || t.includes('plumb')) return 'Plumbing';
+      return 'General';
+    }
+
+    function renderSheets() {
+      const list = $('sheetList');
+      list.innerHTML = '';
+      state.sheets.forEach((s) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${s.id}</strong> — ${s.name} <span class="pill ok">${s.classification}</span>`;
+        list.appendChild(li);
+      });
+    }
+
+    // Scale + measurement
+    $('confirmScale').onclick = () => {
+      const d = Number($('drawingInches').value || 1);
+      const r = Number($('realFeet').value || 1);
+      $('scaleOut').textContent = `Scale confirmed: 1" = ${(r / d).toFixed(2)}'-0"`;
+    };
+
+    $('addMeasurement').onclick = () => {
+      state.measurements.push({
+        name: $('measureName').value || `Measure-${state.measurements.length + 1}`,
+        length: Number($('measureLength').value || 0)
+      });
+      renderMeasurements();
+    };
+
+    function renderMeasurements() {
+      $('measurementList').innerHTML = state.measurements.map((m) => `<li>${m.name}: ${m.length} ft</li>`).join('');
+    }
+
+    // Extraction
+    $('runExtraction').onclick = () => {
+      const extraction = {
+        rooms: [
+          { name: 'Office 101', areaSf: 142 },
+          { name: 'Conference 102', areaSf: 188 },
+          { name: 'Break Room 103', areaSf: 96 }
+        ],
+        dimensions: [{ label: 'Overall Width', valueFt: 42 }, { label: 'Overall Length', valueFt: 68 }],
+        walls: [{ id: 'W1', lengthFt: 42 }, { id: 'W2', lengthFt: 68 }, { id: 'W3', lengthFt: 42 }, { id: 'W4', lengthFt: 68 }],
+        doors: [{ id: 'D1' }, { id: 'D2' }, { id: 'D3' }],
+        windows: [{ id: 'WIN1' }, { id: 'WIN2' }]
+      };
+
+      state.extraction = extraction;
+      state.wallGeometry = [
+        { x1: 0, z1: 0, x2: 42, z2: 0 },
+        { x1: 42, z1: 0, x2: 42, z2: 68 },
+        { x1: 42, z1: 68, x2: 0, z2: 68 },
+        { x1: 0, z1: 68, x2: 0, z2: 0 }
+      ];
+      state.takeoffRows = generateTakeoff(extraction);
+
+      $('extractSummary').textContent = `Detected ${extraction.rooms.length} rooms, ${extraction.walls.length} walls, ${extraction.doors.length} doors, ${extraction.windows.length} windows.`;
+      $('extractPreview').textContent = JSON.stringify(extraction, null, 2);
+
+      renderTakeoff();
+      render3D();
+    };
+
+    function generateTakeoff(ext) {
+      const wallLf = ext.walls.reduce((sum, w) => sum + w.lengthFt, 0);
+      return [
+        { trade: 'Framing', item: '2x4 Stud Wall', qty: wallLf, unit: 'LF', source: 'AI + measurement' },
+        { trade: 'Drywall', item: '5/8" GWB', qty: wallLf * 8, unit: 'SF', source: 'AI room envelope' },
+        { trade: 'Openings', item: 'Single Doors', qty: ext.doors.length, unit: 'EA', source: 'AI openings' },
+        { trade: 'Openings', item: 'Windows', qty: ext.windows.length, unit: 'EA', source: 'AI openings' },
+        { trade: 'Electrical', item: 'Receptacles (allowance)', qty: Math.max(6, ext.rooms.length * 2), unit: 'EA', source: 'Rule-based allowance' },
+        { trade: 'Plumbing', item: 'Fixtures (allowance)', qty: 2, unit: 'EA', source: 'Room tags' }
+      ];
+    }
+
+    function renderTakeoff() {
+      const body = $('takeoffBody');
+      body.innerHTML = '';
+      state.takeoffRows.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.trade}</td>
+          <td>${row.item}</td>
+          <td><input type="number" step="0.01" value="${row.qty}" data-idx="${idx}" /></td>
+          <td>${row.unit}</td>
+          <td>${row.source}</td>
+        `;
+        body.appendChild(tr);
+      });
+      body.querySelectorAll('input[data-idx]').forEach((input) => {
+        input.onchange = () => {
+          state.takeoffRows[Number(input.dataset.idx)].qty = Number(input.value);
+        };
+      });
+    }
+
+    // Notes + warnings
+    $('generateNotes').onclick = () => {
+      const trade = $('tradeType').value;
+      const tone = $('noteTone').value;
+      $('notesOut').value = `${trade} Notes (${tone}):\n- Verify dimensions in field before install.\n- Coordinate penetrations with MEP sheets.\n- Review warnings before procurement.\n- Confirm edited quantities before final export.`;
+    };
+
+    $('addWarning').onclick = () => {
+      const msg = $('warningMessage').value.trim();
+      if (!msg) return;
+      state.warnings.push({ type: $('warningType').value, msg });
+      $('warningMessage').value = '';
+      renderWarnings();
+    };
+
+    function renderWarnings() {
+      $('warningList').innerHTML = state.warnings.map((w) => {
+        const c = w.type === 'critical' ? 'bad' : (w.type === 'warning' ? 'warn' : 'ok');
+        return `<li><span class="pill ${c}">${w.type}</span> ${w.msg}</li>`;
+      }).join('');
+    }
+
+    // Export
+    $('exportExcel').onclick = () => {
+      const rows = [['Trade', 'Item', 'Qty', 'Unit', 'Source'], ...state.takeoffRows.map((r) => [r.trade, r.item, r.qty, r.unit, r.source])];
+      const csv = rows.map((r) => r.map((v) => `"${String(v).replaceAll('"', '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${(state.project?.name || 'project').replace(/\s+/g, '_')}_takeoff.csv`;
+      a.click();
+    };
+
+    $('exportPdf').onclick = () => {
+      const total = state.takeoffRows.reduce((sum, r) => sum + Number(r.qty || 0), 0);
+      const win = window.open('', '_blank');
+      win.document.write(`<html><body style="font-family:Arial;padding:20px"><h2>${state.project?.name || 'Project'} - Takeoff</h2><p>Total quantity sum: ${total.toFixed(2)}</p><p>Warnings: ${state.warnings.length}</p></body></html>`);
+      win.document.close();
+      win.focus();
+      win.print();
+    };
+
+    // 3D viewer (Three.js)
+    let scene, camera, renderer, controls, wallGroup;
+
+    function init3D() {
+      const mount = $('modelViewport');
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color('#02060f');
+
+      camera = new THREE.PerspectiveCamera(60, mount.clientWidth / mount.clientHeight, 0.1, 2000);
+      camera.position.set(70, 70, 90);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+      mount.innerHTML = '';
+      mount.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.target.set(20, 10, 20);
+      controls.update();
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+      const dir = new THREE.DirectionalLight(0xffffff, 1);
+      dir.position.set(30, 80, 40);
+      scene.add(dir);
+
+      const grid = new THREE.GridHelper(220, 22, 0x35518f, 0x1c2b4d);
+      scene.add(grid);
+
+      const floorGeo = new THREE.PlaneGeometry(220, 220);
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x0d1b36, side: THREE.DoubleSide });
+      const floor = new THREE.Mesh(floorGeo, floorMat);
+      floor.rotation.x = -Math.PI / 2;
+      scene.add(floor);
+
+      wallGroup = new THREE.Group();
+      scene.add(wallGroup);
+
+      animate();
+      window.addEventListener('resize', onResize);
+    }
+
+    function onResize() {
+      const mount = $('modelViewport');
+      if (!renderer || !mount.clientWidth || !mount.clientHeight) return;
+      camera.aspect = mount.clientWidth / mount.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+    }
+
+    function render3D() {
+      if (!wallGroup) return;
+      while (wallGroup.children.length) wallGroup.remove(wallGroup.children[0]);
+
+      const walls = state.wallGeometry.length ? state.wallGeometry : [
+        { x1: 0, z1: 0, x2: 24, z2: 0 },
+        { x1: 24, z1: 0, x2: 24, z2: 18 },
+        { x1: 24, z1: 18, x2: 0, z2: 18 },
+        { x1: 0, z1: 18, x2: 0, z2: 0 }
+      ];
+
+      walls.forEach((w) => {
+        const dx = w.x2 - w.x1;
+        const dz = w.z2 - w.z1;
+        const len = Math.hypot(dx, dz);
+        const wallThickness = 0.6;
+        const wallHeight = 10;
+
+        const geo = new THREE.BoxGeometry(len, wallHeight, wallThickness);
+        const mat = new THREE.MeshStandardMaterial({ color: 0x5ea6ff, roughness: 0.7, metalness: 0.1 });
+        const mesh = new THREE.Mesh(geo, mat);
+
+        mesh.position.set((w.x1 + w.x2) / 2, wallHeight / 2, (w.z1 + w.z2) / 2);
+        mesh.rotation.y = -Math.atan2(dz, dx);
+        wallGroup.add(mesh);
+      });
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    renderWarnings();
+    init3D();
+    render3D();
+  </script>
+</body>
+</html>
