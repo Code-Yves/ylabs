@@ -2099,7 +2099,7 @@
 <h1 id="titlebar-h1" class="sr-only">Axis Modular SIP Series — Grid-Connected Edition</h1>
 
 <div id="titlebar">
-  <p id="titlebar-p">42′ × 12′ · 525 SF · 1 Bedroom · SIP Panels · Helical Piers · Hydro / Well / Septic</p>
+  <p id="titlebar-p">42′ × 12′ · 504 SF · 1 Bedroom · SIP Panels · Helical Piers · Hydro / Well / Septic</p>
 </div>
 
 <!-- Top pill toolbar — Configs leads as the primary navigation; Render is
@@ -2148,7 +2148,7 @@
   </div>
 </div>
 
-<!-- Render modal (pre-rendered image per configuration, loaded from renders/<cfg>.jpg) -->
+<!-- Render modal (pre-rendered image per configuration, loaded from Renders/<cfg>.jpg) -->
 <div id="render-modal" role="dialog" aria-modal="true" aria-labelledby="render-modal-title" onclick="if(event.target===this) closeRenderModal()">
   <div id="render-modal-panel">
     <div class="render-modal-head">
@@ -2168,7 +2168,7 @@
       <div id="render-modal-empty">
         <strong>No render available yet</strong>
         Drop a photo-realistic image for this configuration into the
-        <code>renders/</code> folder, named
+        <code>Renders/</code> folder, named
         <code id="render-modal-expected">single.jpg</code>
         (or <code id="render-modal-expected-multi">single1.jpg</code>, <code>single2.jpg</code>… for multiples),
         and click Render again. Supported: <code>.jpg</code>, <code>.png</code>, <code>.webp</code>.
@@ -2285,6 +2285,9 @@
 <!-- html2canvas + jsPDF for PDF export of IFC sheets -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<!-- Canonical configuration data layer (Phase 1 centralization) -->
+<script src="js/config-data.js"></script>
+<script src="js/config-validator.js"></script>
 
 <script>
 'use strict';
@@ -2332,7 +2335,7 @@ function sheetRank(n){ const i = SHEET_INDEX.findIndex(s => s.n === n); return i
 // ─── Project constants for title block ───
 const PROJ_NO   = '2026-042';
 const PROJ_NAME = 'AXIS MODULAR SIP SERIES';
-const PROJ_SUB  = '42′ × 12′ · 525 SF · 1 BDRM';
+const PROJ_SUB  = '42′ × 12′ · 504 SF · 1 BDRM';
 const ISSUE_DATE= '2026-04-17';
 const ISSUE_TAG = 'ISSUED FOR CONSTRUCTION';
 const DRAWN_BY  = 'AXS';
@@ -5452,7 +5455,7 @@ function updateTitlebar() {
     return;
   }
   const width = isDuplex ? "24′" : "12′";
-  const baseSF = isStacked ? 1000 : 504;
+  const baseSF = isStacked ? 1008 : 504;
   const sf = isDuplex ? baseSF * 2 : baseSF;
   let cfg, program;
   if (!isStacked && !isDuplex)     { cfg="Single";    program="1 Bed · 1 Kitchen · 1 Bath"; }
@@ -5556,7 +5559,9 @@ const BP_SHEETS = [
   { n:'S-202', k:'framingPlan', file:'blueprints/S-202-framing-plan.html', title:'Floor Framing Plan',        disc:'Structural' },
   { n:'S-301', k:'steel',       file:'blueprints/S-301-steel.html',      title:'HSS Steel Chassis',           disc:'Structural' },
   { n:'A-101', k:'plan',        file:'blueprints/A-101-floor-plan.html', title:'Floor Plan — Ground',         disc:'Architectural' },
+  { n:'A-101U', k:'planU',      file:'blueprints/A-101U-floor-plan-ushape.html', title:'U-Shape Floor Plan — Base', disc:'Architectural' },
   { n:'A-102', k:'roofPlan',    file:'blueprints/A-102-roof-plan.html',  title:'Roof Plan — TPO + Parapet',   disc:'Architectural' },
+  { n:'A-103', k:'planUDetail', file:'blueprints/A-103-floor-plan-u-shape.html', title:'U-Shape Floor Plan — Detailed', disc:'Architectural' },
   { n:'A-201', k:'floor',       file:'blueprints/A-201-subfloor.html',   title:'Subfloor Assembly',           disc:'Architectural' },
   { n:'A-301', k:'sip',         file:'blueprints/A-301-sip-walls.html',  title:'SIP Wall Panel',              disc:'Architectural' },
   { n:'A-302', k:'window',      file:'blueprints/A-302-windows.html',    title:'Triple-Pane Window',          disc:'Architectural' },
@@ -5572,6 +5577,34 @@ const BP_SHEETS = [
   { n:'M-602', k:'hrv',         file:'blueprints/M-602-hrv.html',        title:'HRV Airflow Schematic',       disc:'Mechanical' }
 ];
 
+// Feature-flagged config-aware blueprint filtering (disabled by default to
+// preserve current visible behavior).
+const ENABLE_CONFIG_BLUEPRINT_FILTERING = false;
+function getBlueprintSheetsForConfig(cfgId) {
+  try {
+    if (!Array.isArray(BP_SHEETS) || !BP_SHEETS.length) return [];
+    const cfg = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS && cfgId) ? AXIS_CONFIGS[cfgId] : null;
+    const refs = cfg && Array.isArray(cfg.blueprintSheets) ? cfg.blueprintSheets : null;
+    if (!refs || !refs.length) return BP_SHEETS.slice();
+
+    const refSet = new Set(refs.map(r => String(r).trim()).filter(Boolean));
+    const filtered = BP_SHEETS.filter(s =>
+      s && (refSet.has(String(s.k || '').trim()) ||
+            refSet.has(String(s.n || '').trim()) ||
+            refSet.has(String(s.file || '').trim()))
+    );
+    return filtered.length ? filtered : BP_SHEETS.slice();
+  } catch (_) {
+    return Array.isArray(BP_SHEETS) ? BP_SHEETS.slice() : [];
+  }
+}
+function getActiveBlueprintSheets() {
+  if (!ENABLE_CONFIG_BLUEPRINT_FILTERING) return Array.isArray(BP_SHEETS) ? BP_SHEETS : [];
+  const cfg = (typeof getCurrentCfg === 'function') ? getCurrentCfg() : null;
+  return getBlueprintSheetsForConfig(cfg);
+}
+
+
 let bpvIdx = 0;
 let bpvZoom = 1.0;
 const BPV_ZOOM_MIN = 0.4, BPV_ZOOM_MAX = 2.5, BPV_ZOOM_STEP = 0.10;
@@ -5579,6 +5612,23 @@ const BPV_ZOOM_MIN = 0.4, BPV_ZOOM_MAX = 2.5, BPV_ZOOM_STEP = 0.10;
 // Floor-plan pages come from the dynamic blueprintPages array (varies with
 // the chosen configuration — stacked mode adds extra upper-floor sheets).
 // Each rail row lists num + title and jumps the main viewer to that page.
+const ENABLE_CONFIG_DRIVEN_FLOOR_PLANS = false;
+function getFloorPlanRenderMode() {
+  try {
+    const search = (typeof window !== 'undefined' && window.location && typeof window.location.search === 'string')
+      ? window.location.search
+      : '';
+    const params = new URLSearchParams(search);
+    if (params.get('axisDev') !== '1') return 'default';
+    const mode = String(params.get('floorPlanMode') || '').trim().toLowerCase();
+    if (mode === 'legacy' || mode === 'config' || mode === 'compare') return mode;
+    return 'default';
+  } catch (_) {
+    return 'default';
+  }
+}
+window.getFloorPlanRenderMode = getFloorPlanRenderMode;
+
 function buildBpvFloorPlansHTML() {
   const pages = (typeof blueprintPages !== 'undefined' && blueprintPages.length)
     ? blueprintPages
@@ -5595,6 +5645,177 @@ function buildBpvFloorPlansHTML() {
            '</div>';
   }).join('');
   return '<div class="bpv-cat" data-bpv-cat="Floor Plans">Floor Plans</div>' + items;
+}
+
+function buildConfigDrivenFloorPlanHTML(cfgId) {
+  try {
+    if (typeof axisBuildPlanModelFromConfig !== 'function') return null;
+    const model = axisBuildPlanModelFromConfig(cfgId);
+    if (!model || !model.ok) return null;
+    if (model.type === 'pending-review') return null;
+    if (!Array.isArray(model.floors) || !model.floors.length) return null;
+
+    const title = `Config-driven floor plan · ${(cfgId || '').toUpperCase()}`;
+    const moduleLabelFor = (floorLevel, moduleIdx) => {
+      if (cfgId === 'stacked') return `Level ${floorLevel} Module`;
+      if (cfgId === 'duplex') return `Level ${floorLevel} Module ${moduleIdx + 1}`;
+      return `Module ${moduleIdx + 1}`;
+    };
+    const roomRenderStats = {
+      rendered: 0,
+      skipped: 0,
+      reasons: []
+    };
+    const pushSkipReason = (reason) => {
+      roomRenderStats.skipped += 1;
+      if (!roomRenderStats.reasons.includes(reason)) roomRenderStats.reasons.push(reason);
+    };
+    const floorCards = model.floors.map(f => {
+      const modules = Array.isArray(f.modules) ? f.modules : [];
+      const floorRooms = Array.isArray(model.rooms)
+        ? model.rooms.filter(r => Number(r && r.floor) === Number(f.level))
+        : [];
+      const maxLen = Math.max(1, ...modules.map(m => Number(m.lengthFt) || 0));
+      const maxWid = Math.max(1, ...modules.map(m => Number(m.widthFt) || 0));
+      const scale = 200 / Math.max(maxLen, maxWid);
+      const xCursorStart = 40;
+      let xCursor = xCursorStart;
+      const yBase = 18;
+      const totalDrawW = modules.reduce((sum, m, idx) => sum + ((Number(m.lengthFt) || 0) * scale) + (idx ? 10 : 0), 0);
+      const rightEdge = xCursorStart + totalDrawW;
+      const moduleLayout = [];
+      const moduleSvg = modules.map((m, idx) => {
+        const w = (Number(m.lengthFt) || 0) * scale;
+        const h = (Number(m.widthFt) || 0) * scale;
+        const x = xCursor;
+        const y = yBase + (maxWid * scale - h) / 2;
+        xCursor += w + 10;
+        const label = moduleLabelFor(f.level, idx);
+        moduleLayout.push({
+          id: String(m.id || ''),
+          floor: Number(f.level),
+          x, y, w, h,
+          lengthFt: Number(m.lengthFt) || null,
+          widthFt: Number(m.widthFt) || null
+        });
+        return `<g>
+          <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="#f9fafb" stroke="#0f172a" stroke-width="1.4"/>
+          <rect x="${(x + 2).toFixed(1)}" y="${(y + 2).toFixed(1)}" width="${Math.max(0, w - 4).toFixed(1)}" height="${Math.max(0, h - 4).toFixed(1)}" fill="none" stroke="#94a3b8" stroke-width="0.7"/>
+          <text x="${(x + w / 2).toFixed(1)}" y="${(y + h / 2 - 6).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="9" font-weight="700" fill="#0f172a">${label}</text>
+          <text x="${(x + w / 2).toFixed(1)}" y="${(y + h / 2 + 8).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="8" fill="#334155">${(m.lengthFt || '—')}′ × ${(m.widthFt || '—')}′</text>
+        </g>`;
+      }).join('');
+      const roomSvg = floorRooms.map((room, idx) => {
+        const roomId = String(room && room.id ? room.id : `room-${idx + 1}`);
+        const modId = String(room && room.moduleId ? room.moduleId : '').trim();
+        const mod = moduleLayout.find(m => m.id === modId);
+        if (!mod) {
+          pushSkipReason(`Unknown module mapping (${roomId})`);
+          return '';
+        }
+        const xFt = Number(room.xFt);
+        const yFt = Number(room.yFt);
+        const lengthFt = Number(room.lengthFt);
+        const widthFt = Number(room.widthFt);
+        if (!Number.isFinite(xFt) || !Number.isFinite(yFt) || !Number.isFinite(lengthFt) || !Number.isFinite(widthFt)) {
+          pushSkipReason(`Missing room dimensions (${roomId})`);
+          return '';
+        }
+        if (lengthFt <= 0 || widthFt <= 0) {
+          pushSkipReason(`Non-positive room size (${roomId})`);
+          return '';
+        }
+        if (!Number.isFinite(mod.lengthFt) || !Number.isFinite(mod.widthFt)) {
+          pushSkipReason(`Module dimensions unavailable (${roomId})`);
+          return '';
+        }
+        if (xFt < 0 || yFt < 0 || xFt + lengthFt > mod.lengthFt || yFt + widthFt > mod.widthFt) {
+          pushSkipReason(`Room outside module bounds (${roomId})`);
+          return '';
+        }
+        const rx = mod.x + (xFt * scale);
+        const ry = mod.y + (yFt * scale);
+        const rw = lengthFt * scale;
+        const rh = widthFt * scale;
+        const areaSf = Number.isFinite(Number(room.areaSf)) ? Number(room.areaSf) : (lengthFt * widthFt);
+        const label = String(room.name || room.type || roomId);
+        const showArea = (rw > 52 && rh > 22);
+        roomRenderStats.rendered += 1;
+        return `<g>
+          <rect x="${rx.toFixed(1)}" y="${ry.toFixed(1)}" width="${rw.toFixed(1)}" height="${rh.toFixed(1)}" fill="${room.needsReview ? '#fef3c7' : '#e2e8f0'}" stroke="#475569" stroke-width="0.8" stroke-dasharray="${room.needsReview ? '3 2' : 'none'}"/>
+          <text x="${(rx + rw / 2).toFixed(1)}" y="${(ry + rh / 2 - (showArea ? 5 : 0)).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="7.2" fill="#0f172a">${label}</text>
+          ${showArea ? `<text x="${(rx + rw / 2).toFixed(1)}" y="${(ry + rh / 2 + 6).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="6.6" fill="#334155">${Math.round(areaSf)} SF</text>` : ''}
+        </g>`;
+      }).join('');
+      return `<section style="border:1px solid #cbd5e1;border-radius:8px;padding:12px 14px;margin:12px 0;background:#fff;">
+        <div style="font:700 12px Arial;color:#0f172a;letter-spacing:.25px;">Level ${f.level} · ${f.floorAreaSf || '—'} SF</div>
+        <div style="font:11px Arial;color:#334155;margin:3px 0 10px 0;">Exterior: ${f.combinedLengthFt || '—'}′ × ${f.combinedWidthFt || '—'}′</div>
+        <svg viewBox="0 0 360 132" width="100%" height="132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor ${f.level} module outlines">
+          <rect x="1" y="1" width="358" height="130" fill="#ffffff" stroke="#cbd5e1"/>
+          <line x1="${xCursorStart.toFixed(1)}" y1="124" x2="${rightEdge.toFixed(1)}" y2="124" stroke="#334155" stroke-width="0.8"/>
+          <text x="${((xCursorStart + rightEdge) / 2).toFixed(1)}" y="120" text-anchor="middle" font-family="Arial" font-size="8" fill="#334155">${f.combinedLengthFt || '—'}′</text>
+          <line x1="${(rightEdge + 8).toFixed(1)}" y1="18" x2="${(rightEdge + 8).toFixed(1)}" y2="${(18 + maxWid * scale).toFixed(1)}" stroke="#334155" stroke-width="0.8"/>
+          <text x="${(rightEdge + 12).toFixed(1)}" y="${(18 + (maxWid * scale) / 2).toFixed(1)}" font-family="Arial" font-size="8" fill="#334155">${f.combinedWidthFt || '—'}′</text>
+          ${moduleSvg}
+          ${roomSvg}
+        </svg>
+      </section>`;
+    }).join('');
+    const roomSummary = (() => {
+      const totalRooms = Array.isArray(model.rooms) ? model.rooms.length : 0;
+      const skippedText = roomRenderStats.skipped
+        ? ` · Skipped: ${roomRenderStats.skipped} (${roomRenderStats.reasons.join('; ')})`
+        : '';
+      return `Rooms (schematic): ${roomRenderStats.rendered}/${totalRooms} rendered${skippedText}`;
+    })();
+
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>' + title + '</title></head><body style="margin:0;padding:16px;background:#f3f4f6;color:#111827;font-family:Arial,Helvetica,sans-serif;">' +
+      '<div style="max-width:980px;margin:0 auto;">' +
+      '<div style="font:700 16px Arial;margin-bottom:4px;color:#0f172a;">Axis Modular · Config-driven Plan Model</div>' +
+      '<div style="font:12px Arial;color:#334155;margin-bottom:4px;">' +
+        (cfgId || 'single') + ' · Exterior ' + (model.footprint.lengthFt || '—') + '′ × ' + (model.footprint.widthFt || '—') + '′' +
+      '</div>' +
+      '<div style="font:700 12px Arial;color:#0f172a;margin-bottom:10px;">Gross Area: ' + (model.grossAreaSf || '—') + ' SF</div>' +
+      '<div style="font:11px Arial;color:#475569;background:#e2e8f0;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;margin-bottom:8px;">Config-driven preview generated from AXIS_CONFIGS.</div>' +
+      '<div style="font:11px Arial;color:#334155;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:6px 8px;margin-bottom:8px;">' + roomSummary + '</div>' +
+      floorCards +
+      '</div></body></html>';
+  } catch (_) {
+    return null;
+  }
+}
+window.buildConfigDrivenFloorPlanHTML = buildConfigDrivenFloorPlanHTML;
+
+function buildCompareFloorPlanHTML(legacyHtml, configHtml, cfgId) {
+  try {
+    if (!legacyHtml || !configHtml) return legacyHtml || configHtml || null;
+    const legacyJson = JSON.stringify(String(legacyHtml));
+    const configJson = JSON.stringify(String(configHtml));
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Floor Plan Compare</title></head><body style="margin:0;padding:10px;background:#111827;color:#f9fafb;font-family:Arial,Helvetica,sans-serif;">' +
+      '<div style="font:700 13px Arial;margin:0 0 8px 0;">Axis Dev Compare · ' + (cfgId || 'single') + ' · Legacy vs Config-driven</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+        '<section style="background:#fff;border-radius:6px;overflow:hidden;"><div style="padding:6px 8px;background:#e5e7eb;color:#111827;font:700 11px Arial;">Legacy</div><iframe id="fp-legacy" title="Legacy floor plan" style="width:100%;height:720px;border:0;"></iframe></section>' +
+        '<section style="background:#fff;border-radius:6px;overflow:hidden;"><div style="padding:6px 8px;background:#dbeafe;color:#111827;font:700 11px Arial;">Config-driven (Dev Preview)</div><iframe id="fp-config" title="Config-driven floor plan" style="width:100%;height:720px;border:0;"></iframe></section>' +
+      '</div>' +
+      '<script>(function(){var legacy=' + legacyJson + ';var config=' + configJson + ';var a=document.getElementById(\"fp-legacy\");var b=document.getElementById(\"fp-config\");if(a)a.srcdoc=legacy;if(b)b.srcdoc=config;})();<\\/script>' +
+      '</body></html>';
+  } catch (_) {
+    return legacyHtml || configHtml || null;
+  }
+}
+
+function buildFloorPlanDevNoticeHTML(baseHtml, message, cfgId) {
+  try {
+    const baseJson = JSON.stringify(String(baseHtml || '<!DOCTYPE html><html><body></body></html>'));
+    const msg = String(message || 'Config-driven output unavailable; showing legacy output.');
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Floor Plan Preview</title></head><body style="margin:0;background:#111827;color:#f9fafb;font-family:Arial,Helvetica,sans-serif;">' +
+      '<div style="padding:8px 10px;background:#7c2d12;font:700 12px Arial;">Axis Dev Preview · ' + (cfgId || 'single') + ' · ' + msg + '</div>' +
+      '<iframe id="fp-fallback" title="Legacy floor plan fallback" style="width:100%;height:calc(100vh - 34px);border:0;"></iframe>' +
+      '<script>(function(){var html=' + baseJson + ';var f=document.getElementById(\"fp-fallback\");if(f)f.srcdoc=html;})();<\\/script>' +
+      '</body></html>';
+  } catch (_) {
+    return baseHtml;
+  }
 }
 
 // Rebuild only the floor-plans block inside an already-built BPV so that
@@ -5621,8 +5842,25 @@ let bpvFloorPlanIdx = null;
 // `page`  — one entry from the dynamic blueprintPages array
 // `num`   — e.g. "S1" (extracted from page.name)
 // `title` — e.g. "Foundation Plan"
-function buildFloorPlanHTML(page, num, title) {
+function buildFloorPlanHTML(page, num, title, opts) {
   if (!page) return '<!DOCTYPE html><html><body></body></html>';
+  const cfgId = (typeof getCurrentCfg === 'function') ? getCurrentCfg() : 'single';
+  const forcedMode = opts && typeof opts.forceMode === 'string' ? opts.forceMode : '';
+  const mode = forcedMode || getFloorPlanRenderMode();
+  if (mode === 'config') {
+    const cfgDriven = buildConfigDrivenFloorPlanHTML(cfgId);
+    if (cfgDriven) return cfgDriven;
+    const legacyHtml = buildFloorPlanHTML(page, num, title, { forceMode: 'legacy', _compareInternal: true });
+    return buildFloorPlanDevNoticeHTML(legacyHtml, 'Config-driven output unavailable; legacy fallback.', cfgId);
+  } else if (mode === 'compare' && !(opts && opts._compareInternal)) {
+    const legacyHtml = buildFloorPlanHTML(page, num, title, { forceMode: 'legacy', _compareInternal: true });
+    const cfgDriven = buildConfigDrivenFloorPlanHTML(cfgId);
+    if (cfgDriven) return buildCompareFloorPlanHTML(legacyHtml, cfgDriven, cfgId);
+    return buildFloorPlanDevNoticeHTML(legacyHtml, 'Compare mode unavailable for this config; legacy fallback.', cfgId);
+  } else if (mode === 'default' && ENABLE_CONFIG_DRIVEN_FLOOR_PLANS) {
+    const cfgDriven = buildConfigDrivenFloorPlanHTML(cfgId);
+    if (cfgDriven) return cfgDriven;
+  }
   const layers      = page.layers || [];
   const floorFilter = page.floor;       // 'ground' | 'upper' | null
   const annotations = page.annotations || [];
@@ -5907,7 +6145,8 @@ function buildBlueprintsViewer() {
 
   // Group rail items by discipline
   const byDisc = {};
-  BP_SHEETS.forEach((s, i) => { (byDisc[s.disc] = byDisc[s.disc] || []).push({ ...s, idx:i }); });
+  const activeSheets = getActiveBlueprintSheets();
+  activeSheets.forEach((s, i) => { (byDisc[s.disc] = byDisc[s.disc] || []).push({ ...s, idx:i }); });
   const discOrder = Object.keys(byDisc);
   const detailRailHTML = discOrder.map(d => {
     const items = byDisc[d].map(s =>
@@ -6001,7 +6240,7 @@ function openBlueprintsViewer(startKey) {
   // Pick a starting sheet — if the caller passes a component key, jump to it
   let startIdx = 0;
   if (startKey) {
-    const i = BP_SHEETS.findIndex(s => s.k === startKey);
+    const i = getActiveBlueprintSheets().findIndex(s => s.k === startKey);
     if (i >= 0) startIdx = i;
   }
   document.getElementById('bp-viewer').classList.add('show');
@@ -6016,11 +6255,12 @@ function closeBlueprintsViewer() {
 }
 
 function bpvSelect(idx) {
-  if (idx < 0 || idx >= BP_SHEETS.length) return;
+  const activeSheets = getActiveBlueprintSheets();
+  if (idx < 0 || idx >= activeSheets.length) return;
   bpvIdx = idx;
   // Detail sheet picked — drop any floor-plan highlight
   bpvFloorPlanIdx = null;
-  const s = BP_SHEETS[idx];
+  const s = activeSheets[idx];
   const frame = document.getElementById('bpv-frame');
   // Prefer the embedded blueprint HTML (works on file://, computer://, any server)
   const embedEl = document.querySelector('script[type="text/html"][data-bp="' + s.file + '"]');
@@ -6047,8 +6287,16 @@ function bpvSelect(idx) {
   if (active) active.scrollIntoView({ block:'nearest' });
 }
 
-function bpvPrev() { bpvSelect((bpvIdx - 1 + BP_SHEETS.length) % BP_SHEETS.length); }
-function bpvNext() { bpvSelect((bpvIdx + 1) % BP_SHEETS.length); }
+function bpvPrev() {
+  const n = getActiveBlueprintSheets().length;
+  if (!n) return;
+  bpvSelect((bpvIdx - 1 + n) % n);
+}
+function bpvNext() {
+  const n = getActiveBlueprintSheets().length;
+  if (!n) return;
+  bpvSelect((bpvIdx + 1) % n);
+}
 
 // UI V2 — Blueprints gallery search + discipline filter (Mockup 03)
 let bpvActiveDisc = '_all';
@@ -6127,7 +6375,7 @@ function bpvCurrentSheetSource() {
       label: num
     };
   }
-  const s = BP_SHEETS[bpvIdx];
+  const s = getActiveBlueprintSheets()[bpvIdx];
   if (!s) return null;
   const embedEl = document.querySelector('script[type="text/html"][data-bp="' + s.file + '"]');
   return {
@@ -6242,7 +6490,8 @@ function bpvOpenWindow() {
     setTimeout(() => URL.revokeObjectURL(href), 2000);
     return;
   }
-  const s = BP_SHEETS[bpvIdx];
+  const s = getActiveBlueprintSheets()[bpvIdx];
+  if (!s) return;
   const embedEl = document.querySelector('script[type="text/html"][data-bp="' + s.file + '"]');
   let href = s.file;
   let createdObjectURL = false;
@@ -6285,7 +6534,8 @@ function bpvCopyLink() {
     );
     return;
   }
-  const s = BP_SHEETS[bpvIdx];
+  const s = getActiveBlueprintSheets()[bpvIdx];
+  if (!s) return;
   // Build an absolute URL resolvable in the user's current context
   const abs = new URL(s.file, window.location.href).href;
   const copy = txt => {
@@ -6324,28 +6574,22 @@ function bpvToast(msg) {
 //  architectural sheet (heavy linework, earth/insulation/steel hatching,
 //  labeled callouts, IFC title block, OBC 2024 / CCMC technical notes).
 // ═══════════════════════════════════════════════════════════════════════════════
-const COMPONENT_BLUEPRINTS = {
-  pier:        { file:'blueprints/S-101-piers.html',      sheet:'S-101', title:'HELICAL PIER FOUNDATION — SECTION' },
-  pierPlan:    { file:'blueprints/S-102-pier-plan.html',  sheet:'S-102', title:'PIER LAYOUT PLAN'                  },
-  joists:      { file:'blueprints/S-201-joists.html',     sheet:'S-201', title:'I-JOIST FLOOR FRAMING — SECTION'   },
-  framingPlan: { file:'blueprints/S-202-framing-plan.html', sheet:'S-202', title:'FLOOR FRAMING PLAN'              },
-  plan:        { file:'blueprints/A-101-floor-plan.html', sheet:'A-101', title:'FLOOR PLAN — GROUND FLOOR'         },
-  roofPlan:    { file:'blueprints/A-102-roof-plan.html',  sheet:'A-102', title:'ROOF PLAN — TPO + PARAPET'         },
-  mepPlan:     { file:'blueprints/M-101-mep-plan.html',   sheet:'M-101', title:'MEP COORDINATION PLAN'             },
-  floor:       { file:'blueprints/A-201-subfloor.html',   sheet:'A-201', title:'SUBFLOOR ASSEMBLY — SECTION'       },
-  steel:       { file:'blueprints/S-301-steel.html',      sheet:'S-301', title:'HSS STEEL CHASSIS — SECTION'       },
-  sip:         { file:'blueprints/A-301-sip-walls.html',  sheet:'A-301', title:'SIP WALL PANEL — SECTION'          },
-  window:      { file:'blueprints/A-302-windows.html',    sheet:'A-302', title:'TRIPLE-PANE WINDOW — SECTION'      },
-  door:        { file:'blueprints/A-303-door.html',       sheet:'A-303', title:'EXTERIOR STEEL DOOR — ELEVATION'   },
-  roof:        { file:'blueprints/A-304-roof.html',       sheet:'A-304', title:'ROOF ASSEMBLY — SECTION'           },
-  parapet:     { file:'blueprints/A-305-parapet.html',    sheet:'A-305', title:'PARAPET + COPING — DETAIL'         },
-  skirt:       { file:'blueprints/A-306-skirting.html',   sheet:'A-306', title:'PERIMETER SKIRTING — SECTION'      },
-  interior:    { file:'blueprints/A-401-interior.html',   sheet:'A-401', title:'INTERIOR PARTITION — SECTION'      },
-  furnishings: { file:'blueprints/P-501-fixtures.html',   sheet:'P-501', title:'PLUMBING FIXTURES — SECTION'       },
-  stair:       { file:'blueprints/A-402-stairs.html',     sheet:'A-402', title:'INTERIOR STAIR — ELEVATION'        },
-  compressor:  { file:'blueprints/M-601-minisplit.html',  sheet:'M-601', title:'MINI-SPLIT OUTDOOR UNIT — DETAIL'  },
-  hrv:         { file:'blueprints/M-602-hrv.html',        sheet:'M-602', title:'HRV — AIRFLOW SCHEMATIC'           }
+// Registry unification: derive component sheet lookup directly from BP_SHEETS
+// so blueprint file/sheet IDs stay in one canonical list.
+const BP_COMPONENT_TITLE_OVERRIDES = {
+  plan: 'FLOOR PLAN — GROUND FLOOR',
+  roofPlan: 'ROOF PLAN — TPO + PARAPET',
+  mepPlan: 'MEP COORDINATION PLAN'
 };
+const COMPONENT_BLUEPRINTS = BP_SHEETS.reduce((acc, s) => {
+  if (!s || !s.k) return acc;
+  acc[s.k] = {
+    file: s.file,
+    sheet: s.n,
+    title: (BP_COMPONENT_TITLE_OVERRIDES[s.k] || s.title || '').toUpperCase()
+  };
+  return acc;
+}, {});
 
 function openBlueprintSheet(key) {
   // Open the integrated Blueprints Viewer (modal) with the requested sheet
@@ -8160,32 +8404,54 @@ function applyLegendFilters() {
 // electrical scope, and basic landscaping + entry deck. HST excluded.
 // BOM line items roll up to the same all-in figure with ~11% overhead/margin.
 // Subtract ~CA$38k if on municipal water + sewer (well + septic removed).
-const CFG_META = {
-  single:   { num:'01', name:'Single',   sf:504,   bed:1, bath:1, price:'CA$288k',  desc:'Original 42′ × 12′ single-story module — the baseline Axis unit.' },
-  stacked:  { num:'02', name:'Stacked',  sf:1000,  bed:2, bath:2, price:'CA$572k',  desc:'Two single modules stacked — interior stair, shared mechanical.',           unavailable:true },
-  bungalow: { num:'03', name:'Bungalow', sf:1008,  bed:2, bath:2, price:'CA$577k',  desc:'Two singles side-by-side with connecting roof — wide-footprint plan.',      unavailable:true },
-  duplex:   { num:'04', name:'Duplex',   sf:2016,  bed:4, bath:3, price:'CA$1.15M', desc:'Two bungalows joined — rental-ready two-unit configuration.',               unavailable:true },
-  ushape:   { num:'05', name:'U-Shape',  sf:1512,  bed:2, bath:2, price:'CA$865k',  desc:'Three modules in a U around a sheltered courtyard.' },
-};
+const CFG_NUM = { single:'01', stacked:'02', bungalow:'03', duplex:'04', ushape:'05' };
+const CFG_PRICE = { single:'CA$288k', stacked:'CA$572k', bungalow:'CA$577k', duplex:'CA$1.15M', ushape:'CA$865k' };
+const CFG_UNAVAILABLE = { single:false, stacked:true, bungalow:true, duplex:true, ushape:false };
+
+// Centralized config metadata source (AXIS_CONFIGS). We intentionally keep
+// legacy display SF where the current app has unresolved conflicts; remove
+// these legacy fallbacks in a follow-up cleanup once conflicts are resolved.
 const CFG_ORDER = ['single','stacked','bungalow','duplex','ushape'];
+const CFG_META = CFG_ORDER.reduce((acc, id) => {
+  const c = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS[id]) ? AXIS_CONFIGS[id] : null;
+  acc[id] = {
+    num: CFG_NUM[id],
+    name: c ? c.displayName : id,
+    sf: c ? ((c.legacy && Number.isFinite(c.legacy.sfForCfgMeta)) ? c.legacy.sfForCfgMeta : c.grossAreaSf) : 0,
+    bed: c ? c.bedrooms : 0,
+    bath: c ? c.bathrooms : 0,
+    price: CFG_PRICE[id],
+    desc: c ? c.description : '',
+    unavailable: !!CFG_UNAVAILABLE[id]
+  };
+  return acc;
+}, {});
+
 // Real module geometry per configuration — plan coordinates in feet.
 // Module = 42' long × 12' deep × 10' tall.  {x, z, w, d, h, f} — f is floor elev.
+// width/length are now sourced from AXIS_CONFIGS for base module dimensions.
+const BASE_MODULE_LENGTH = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS.single)
+  ? AXIS_CONFIGS.single.lengthFt : 42;
+const BASE_MODULE_WIDTH = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS.single)
+  ? AXIS_CONFIGS.single.widthFt : 12;
+const BASE_MODULE_HEIGHT = 10;
+
 const CFG_GEOMETRY = {
-  single:   [{x:0,  z:0,  w:42, d:12, h:10, f:0}],
+  single:   [{x:0,  z:0,  w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:0}],
   stacked:  [
-    {x:0,  z:0,  w:42, d:12, h:10, f:0},
-    {x:0,  z:0,  w:42, d:12, h:10, f:10},
+    {x:0,  z:0,  w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:0},
+    {x:0,  z:0,  w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:10},
   ],
   bungalow: [
-    {x:0,  z:0,  w:42, d:12, h:10, f:0},
-    {x:0,  z:12, w:42, d:12, h:10, f:0},
+    {x:0,  z:0,  w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:0},
+    {x:0,  z:BASE_MODULE_WIDTH, w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:0},
   ],
   // Duplex = bungalow stacked — 42×24 footprint, 2 stories, 4 modules = 2016 sf
   duplex:   [
-    {x:0,  z:0,  w:42, d:12, h:10, f:0},
-    {x:0,  z:12, w:42, d:12, h:10, f:0},
-    {x:0,  z:0,  w:42, d:12, h:10, f:10},
-    {x:0,  z:12, w:42, d:12, h:10, f:10},
+    {x:0,  z:0,  w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:0},
+    {x:0,  z:BASE_MODULE_WIDTH, w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:0},
+    {x:0,  z:0,  w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:10},
+    {x:0,  z:BASE_MODULE_WIDTH, w:BASE_MODULE_LENGTH, d:BASE_MODULE_WIDTH, h:BASE_MODULE_HEIGHT, f:10},
   ],
   // 45' × 57' South-opening U — north connector (45 × 12) + two 12 × 57 wings.
   // Plan coords: w → 3-D z (N-S), d → 3-D x (E-W), x → z-offset, z → x-offset.
@@ -8321,25 +8587,60 @@ function closeConfigPicker() {
 
 // ── Render modal ──────────────────────────────────────────────────────
 // Shows a pre-rendered photo-realistic image for the current configuration.
-// Files live in renders/<cfg>.jpg where <cfg> is the key returned by
-// getCurrentCfg() — single | stacked | bungalow | duplex | ushape.
+// Files live in Renders/<stem>.jpg where <stem> comes from
+// AXIS_CONFIGS[<cfg>].renderStem (falling back to <cfg>).
 // If the file is missing the modal falls back to an empty state with
 // instructions on where to drop the file.
-const RENDER_CFG_LABELS = {
-  single:   { name: 'Single',          meta: '42′ × 12′ · 504 SF · 1 Bed' },
-  stacked:  { name: 'Stacked (2-Story)', meta: '42′ × 12′ · 1,008 SF · 2 Beds' },
-  bungalow: { name: 'Bungalow',        meta: '42′ × 24′ · 1,008 SF · 2 Beds' },
-  duplex:   { name: 'Duplex',          meta: '42′ × 24′ · 2,016 SF · 4 Beds' },
-  ushape:   { name: 'U-Shape Courtyard', meta: '45′ × 57′ · 1,620 SF · 2 Beds · 2 Baths' }
+// Render labels now derive from AXIS_CONFIGS where safe.
+// NOTE: stacked and ushape keep explicit meta overrides to preserve current
+// visible behavior while area/dimension conflicts remain unresolved.
+const RENDER_META_OVERRIDES = {
+  stacked: '42′ × 12′ · 1,008 SF · 2 Beds',
+  ushape: '45′ × 57′ · 1,620 SF · 2 Beds · 2 Baths'
 };
+const RENDER_CFG_LABELS = CFG_ORDER.reduce((acc, id) => {
+  const c = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS[id]) ? AXIS_CONFIGS[id] : null;
+  const beds = c ? c.bedrooms : 0;
+  const baths = c ? c.bathrooms : 0;
+  const area = c ? c.grossAreaSf : 0;
+  const dim = c ? c.dimensionsLabel : '';
+  let meta = `${dim} · ${area.toLocaleString()} SF · ${beds} Bed${beds === 1 ? '' : 's'}`;
+  if (baths) meta += ` · ${baths} Bath${baths === 1 ? '' : 's'}`;
+  if (RENDER_META_OVERRIDES[id]) meta = RENDER_META_OVERRIDES[id];
+  acc[id] = {
+    name: c ? (c.shortName || c.displayName || id) : id,
+    meta
+  };
+  return acc;
+}, {});
 const RENDER_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
 // Max indexed images to probe per configuration (cfg.png, cfg1.png … cfgN.png).
 // Conservative cap — raise if you genuinely want more than 24 photos per config.
 const RENDER_MAX_INDEX = 24;
+const RENDER_FOLDER = 'Renders';
 
 // Active gallery state for the modal.
 let _renderList  = [];   // [{ url, ext, filename, index }]
 let _renderIndex = 0;
+
+function getRenderAssetCandidates(cfgId, index) {
+  try {
+    const safeCfg = (typeof cfgId === 'string' && cfgId.trim()) ? cfgId.trim() : 'single';
+    const cfgMeta = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS && AXIS_CONFIGS[safeCfg]) ? AXIS_CONFIGS[safeCfg] : null;
+    const configuredStem = cfgMeta && typeof cfgMeta.renderStem === 'string' ? cfgMeta.renderStem.trim() : '';
+    const baseStem = configuredStem || safeCfg;
+    const n = Number(index);
+    const suffix = Number.isInteger(n) && n > 0 ? String(n) : '';
+    const stem = `${baseStem}${suffix}`;
+    return RENDER_EXTENSIONS.map(ext => `${RENDER_FOLDER}/${stem}.${ext}`);
+  } catch (err) {
+    const fallbackCfg = (typeof cfgId === 'string' && cfgId.trim()) ? cfgId.trim() : 'single';
+    const n = Number(index);
+    const suffix = Number.isInteger(n) && n > 0 ? String(n) : '';
+    return RENDER_EXTENSIONS.map(ext => `${RENDER_FOLDER}/${fallbackCfg}${suffix}.${ext}`);
+  }
+}
+window.getRenderAssetCandidates = getRenderAssetCandidates;
 
 function _renderModalShowCurrent() {
   const modal   = document.getElementById('render-modal');
@@ -8359,7 +8660,8 @@ function _renderModalShowCurrent() {
     img.alt = '';
     dl.href = '#';
     dl.setAttribute('aria-disabled', 'true');
-    fileEl.textContent = `renders/${cfg}.jpg (not found)`;
+    const missing = getRenderAssetCandidates(cfg, 0)[0] || `${RENDER_FOLDER}/${cfg}.jpg`;
+    fileEl.textContent = `${missing} (not found)`;
     if (counter) counter.textContent = '';
     if (prev) { prev.disabled = true; prev.setAttribute('aria-disabled','true'); }
     if (next) { next.disabled = true; next.setAttribute('aria-disabled','true'); }
@@ -8378,7 +8680,7 @@ function _renderModalShowCurrent() {
   dl.href = hit.url;
   dl.setAttribute('download', hit.filename);
   dl.removeAttribute('aria-disabled');
-  fileEl.textContent = `renders/${hit.filename}`;
+  fileEl.textContent = `${RENDER_FOLDER}/${hit.filename}`;
   if (counter) {
     counter.textContent = _renderList.length > 1
       ? `${_renderIndex + 1} / ${_renderList.length}`
@@ -8399,15 +8701,19 @@ function _renderModalShowCurrent() {
 
 // Probe a single filename stem (e.g. "ushape" or "ushape3") across all supported
 // extensions. Resolves with the first hit, or null if none exist.
-function _probeRenderStem(stem) {
+function _probeRenderIndex(cfgId, index) {
   return new Promise(resolve => {
+    const candidates = getRenderAssetCandidates(cfgId, index);
     let i = 0;
     const tryNext = () => {
-      if (i >= RENDER_EXTENSIONS.length) { resolve(null); return; }
-      const ext = RENDER_EXTENSIONS[i++];
-      const url = `renders/${stem}.${ext}`;
+      if (i >= candidates.length) { resolve(null); return; }
+      const url = candidates[i++];
       const probe = new Image();
-      probe.onload  = () => resolve({ url, ext, filename: `${stem}.${ext}` });
+      probe.onload  = () => {
+        const filename = (typeof url === 'string' && url.includes('/')) ? url.split('/').pop() : String(url || '');
+        const ext = filename.includes('.') ? filename.split('.').pop() : '';
+        resolve({ url, ext, filename });
+      };
       probe.onerror = tryNext;
       probe.src = url;
     };
@@ -8415,14 +8721,14 @@ function _probeRenderStem(stem) {
   });
 }
 
-// Probe renders/<cfg>.<ext>, renders/<cfg>1.<ext>, renders/<cfg>2.<ext>, …
+// Probe Renders/<cfg>.<ext>, Renders/<cfg>1.<ext>, Renders/<cfg>2.<ext>, …
 // Returns an array in order. Probes run in parallel; ordering is preserved by
 // the index. The loop stops at the first index that has no match, but we also
 // run with a hard cap so a gap in numbering doesn't infinitely hang.
 function _renderModalFindAllImages(cfg) {
-  const stems = [cfg];
-  for (let n = 1; n <= RENDER_MAX_INDEX; n++) stems.push(`${cfg}${n}`);
-  return Promise.all(stems.map(_probeRenderStem)).then(results => {
+  const indices = [0];
+  for (let n = 1; n <= RENDER_MAX_INDEX; n++) indices.push(n);
+  return Promise.all(indices.map(n => _probeRenderIndex(cfg, n))).then(results => {
     const out = [];
     let sawGap = false;
     results.forEach((hit, idx) => {
@@ -8454,12 +8760,15 @@ function openRenderModal() {
 
   if (title)  title.textContent  = `${info.name} · Render`;
   if (meta)   meta.textContent   = info.meta;
-  if (expect) expect.textContent = `${cfg}.jpg`;
-  if (expectM) expectM.textContent = `${cfg}1.jpg`;
+  const expectedBase = getRenderAssetCandidates(cfg, 0)[0] || `${RENDER_FOLDER}/${cfg}.jpg`;
+  const expectedMulti = getRenderAssetCandidates(cfg, 1)[0] || `${RENDER_FOLDER}/${cfg}1.jpg`;
+  if (expect) expect.textContent = expectedBase.split('/').pop();
+  if (expectM) expectM.textContent = expectedMulti.split('/').pop();
 
   // Initial loading state
   modal.classList.add('render-empty');
-  fileEl.textContent = `Loading renders/${cfg}.* …`;
+  const loadingStem = expectedBase.replace(/\.[^.]+$/, '');
+  fileEl.textContent = `Loading ${loadingStem}.* …`;
   modal.classList.add('open');
   document.addEventListener('keydown', _renderModalKey);
 
@@ -8496,6 +8805,575 @@ function _renderModalKey(e) {
 }
 // Back-compat alias in case anything still references the old handler name.
 const _renderModalEsc = _renderModalKey;
+
+function axisValidateRenderAssets() {
+  const report = {
+    ok: true,
+    errors: [],
+    warnings: [],
+    renders: {}
+  };
+  try {
+    const configs = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS) ? AXIS_CONFIGS : null;
+    if (!configs || typeof configs !== 'object') {
+      report.errors.push('AXIS_CONFIGS is missing or invalid.');
+      report.ok = false;
+      return report;
+    }
+    const ids = Object.keys(configs);
+    if (!ids.length) {
+      report.warnings.push('AXIS_CONFIGS has no configuration entries.');
+    }
+    ids.forEach(cfgId => {
+      const cfg = configs[cfgId] || {};
+      const stem = (typeof cfg.renderStem === 'string') ? cfg.renderStem.trim() : '';
+      if (!Object.prototype.hasOwnProperty.call(cfg, 'renderStem')) {
+        report.errors.push(`Missing renderStem for "${cfgId}".`);
+      } else if (!stem) {
+        report.errors.push(`Empty/non-string renderStem for "${cfgId}".`);
+      }
+      const projected = getRenderAssetCandidates(cfgId, 0);
+      if (!Array.isArray(projected) || !projected.length) {
+        report.errors.push(`No projected render candidates for "${cfgId}".`);
+      } else {
+        projected.forEach(path => {
+          if (typeof path !== 'string' || !path.startsWith(`${RENDER_FOLDER}/`)) {
+            report.errors.push(`Non-canonical render path for "${cfgId}": ${String(path)}`);
+          }
+        });
+      }
+      report.renders[cfgId] = {
+        renderStem: stem || null,
+        projectedBaseCandidates: projected
+      };
+      report.warnings.push(`Static check only: "${cfgId}" assets may be missing at runtime depending on packaged files.`);
+    });
+
+    try {
+      const scripts = Array.from(document.querySelectorAll('script'));
+      scripts.forEach((s, idx) => {
+        const txt = typeof s.textContent === 'string' ? s.textContent : '';
+        if (txt && txt.includes('renders/')) {
+          report.errors.push(`Lowercase "renders/" found in inline script #${idx + 1}.`);
+        }
+      });
+    } catch (scanErr) {
+      report.warnings.push(`Could not fully scan inline scripts for lowercase renders/: ${scanErr && scanErr.message ? scanErr.message : scanErr}`);
+    }
+  } catch (err) {
+    report.errors.push(`axisValidateRenderAssets failed: ${err && err.message ? err.message : err}`);
+  }
+  report.ok = report.errors.length === 0;
+  return report;
+}
+window.axisValidateRenderAssets = axisValidateRenderAssets;
+
+function axisGetFloorPlanMetrics(cfgId) {
+  const base = {
+    ok: false,
+    cfgId: (typeof cfgId === 'string' && cfgId.trim()) ? cfgId.trim() : '',
+    dimensionsLabel: '',
+    lengthFt: null,
+    widthFt: null,
+    grossAreaSf: null,
+    floors: null,
+    moduleCount: null,
+    modules: [],
+    rooms: [],
+    expectedFootprintAreaSf: null,
+    calculatedGrossAreaSf: null,
+    moduleDerivedAreaSf: null,
+    warnings: []
+  };
+  try {
+    const cfgRoot = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS) ? AXIS_CONFIGS : null;
+    if (!cfgRoot || typeof cfgRoot !== 'object') {
+      base.warnings.push('AXIS_CONFIGS is missing or invalid.');
+      return Object.freeze(base);
+    }
+    const id = base.cfgId || 'single';
+    const cfg = cfgRoot[id];
+    if (!cfg || typeof cfg !== 'object') {
+      base.cfgId = id;
+      base.warnings.push(`Unknown config "${id}".`);
+      return Object.freeze(base);
+    }
+
+    const lengthFt = Number(cfg.lengthFt);
+    const widthFt = Number(cfg.widthFt);
+    const floors = Number(cfg.floors);
+    const grossAreaSf = Number(cfg.grossAreaSf);
+    const modules = Array.isArray(cfg.modules) ? cfg.modules.slice() : [];
+    const rooms = Array.isArray(cfg.rooms) ? cfg.rooms.slice() : [];
+    const moduleCount = Number(cfg.moduleCount);
+    const expectedFootprintAreaSf = (Number.isFinite(lengthFt) && Number.isFinite(widthFt))
+      ? lengthFt * widthFt
+      : null;
+    const calculatedGrossAreaSf = (Number.isFinite(expectedFootprintAreaSf) && Number.isFinite(floors))
+      ? expectedFootprintAreaSf * floors
+      : null;
+
+    // Module-derived area: only available when module entries include dimensions.
+    const moduleAreas = modules.map(m => {
+      if (!m || typeof m !== 'object') return null;
+      const area = Number(m.areaSf);
+      if (Number.isFinite(area) && area > 0) return area;
+      const l = Number(m.lengthFt);
+      const w = Number(m.widthFt);
+      return (Number.isFinite(l) && Number.isFinite(w)) ? l * w : null;
+    }).filter(v => Number.isFinite(v));
+    const moduleDerivedAreaSf = moduleAreas.length ? moduleAreas.reduce((a, b) => a + b, 0) : null;
+
+    const warnings = [];
+    if (Number.isFinite(calculatedGrossAreaSf) && Number.isFinite(grossAreaSf) && calculatedGrossAreaSf !== grossAreaSf) {
+      warnings.push(`Calculated gross area (${calculatedGrossAreaSf} SF from length×width×floors) differs from AXIS_CONFIGS.grossAreaSf (${grossAreaSf} SF).`);
+    }
+    if (Number.isFinite(moduleDerivedAreaSf) && Number.isFinite(grossAreaSf) && moduleDerivedAreaSf !== grossAreaSf) {
+      warnings.push(`Module-derived area (${moduleDerivedAreaSf} SF) differs from AXIS_CONFIGS.grossAreaSf (${grossAreaSf} SF).`);
+    }
+    if (!Number.isFinite(moduleDerivedAreaSf)) {
+      warnings.push('Module-derived area unavailable (modules do not include per-module dimensions).');
+    }
+    if (cfg.needsReview === true) {
+      warnings.push(`${id} remains needsReview; floor-plan metric mismatches are warning-only.`);
+    }
+
+    const out = {
+      ok: true,
+      cfgId: id,
+      dimensionsLabel: cfg.dimensionsLabel || '',
+      lengthFt: Number.isFinite(lengthFt) ? lengthFt : null,
+      widthFt: Number.isFinite(widthFt) ? widthFt : null,
+      grossAreaSf: Number.isFinite(grossAreaSf) ? grossAreaSf : null,
+      floors: Number.isFinite(floors) ? floors : null,
+      moduleCount: Number.isFinite(moduleCount) ? moduleCount : null,
+      modules: Object.freeze(modules.map(m => (m && typeof m === 'object') ? Object.freeze({ ...m }) : m)),
+      rooms: Object.freeze(rooms.map(r => (r && typeof r === 'object') ? Object.freeze({ ...r }) : r)),
+      expectedFootprintAreaSf: Number.isFinite(expectedFootprintAreaSf) ? expectedFootprintAreaSf : null,
+      calculatedGrossAreaSf: Number.isFinite(calculatedGrossAreaSf) ? calculatedGrossAreaSf : null,
+      moduleDerivedAreaSf: Number.isFinite(moduleDerivedAreaSf) ? moduleDerivedAreaSf : null,
+      warnings: Object.freeze(warnings)
+    };
+    return Object.freeze(out);
+  } catch (err) {
+    base.warnings.push(`axisGetFloorPlanMetrics failed: ${err && err.message ? err.message : err}`);
+    return Object.freeze(base);
+  }
+}
+window.axisGetFloorPlanMetrics = axisGetFloorPlanMetrics;
+
+function axisBuildPlanModelFromConfig(cfgId) {
+  const out = {
+    ok: false,
+    cfgId: (typeof cfgId === 'string' && cfgId.trim()) ? cfgId.trim() : '',
+    type: 'pending-review',
+    footprint: { lengthFt: null, widthFt: null, areaSf: null },
+    floors: [],
+    rooms: [],
+    grossAreaSf: null,
+    warnings: []
+  };
+  try {
+    const cfgRoot = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS) ? AXIS_CONFIGS : null;
+    if (!cfgRoot || typeof cfgRoot !== 'object') {
+      out.warnings.push('AXIS_CONFIGS is missing or invalid.');
+      return Object.freeze(out);
+    }
+    const id = out.cfgId || 'single';
+    const cfg = cfgRoot[id];
+    if (!cfg || typeof cfg !== 'object') {
+      out.cfgId = id;
+      out.warnings.push(`Unknown config "${id}".`);
+      return Object.freeze(out);
+    }
+    out.cfgId = id;
+
+    if (cfg.needsReview === true || id === 'ushape') {
+      out.ok = true;
+      out.type = 'pending-review';
+      out.footprint = Object.freeze({
+        lengthFt: Number.isFinite(Number(cfg.lengthFt)) ? Number(cfg.lengthFt) : null,
+        widthFt: Number.isFinite(Number(cfg.widthFt)) ? Number(cfg.widthFt) : null,
+        areaSf: (Number.isFinite(Number(cfg.lengthFt)) && Number.isFinite(Number(cfg.widthFt)))
+          ? Number(cfg.lengthFt) * Number(cfg.widthFt)
+          : null
+      });
+      out.grossAreaSf = Number.isFinite(Number(cfg.grossAreaSf)) ? Number(cfg.grossAreaSf) : null;
+      out.rooms = Object.freeze((Array.isArray(cfg.rooms) ? cfg.rooms : []).map(r => (r && typeof r === 'object') ? Object.freeze({ ...r }) : r));
+      out.warnings.push(`${id} module geometry is pending review; plan model is informational only.`);
+      out.floors = Object.freeze([]);
+      out.warnings = Object.freeze(out.warnings.slice());
+      return Object.freeze(out);
+    }
+
+    const lengthFt = Number(cfg.lengthFt);
+    const widthFt = Number(cfg.widthFt);
+    const footprint = {
+      lengthFt: Number.isFinite(lengthFt) ? lengthFt : null,
+      widthFt: Number.isFinite(widthFt) ? widthFt : null,
+      areaSf: (Number.isFinite(lengthFt) && Number.isFinite(widthFt)) ? lengthFt * widthFt : null
+    };
+
+    const modules = Array.isArray(cfg.modules) ? cfg.modules.filter(m => m && typeof m === 'object') : [];
+    const rooms = Array.isArray(cfg.rooms) ? cfg.rooms.filter(r => r && typeof r === 'object') : [];
+    const floorMap = new Map();
+    modules.forEach((m, idx) => {
+      const level = Number.isFinite(Number(m.floor)) ? Number(m.floor) : 1;
+      const list = floorMap.get(level) || [];
+      list.push({
+        id: m.id || `module-${idx + 1}`,
+        bay: m.bay || '',
+        floor: level,
+        lengthFt: Number.isFinite(Number(m.lengthFt)) ? Number(m.lengthFt) : null,
+        widthFt: Number.isFinite(Number(m.widthFt)) ? Number(m.widthFt) : null,
+        areaSf: Number.isFinite(Number(m.areaSf)) ? Number(m.areaSf) : null
+      });
+      floorMap.set(level, list);
+    });
+
+    const floors = Array.from(floorMap.entries()).sort((a, b) => a[0] - b[0]).map(([level, mods]) => {
+      const lengths = mods.map(m => m.lengthFt).filter(v => Number.isFinite(v));
+      const widths = mods.map(m => m.widthFt).filter(v => Number.isFinite(v));
+      const floorAreaSf = mods.reduce((sum, m) => {
+        if (Number.isFinite(m.areaSf)) return sum + m.areaSf;
+        if (Number.isFinite(m.lengthFt) && Number.isFinite(m.widthFt)) return sum + (m.lengthFt * m.widthFt);
+        return sum;
+      }, 0);
+      const sameLength = lengths.length === mods.length && lengths.every(v => v === lengths[0]);
+      const combinedLengthFt = sameLength ? lengths[0] : (lengths.length ? Math.max(...lengths) : null);
+      const combinedWidthFt = widths.length ? widths.reduce((a, b) => a + b, 0) : null;
+      return Object.freeze({
+        level,
+        modules: Object.freeze(mods.map(m => Object.freeze({ ...m }))),
+        floorAreaSf: floorAreaSf || null,
+        combinedWidthFt,
+        combinedLengthFt
+      });
+    });
+
+    const grossAreaSf = floors.reduce((sum, f) => sum + (Number(f.floorAreaSf) || 0), 0);
+    const cfgGross = Number(cfg.grossAreaSf);
+    if (Number.isFinite(cfgGross) && grossAreaSf && grossAreaSf !== cfgGross) {
+      out.warnings.push(`Plan-model gross area (${grossAreaSf} SF) differs from AXIS_CONFIGS.grossAreaSf (${cfgGross} SF).`);
+    }
+
+    out.ok = true;
+    out.type = (id === 'stacked' || id === 'duplex') ? 'stacked' : 'rectangular';
+    out.footprint = Object.freeze(footprint);
+    out.floors = Object.freeze(floors);
+    out.rooms = Object.freeze(rooms.map(r => Object.freeze({ ...r })));
+    out.grossAreaSf = grossAreaSf || (Number.isFinite(cfgGross) ? cfgGross : null);
+    out.warnings = Object.freeze(out.warnings.slice());
+    return Object.freeze(out);
+  } catch (err) {
+    out.warnings.push(`axisBuildPlanModelFromConfig failed: ${err && err.message ? err.message : err}`);
+    out.warnings = Object.freeze(out.warnings.slice());
+    return Object.freeze(out);
+  }
+}
+window.axisBuildPlanModelFromConfig = axisBuildPlanModelFromConfig;
+
+function axisSummarizeFloorPlanAdapterMismatches(report) {
+  const summary = {};
+  try {
+    const plans = report && report.plans && typeof report.plans === 'object' ? report.plans : {};
+    Object.entries(plans).forEach(([cfgId, cfgReport]) => {
+      const rows = (cfgReport && Array.isArray(cfgReport.adapterComparison)) ? cfgReport.adapterComparison : [];
+      const failed = rows
+        .filter(r => r && r.match === false)
+        .map(r => String(r.check || 'unknown'));
+      summary[cfgId] = {
+        mismatchCount: failed.length,
+        failedChecks: failed
+      };
+    });
+  } catch (_) {
+    // no-op: summary remains best-effort and non-blocking
+  }
+  return summary;
+}
+window.axisSummarizeFloorPlanAdapterMismatches = axisSummarizeFloorPlanAdapterMismatches;
+
+function axisValidateFloorPlanGeometry() {
+  const mode = (typeof getFloorPlanRenderMode === 'function') ? getFloorPlanRenderMode() : 'default';
+  let devPreviewActive = false;
+  try {
+    const params = new URLSearchParams((typeof window !== 'undefined' && window.location && window.location.search) ? window.location.search : '');
+    devPreviewActive = params.get('axisDev') === '1';
+  } catch (_) { /* no-op */ }
+  const report = {
+    ok: true,
+    errors: [],
+    warnings: [],
+    plans: {},
+    adapterMismatchSummary: {},
+    floorPlanRenderMode: mode,
+    devPreviewActive
+  };
+  try {
+    const cfgRoot = (typeof AXIS_CONFIGS !== 'undefined' && AXIS_CONFIGS) ? AXIS_CONFIGS : null;
+    if (!cfgRoot || typeof cfgRoot !== 'object') {
+      report.errors.push('AXIS_CONFIGS is missing or invalid.');
+      report.ok = false;
+      return report;
+    }
+
+    const requiredFields = ['lengthFt', 'widthFt', 'grossAreaSf', 'floors', 'modules', 'moduleCount'];
+    const sheetList = Array.isArray(BP_SHEETS) ? BP_SHEETS : [];
+    const floorPlanSheets = sheetList.filter(s => {
+      const n = String((s && s.n) || '').toUpperCase();
+      const t = String((s && s.title) || '').toLowerCase();
+      const f = String((s && s.file) || '').toLowerCase();
+      return /^A-\d+/i.test(n) && (t.includes('floor plan') || f.includes('floor-plan'));
+    });
+    const floorPlanSheetNumSet = new Set(floorPlanSheets.map(s => String(s.n || '').trim()));
+    const embeddedSheetSet = new Set(
+      Array.from(document.querySelectorAll('script[type="text/html"][data-bp]'))
+        .map(el => String(el.getAttribute('data-bp') || '').trim())
+        .filter(Boolean)
+    );
+
+    const detectHardcodedTokens = () => {
+      const out = [];
+      try {
+        const srcA = (typeof buildBlueprintPages === 'function') ? String(buildBlueprintPages) : '';
+        const srcB = (typeof buildFloorPlanHTML === 'function') ? String(buildFloorPlanHTML) : '';
+        const blob = `${srcA}\n${srcB}`;
+        [
+          { token: `42'-0"`, note: 'hardcoded length label' },
+          { token: `12'-0"`, note: 'hardcoded width label' },
+          { token: '504 SF', note: 'hardcoded area label' },
+          { token: '9 HELICAL PIERS — 3×3 GRID', note: 'hardcoded pier layout label' }
+        ].forEach(entry => {
+          if (blob.includes(entry.token)) out.push(entry);
+        });
+      } catch (_) { /* no-op */ }
+      return out;
+    };
+    const hardcodedTokens = detectHardcodedTokens();
+    hardcodedTokens.forEach(entry => report.warnings.push(`Detected ${entry.note}: "${entry.token}" in generated floor-plan JS.`));
+
+    const ids = Object.keys(cfgRoot).filter(id => !id.startsWith('__'));
+    ids.forEach(cfgId => {
+      const cfg = cfgRoot[cfgId] || {};
+      const planWarnings = [];
+      const supportedRectangularConfig = ['single', 'stacked', 'bungalow', 'duplex'].includes(cfgId);
+
+      requiredFields.forEach(field => {
+        const v = cfg[field];
+        const missing = v === undefined || v === null || (typeof v === 'string' && !v.trim());
+        if (missing) report.errors.push(`${cfgId}: missing required field "${field}".`);
+      });
+      if (!Array.isArray(cfg.modules)) {
+        report.errors.push(`${cfgId}: "modules" must be an array.`);
+      } else if (cfg.modules.length !== Number(cfg.moduleCount)) {
+        planWarnings.push(`modules.length (${cfg.modules.length}) differs from moduleCount (${cfg.moduleCount}).`);
+      }
+
+      const cfgSheetRefs = Array.isArray(cfg.blueprintSheets) ? cfg.blueprintSheets.map(s => String(s).trim()) : [];
+      const cfgFloorPlanRefs = cfgSheetRefs.filter(ref => floorPlanSheetNumSet.has(ref) || /^A-(101|101U|103)$/i.test(ref));
+
+      if (!cfgFloorPlanRefs.length) {
+        planWarnings.push('No detectable floor-plan sheet in blueprintSheets.');
+      }
+
+      const metrics = axisGetFloorPlanMetrics(cfgId);
+      if (!metrics.ok) {
+        planWarnings.push(...(metrics.warnings || []));
+      } else {
+        planWarnings.push(...(metrics.warnings || []));
+      }
+      const planModel = axisBuildPlanModelFromConfig(cfgId);
+      if (!planModel.ok) {
+        planWarnings.push(...(planModel.warnings || []));
+      } else {
+        planWarnings.push(...(planModel.warnings || []));
+      }
+      const adapterComparison = [];
+      const pushCompare = (label, metricsVal, modelVal) => {
+        const same = Number(metricsVal) === Number(modelVal);
+        const row = { check: label, metrics: metricsVal ?? null, planModel: modelVal ?? null, match: same };
+        adapterComparison.push(row);
+        if (!same) {
+          planWarnings.push(`Adapter mismatch (${label}): metrics=${metricsVal}, planModel=${modelVal}.`);
+        }
+      };
+      if (metrics.ok && planModel.ok) {
+        pushCompare('lengthFt', metrics.lengthFt, planModel.footprint && planModel.footprint.lengthFt);
+        pushCompare('widthFt', metrics.widthFt, planModel.footprint && planModel.footprint.widthFt);
+        pushCompare('expectedFootprintAreaSf', metrics.expectedFootprintAreaSf, planModel.footprint && planModel.footprint.areaSf);
+        pushCompare('calculatedGrossAreaSf', metrics.calculatedGrossAreaSf, planModel.grossAreaSf);
+        if (typeof metrics.moduleDerivedAreaSf === 'number' && Number.isFinite(metrics.moduleDerivedAreaSf)) {
+          pushCompare('moduleDerivedAreaSf', metrics.moduleDerivedAreaSf, planModel.grossAreaSf);
+        } else {
+          adapterComparison.push({
+            check: 'moduleDerivedAreaSf',
+            metrics: metrics.moduleDerivedAreaSf ?? null,
+            planModel: planModel.grossAreaSf ?? null,
+            match: null,
+            skipped: true
+          });
+        }
+      } else {
+        adapterComparison.push({
+          check: 'adapterCompare',
+          metrics: metrics.ok ? 'ok' : 'not-ok',
+          planModel: planModel.ok ? 'ok' : 'not-ok',
+          match: false,
+          skipped: true
+        });
+      }
+
+      const rooms = Array.isArray(cfg.rooms) ? cfg.rooms.filter(r => r && typeof r === 'object') : [];
+      if (supportedRectangularConfig && !rooms.length) {
+        planWarnings.push('Supported rectangular config has no rooms metadata.');
+      }
+      const floorLevelSet = new Set(Array.isArray(planModel.floors) ? planModel.floors.map(f => Number(f.level)).filter(v => Number.isFinite(v)) : []);
+      const moduleMap = new Map(Array.isArray(planModel.floors)
+        ? planModel.floors.flatMap(f => (Array.isArray(f.modules) ? f.modules.map(m => [String(m.id || ''), m]) : []))
+        : []);
+      const floorAreaMap = new Map(Array.isArray(planModel.floors)
+        ? planModel.floors.map(f => [Number(f.level), Number(f.floorAreaSf) || null])
+        : []);
+      const roomAreaByModule = {};
+      const roomAreaByFloor = {};
+      let needsReviewRoomCount = 0;
+      let renderedRoomCountAvailable = 0;
+      const skippedRoomReasonSet = new Set();
+      rooms.forEach((room, idx) => {
+        const roomId = room.id || `room-${idx + 1}`;
+        const roomFloor = Number(room.floor);
+        const roomModuleId = String(room.moduleId || '').trim();
+        const roomLength = Number(room.lengthFt);
+        const roomWidth = Number(room.widthFt);
+        const explicitArea = Number(room.areaSf);
+        const roomArea = Number.isFinite(explicitArea) ? explicitArea
+          : ((Number.isFinite(roomLength) && Number.isFinite(roomWidth)) ? roomLength * roomWidth : null);
+
+        const floorMissing = (!Number.isFinite(roomFloor) || !floorLevelSet.has(roomFloor));
+        const moduleMissing = (!roomModuleId || !moduleMap.has(roomModuleId));
+        const dimsMissing = (!Number.isFinite(roomLength) || !Number.isFinite(roomWidth));
+        if (floorMissing) {
+          planWarnings.push(`Room ${roomId} references floor "${room.floor}" which is not present in plan model.`);
+          skippedRoomReasonSet.add('room floor missing from plan model');
+        }
+        if (moduleMissing) {
+          planWarnings.push(`Room ${roomId} references unknown moduleId "${room.moduleId || ''}".`);
+          skippedRoomReasonSet.add('room moduleId missing from plan model');
+        }
+        if (dimsMissing) {
+          planWarnings.push(`Room ${roomId} is missing numeric lengthFt/widthFt.`);
+          skippedRoomReasonSet.add('room dimensions missing');
+        }
+        if (!floorMissing && !moduleMissing && !dimsMissing) {
+          const mod = moduleMap.get(roomModuleId);
+          const modLength = Number(mod && mod.lengthFt);
+          const modWidth = Number(mod && mod.widthFt);
+          const roomOutsideModule = (
+            Number.isFinite(modLength) && Number.isFinite(modWidth) &&
+            Number.isFinite(Number(room.xFt)) && Number.isFinite(Number(room.yFt)) &&
+            (Number(room.xFt) < 0 || Number(room.yFt) < 0 ||
+             Number(room.xFt) + roomLength > modLength ||
+             Number(room.yFt) + roomWidth > modWidth)
+          );
+          if (roomOutsideModule) {
+            skippedRoomReasonSet.add('room geometry exceeds module bounds');
+          } else {
+            renderedRoomCountAvailable += 1;
+          }
+        }
+        if (room.needsReview === true) {
+          needsReviewRoomCount += 1;
+          skippedRoomReasonSet.add('room flagged needsReview');
+        }
+        if (Number.isFinite(roomArea)) {
+          if (roomModuleId) roomAreaByModule[roomModuleId] = (roomAreaByModule[roomModuleId] || 0) + roomArea;
+          if (Number.isFinite(roomFloor)) roomAreaByFloor[roomFloor] = (roomAreaByFloor[roomFloor] || 0) + roomArea;
+        }
+      });
+      Object.entries(roomAreaByModule).forEach(([moduleId, totalArea]) => {
+        const mod = moduleMap.get(moduleId);
+        if (!mod) return;
+        const moduleArea = Number.isFinite(Number(mod.areaSf)) ? Number(mod.areaSf)
+          : ((Number.isFinite(Number(mod.lengthFt)) && Number.isFinite(Number(mod.widthFt)))
+            ? Number(mod.lengthFt) * Number(mod.widthFt)
+            : null);
+        if (Number.isFinite(moduleArea) && Number(totalArea) > moduleArea) {
+          planWarnings.push(`Rooms assigned to ${moduleId} total ${totalArea} SF, exceeding module area ${moduleArea} SF.`);
+        }
+      });
+      Object.entries(roomAreaByFloor).forEach(([levelStr, totalArea]) => {
+        const level = Number(levelStr);
+        const floorArea = floorAreaMap.get(level);
+        if (Number.isFinite(floorArea) && Number(totalArea) > floorArea) {
+          planWarnings.push(`Rooms on floor ${level} total ${totalArea} SF, exceeding floor area ${floorArea} SF.`);
+        }
+      });
+      if (needsReviewRoomCount > 0) {
+        planWarnings.push(`Rooms marked needsReview: ${needsReviewRoomCount}.`);
+      }
+
+      if (cfgId === 'ushape') {
+        if (!cfgSheetRefs.includes('A-101U')) planWarnings.push('U-shape missing A-101U in blueprintSheets.');
+        if (!cfgSheetRefs.includes('A-103')) planWarnings.push('U-shape missing A-103 in blueprintSheets.');
+      }
+
+      // Static sheet detectability check: embedded in index or at least registered file path.
+      cfgFloorPlanRefs.forEach(ref => {
+        const sheet = floorPlanSheets.find(s => String(s.n || '').trim() === ref);
+        if (!sheet) return;
+        const file = String(sheet.file || '').trim();
+        if (!file) {
+          planWarnings.push(`Floor-plan sheet ${ref} has no file path.`);
+          return;
+        }
+        if (!embeddedSheetSet.has(file)) {
+          planWarnings.push(`Static floor-plan sheet ${ref} (${file}) is not embedded inline; runtime relies on file-path fallback.`);
+        }
+      });
+
+      // Flag generated-plan hardcoded values where they conflict with this config.
+      if (hardcodedTokens.length) {
+        if (Number(cfg.lengthFt) !== 42 || Number(cfg.widthFt) !== 12) {
+          planWarnings.push('Generated floor-plan code contains 42×12 hardcoded labels that may not match this config.');
+        }
+        if (Number(cfg.grossAreaSf) !== 504 && Number(cfg.grossAreaSf) !== 1008) {
+          planWarnings.push('Generated floor-plan code contains 504 SF hardcoded label that may not match this config.');
+        }
+      }
+
+      // Legacy/static warning per request (non-fatal).
+      if (cfgFloorPlanRefs.length) {
+        planWarnings.push('Legacy static floor-plan sheets may not fully match AXIS_CONFIGS until geometry refactor is completed.');
+      }
+
+      report.plans[cfgId] = {
+        dimensionsLabel: cfg.dimensionsLabel || `${cfg.lengthFt || '?'} × ${cfg.widthFt || '?'}`,
+        grossAreaSf: cfg.grossAreaSf ?? null,
+        floorPlanSheets: cfgFloorPlanRefs,
+        roomCount: rooms.length,
+        renderedRoomCountAvailable,
+        skippedRoomCountReason: Array.from(skippedRoomReasonSet),
+        configDrivenFloorPlan: {
+          flagEnabled: ENABLE_CONFIG_DRIVEN_FLOOR_PLANS,
+          available: !!(planModel && planModel.ok && planModel.type !== 'pending-review'),
+          compareAvailable: !!(planModel && planModel.ok && planModel.type !== 'pending-review'),
+          modelType: planModel && planModel.type ? planModel.type : 'unknown'
+        },
+        adapterComparison,
+        warnings: planWarnings.slice()
+      };
+      planWarnings.forEach(w => report.warnings.push(`${cfgId}: ${w}`));
+    });
+  } catch (err) {
+    report.errors.push(`axisValidateFloorPlanGeometry failed: ${err && err.message ? err.message : err}`);
+  }
+  report.adapterMismatchSummary = axisSummarizeFloorPlanAdapterMismatches(report);
+  report.ok = report.errors.length === 0;
+  return report;
+}
+window.axisValidateFloorPlanGeometry = axisValidateFloorPlanGeometry;
+
 function buildConfigPickerGrid() {
   const host = document.getElementById('cfg-picker-grid');
   if (!host) return;
